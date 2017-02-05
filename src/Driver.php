@@ -3,7 +3,7 @@ namespace OAuth2;
 
 require_once("JsonResponseWrapper.php");
 
-class Client {
+class Driver {
 	private $clientInformation;
 	private $serverInformation;
 
