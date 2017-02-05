@@ -6,6 +6,7 @@ require_once("src/AccessTokenResponse.php");
 require_once("src/AuthorizationCodeRequest.php");
 require_once("src/AuthorizationCodeResponse.php");
 require_once("src/ClientInformation.php");
+require_once("src/ServerInformation.php");
 require_once("src/ClientException.php");
 require_once("src/ServerException.php");
 require_once("src/RequestExecutor.php");

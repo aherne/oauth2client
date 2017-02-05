@@ -1,6 +1,8 @@
 <?php
 namespace OAuth2;
 
+require_once("JsonResponseWrapper.php");
+
 class Client {
 	private $clientInformation;
 	private $serverInformation;
