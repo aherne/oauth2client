@@ -5,7 +5,7 @@ namespace OAuth2;
  * Defines response wrapping methods.
  */
 abstract class ResponseWrapper {
-	private $response;
+	protected $response;
 	
 	/**
 	 * Parses response received from OAuth2 server.
