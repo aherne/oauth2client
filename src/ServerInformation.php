@@ -4,12 +4,10 @@ namespace OAuth2;
 class ServerInformation {
 	private $authorizationEndpoint;
 	private $tokenEndpoint;
-	private $resourcesEndpoint;
 	
-	public function __construct($authorizationEndpoint, $tokenEndpoint, $resourcesEndpoint) {
+	public function __construct($authorizationEndpoint, $tokenEndpoint) {
 		$this->authorizationEndpoint = $authorizationEndpoint;
 		$this->tokenEndpoint = $tokenEndpoint;
-		$this->resourcesEndpoint = $resourcesEndpoint;
 	}
 	
 	public function getAuthorizationEndpoint() {
@@ -18,9 +16,5 @@ class ServerInformation {
 	
 	public function getTokenEndpoint() {
 		return $this->tokenEndpoint;
-	}
-	
-	public function getResourcesEndpoint() {
-		return $this->resourcesEndpoint;
 	}
 }
