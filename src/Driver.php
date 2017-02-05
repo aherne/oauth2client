@@ -1,8 +1,6 @@
 <?php
 namespace OAuth2;
 
-require_once("JsonResponseWrapper.php");
-
 class Driver {
 	private $clientInformation;
 	private $serverInformation;
@@ -16,27 +14,25 @@ class Driver {
 		$acr = new AuthorizationCodeRequest($this->serverInformation->getAuthorizationEndpoint());
 		$acr->setClientInformation($this->clientInformation);
 		$acr->setRedirectURL($this->clientInformation->getSiteURL());
-		$acr->setScope(implode(",",$scopes));
+		$acr->setScope(implode(" ",$scopes));
 		$acr->execute(new RedirectionExecutor());
 	}
 
-	public function getAccessToken($authorizationCode) {
-		$jrw = new JsonResponseWrapper();
+	public function getAccessToken($authorizationCode, ResponseWrapper $resposeWrapper) {
 		$atr = new AccessTokenRequest($this->serverInformation->getTokenEndpoint());
 		$atr->setClientInformation($this->clientInformation);
 		$atr->setCode($authorizationCode);
 		$atr->setRedirectURL($this->clientInformation->getSiteURL());
-		$atr->execute(new WrappedExecutor($jrw));
-		return new AccessTokenResponse($jrw->getResponse());
+		$atr->execute(new WrappedExecutor($resposeWrapper));
+		return new AccessTokenResponse($resposeWrapper->getResponse());
 	}
 
-	public function getResource($accessToken, $resourceURL, $fields=array()) {
-		$jrw = new JsonResponseWrapper();
-		$we = new WrappedExecutor($jrw);
+	public function getResource($accessToken, $resourceURL, $fields=array(), ResponseWrapper $resposeWrapper) {
+		$we = new WrappedExecutor($resposeWrapper);
 		$we->setHttpMethod(HttpMethod::GET);
 		$we->addAuthorizationToken("Bearer",$accessToken);
 		$parameters = (!empty($fields)?array("fields"=>implode(",",$fields)):array());
 		$we->execute($resourceURL, $parameters);
-		return $jrw->getResponse();
+		return $resposeWrapper->getResponse();
 	}
 }
