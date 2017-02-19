@@ -17,6 +17,8 @@ abstract class ResponseWrapper {
 	
 	/**
 	 * Gets parsed response 
+	 * 
+	 * @return mixed
 	 */
 	public function getResponse() {
 		return $this->response;

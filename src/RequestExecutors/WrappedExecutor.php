@@ -1,6 +1,8 @@
 <?php
 namespace OAuth2;
 
+require_once("HttpMethod.php");
+
 /**
  * Implements an executor on top of cURL implementing OAuth2 request execution rules in accordance to RFC6749.
  */
