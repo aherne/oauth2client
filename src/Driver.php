@@ -26,8 +26,7 @@ abstract class Driver {
 	/**
 	 * Creates an object
 	 * 
-	 * @param ClientInformation $clientInformation Encapsulates
-	 * @param ServerInformation $serverInformation
+	 * @param ClientInformation $clientInformation Encapsulates information about OAuth2 client application
 	 */
 	public function __construct(ClientInformation $clientInformation) {
 		$this->clientInformation = $clientInformation;
