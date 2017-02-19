@@ -19,7 +19,7 @@ class ServerInformation {
 	}
 	
 	/**
-	 * Gets authorization code endpoint.
+	 * Gets authorization code endpoint URL
 	 * 
 	 * @return string
 	 */
@@ -28,7 +28,7 @@ class ServerInformation {
 	}
 	
 	/**
-	 * Gets access token endpoint.
+	 * Get access token endpoint URL
 	 * 
 	 * @return string
 	 */
