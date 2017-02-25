@@ -102,5 +102,5 @@ abstract class Driver {
 	 * 
 	 * @return ResponseWrapper
 	 */
-	abstract protected function getResponseWrapper():
+	abstract protected function getResponseWrapper();
 }
