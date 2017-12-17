@@ -13,6 +13,7 @@ require_once("AccessTokenResponse.php");
 require_once("RequestExecutor.php");
 require_once("RequestExecutors/RedirectionExecutor.php");
 require_once("RequestExecutors/WrappedExecutor.php");
+require_once("ResponseWrapper.php");
 
 /**
  * Encapsulates operations one can perform on an OAuth2 provider. Acts like a single entry point that hides OAuth2 providers complexity. For each provider,
