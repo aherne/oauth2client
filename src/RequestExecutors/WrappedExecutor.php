@@ -8,8 +8,9 @@ require_once("HttpMethod.php");
  */
 class WrappedExecutor implements RequestExecutor {
 	protected $responseWrapper;
-	protected $httpMethod = HttpMethod::POST;
-	protected $headers = array('Content-Type: application/x-www-form-urlencoded');
+	protected $httpMethod;
+	protected $headers = array();
+	protected $userAgent;
 	
 	public function __construct(ResponseWrapper $responseWrapper) {
 		$this->responseWrapper = $responseWrapper;
@@ -23,15 +24,24 @@ class WrappedExecutor implements RequestExecutor {
 	public function setHttpMethod($httpMethod = HttpMethod::POST) {
 		$this->httpMethod = $httpMethod;
 	}
-		
+	
 	/**
-	 * Adds authorization token header.
+	 * Sets request user agent
 	 * 
-	 * @param string $tokenType
-	 * @param string $accessToken
+	 * @param string $userAgent
 	 */
-	public function addAuthorizationToken($tokenType, $accessToken) {
-		$this->headers[] = "Authorization: ".$tokenType." ".$accessToken;		
+	public function setUserAgent($userAgent) {
+		$this->userAgent = $userAgent;
+	}
+	
+	/**
+	 * Adds header to request
+	 *
+	 * @param string $name
+	 * @param string $value
+	*/
+	public function addHeader($name, $value) {
+		$this->headers[] = $name.": ".$value;
 	}
 	
 	/**
@@ -60,6 +70,9 @@ class WrappedExecutor implements RequestExecutor {
 			default:
 				throw new ClientException("Unrecognized http method!");
 				break;
+		}
+		if($this->userAgent) {
+			curl_setopt($ch, CURLOPT_USERAGENT, $this->userAgent);
 		}
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $this->headers);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
