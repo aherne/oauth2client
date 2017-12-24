@@ -1,6 +1,5 @@
 <?php
 require_once("GithubResponseWrapper.php");
-require_once("GithubResourceExecutor.php");
 
 /**
  * Implements GitHub OAuth2 driver.
@@ -43,9 +42,10 @@ class GithubDriver extends OAuth2\Driver {
 	public function getResource($accessToken, $resourceURL, $fields=array()) {
 		if(!$this->appName) throw new OAuth2\ClientException("Setting application name is mandatory to retrieve GitHub resources!");
 		$responseWrapper = $this->getResponseWrapper();
-		$we = new GithubResourceExecutor($responseWrapper);
-		$we->setAuthorizationToken($accessToken);
-		$we->setApplicationName($this->appName);
+		$we = new OAuth2\WrappedExecutor($responseWrapper);
+		$we->setHttpMethod(OAuth2\HttpMethod::GET);
+		$we->addHeader("Authorization", "token ".$accessToken);
+		$we->setUserAgent($this->appName);
 		$parameters = (!empty($fields)?array("fields"=>implode(",",$fields)):array());
 		$we->execute($resourceURL, $parameters);
 		return $responseWrapper->getResponse();

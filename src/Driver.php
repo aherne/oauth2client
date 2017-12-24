@@ -20,8 +20,8 @@ require_once("ResponseWrapper.php");
  * you will have to implement a class that extends Driver and implements abstract protected functions.
  */
 abstract class Driver {
-	private $clientInformation;
-	private $serverInformation;
+	protected $clientInformation;
+	protected $serverInformation;
 
 	/**
 	 * Creates an object
@@ -62,11 +62,14 @@ abstract class Driver {
 	 */
 	public function getAccessToken($authorizationCode) {
 		$responseWrapper = $this->getResponseWrapper();
+		$we = new WrappedExecutor($responseWrapper);
+		$we->setHttpMethod(HttpMethod::POST);
+		$we->addHeader("Content-Type", "application/x-www-form-urlencoded");
 		$atr = new AccessTokenRequest($this->serverInformation->getTokenEndpoint());
 		$atr->setClientInformation($this->clientInformation);
 		$atr->setCode($authorizationCode);
 		$atr->setRedirectURL($this->clientInformation->getSiteURL());
-		$atr->execute(new WrappedExecutor($responseWrapper));
+		$atr->execute($we);
 		return new AccessTokenResponse($responseWrapper->getResponse());
 	}
 
@@ -84,7 +87,7 @@ abstract class Driver {
 		$responseWrapper = $this->getResponseWrapper();
 		$we = new WrappedExecutor($responseWrapper);
 		$we->setHttpMethod(HttpMethod::GET);
-		$we->addAuthorizationToken("Bearer",$accessToken);
+		$we->addHeader("Authorization", "Bearer ".$accessToken);
 		$parameters = (!empty($fields)?array("fields"=>implode(",",$fields)):array());
 		$we->execute($resourceURL, $parameters);
 		return $responseWrapper->getResponse();
