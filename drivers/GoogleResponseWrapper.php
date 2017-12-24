@@ -9,15 +9,22 @@ class GoogleResponseWrapper extends OAuth2\ResponseWrapper {
 			throw new OAuth2\ServerException(json_last_error_msg());
 		}
 		if(!empty($result["error"])) {
-			$message = "";
 			if(isset($result["error"]["message"])) {
-				$message = $result["error"]["message"];
+				// error when retrieving resource
+				$exception = new OAuth2\ServerException($result["error"]["message"]);
+				$exception->setErrorCode($result["error"]["code"]);
+				$exception->setErrorDescription($result["error"]["message"]);
+				throw $exception;
 			} else if(isset($result["error_description"])) {
-				$message = $result["error"]["error_description"];
+				// error when authorization code was already redeemed
+				$exception = new OAuth2\ServerException($result["error_description"]);
+				$exception->setErrorCode($result["error"]);
+				$exception->setErrorDescription($result["error_description"]);
+				throw $exception;
 			} else {
-				$message = is_string($result["error"])?$result["error"]:serialize($result["error"]);
+				// error when authorization code is incorrect
+				throw new OAuth2\ServerException($result["error"]);
 			}
-			throw new Oauth2\ServerException($message);
 		}
 		$this->response = $result;
 	}
