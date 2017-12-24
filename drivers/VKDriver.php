@@ -1,13 +1,13 @@
 <?php
-require_once("LinkedinResponseWrapper.php");
+require_once("VKResponseWrapper.php");
 
 /**
- * Implements LinkedIn OAuth2 driver.
+ * Implements VK OAuth2 driver.
  */
-class LinkedinDriver extends OAuth2\Driver {
-	const AUTHORIZATION_ENDPOINT_URL = "https://www.linkedin.com/oauth/v2/authorization";
-	const TOKEN_ENDPOINT_URL = "https://www.linkedin.com/oauth/v2/accessToken";
-	
+class VKDriver extends OAuth2\Driver {
+	const AUTHORIZATION_ENDPOINT_URL = "https://oauth.vk.com/authorize";
+	const TOKEN_ENDPOINT_URL = "https://oauth.vk.com/access_token";
+		
 	/**
 	 * {@inheritDoc}
 	 * @see \OAuth2\Driver::getServerInformation()
@@ -15,27 +15,20 @@ class LinkedinDriver extends OAuth2\Driver {
 	protected function getServerInformation() {
 		return new OAuth2\ServerInformation(self::AUTHORIZATION_ENDPOINT_URL, self::TOKEN_ENDPOINT_URL);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 * @see \OAuth2\Driver::getResponseWrapper()
 	 */
 	protected function getResponseWrapper() {
-		return new LinkedinResponseWrapper();
+		return new VKResponseWrapper();
 	}
-	
-	/**
-	 * {@inheritDoc}
-	 * @see \OAuth2\Driver::getResource()
-	 */
 	public function getResource($accessToken, $resourceURL, $fields=array()) {
 		$responseWrapper = $this->getResponseWrapper();
 		$we = new OAuth2\WrappedExecutor($responseWrapper);
 		$we->setHttpMethod(OAuth2\HttpMethod::GET);
-		$we->addHeader("Authorization", "Bearer ".$accessToken);
-		$we->addHeader("x-li-format","json");
-		$parameters = (!empty($fields)?array("fields"=>implode(",",$fields)):array());
-		$we->execute($resourceURL, $parameters);
+		$fields["access_token"] = $accessToken;
+		$we->execute($resourceURL, $fields);
 		return $responseWrapper->getResponse();
 	}
 }

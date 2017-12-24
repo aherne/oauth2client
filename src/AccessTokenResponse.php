@@ -16,7 +16,7 @@ class AccessTokenResponse {
 	 */
 	public function __construct($parameters) {
 		$this->accessToken = $parameters["access_token"]; 
-		$this->tokenType = $parameters["token_type"];
+		if(!empty($parameters["token_type"])) 	$this->tokenType = "Bearer";
 		if(!empty($parameters["expires_in"])) 	$this->expiresIn = $parameters["expires_in"];
 		if(!empty($parameters["refresh_token"]))$this->refreshToken = $parameters["refresh_token"];
 		if(!empty($parameters["scope"])) 		$this->scope = $parameters["scope"];
