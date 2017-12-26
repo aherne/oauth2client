@@ -23,6 +23,11 @@ class VKDriver extends OAuth2\Driver {
 	protected function getResponseWrapper() {
 		return new VKResponseWrapper();
 	}
+		
+	/**
+	 * {@inheritDoc}
+	 * @see \OAuth2\Driver::getResource()
+	 */
 	public function getResource($accessToken, $resourceURL, $fields=array()) {
 		$responseWrapper = $this->getResponseWrapper();
 		$we = new OAuth2\WrappedExecutor($responseWrapper);
