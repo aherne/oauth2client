@@ -1,10 +1,10 @@
 <?php
-require_once("GithubResponseWrapper.php");
+require_once("GitHubResponseWrapper.php");
 
 /**
  * Implements GitHub OAuth2 driver.
  */
-class GithubDriver extends OAuth2\Driver {
+class GitHubDriver extends OAuth2\Driver {
 	const AUTHORIZATION_ENDPOINT_URL = "https://github.com/login/oauth/authorize";
 	const TOKEN_ENDPOINT_URL = "https://github.com/login/oauth/access_token";
 	

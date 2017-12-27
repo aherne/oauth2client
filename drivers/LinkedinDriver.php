@@ -1,10 +1,10 @@
 <?php
-require_once("LinkedinResponseWrapper.php");
+require_once("LinkedInResponseWrapper.php");
 
 /**
  * Implements LinkedIn OAuth2 driver.
  */
-class LinkedinDriver extends OAuth2\Driver {
+class LinkedInDriver extends OAuth2\Driver {
 	const AUTHORIZATION_ENDPOINT_URL = "https://www.linkedin.com/oauth/v2/authorization";
 	const TOKEN_ENDPOINT_URL = "https://www.linkedin.com/oauth/v2/accessToken";
 	
