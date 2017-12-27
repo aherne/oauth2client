@@ -2,7 +2,7 @@
 /**
  * Implements parsing of GitHub OAUTH2 API response
  */
-class GithubResponseWrapper extends OAuth2\ResponseWrapper {
+class GitHubResponseWrapper extends OAuth2\ResponseWrapper {
 	/**
 	 * {@inheritDoc}
 	 * @see \OAuth2\ResponseWrapper::wrap()

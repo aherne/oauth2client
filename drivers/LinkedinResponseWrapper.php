@@ -2,7 +2,7 @@
 /**
  * Implements parsing of LinkedIn OAUTH2 API response
  */
-class LinkedinResponseWrapper extends OAuth2\ResponseWrapper {
+class LinkedInResponseWrapper extends OAuth2\ResponseWrapper {
 	/**
 	 * {@inheritDoc}
 	 * @see \OAuth2\ResponseWrapper::wrap()
