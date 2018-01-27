@@ -13,7 +13,7 @@ if(!empty($_GET["code"])) {
 	// uses authorization code to get an oauth2 token
 	$tokenInfo = $driver->getAccessToken($_GET["code"]);
 	// get remote user info
-	var_dump($driver->getResource(RESOURCE_URI, RESOURCE_FIELDS));
+	var_dump($driver->getResource($tokenInfo->getAccessToken(), RESOURCE_URI, RESOURCE_FIELDS));
 } else {
 	// redirects to provider for authorization code request (eg: using scopes required to get remote user info)
 	$redirectURL = $driver->getAuthorizationCode(SCOPES);
