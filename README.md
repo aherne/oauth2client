@@ -5,7 +5,8 @@ This API came by the idea of building a driver based on IETF specifications that
 At this moment, most common OAuth2 providers are already supported: Facebook, Google, Instagram, LinkedIn, GitHub, VK, Yandex. Following popular providers are not: Twitter (because they haven't migrated to OAuth2), Yahoo (because their documentation is broken) and Microsoft (because they force you to buy a certificate in order to test it).
 
 In the end, what this API achieves is operativity with an OAuth2 vendor in lines as few as this:
-`
+
+```php
 $ci = new OAuth2\ClientInformation(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
 $driver = new FacebookDriver($ci);
 if(!empty($_GET["code"])) {
@@ -19,7 +20,7 @@ if(!empty($_GET["code"])) {
 	header("Location: ".$redirectURL);
 	exit();
 }
-`
+```
 
 More information here:
 http://www.lucinda-framework.com/oauth2-client
