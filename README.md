@@ -22,5 +22,5 @@ if(!empty($_GET["code"])) {
 }
 ```
 
-More information here:
+More information here:<br/>
 http://www.lucinda-framework.com/oauth2-client
