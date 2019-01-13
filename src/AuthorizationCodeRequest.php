@@ -23,7 +23,7 @@ class AuthorizationCodeRequest implements Request {
 	/**
 	 * (Mandatory) Sets client information.
 	 * 
-	 * @param string $clientInformation
+	 * @param ClientInformation $clientInformation
 	 */
 	public function setClientInformation(ClientInformation $clientInformation) {
 		$this->clientInformation = $clientInformation;
@@ -32,7 +32,7 @@ class AuthorizationCodeRequest implements Request {
 	/**
 	 * Sets callback redirect URL to send code to.
 	 * 
-	 * @param string $clientID
+	 * @param string $redirectURL
 	 */
 	public function setRedirectURL($redirectURL) {
 		$this->redirectURL = $redirectURL;
@@ -50,7 +50,7 @@ class AuthorizationCodeRequest implements Request {
 	/**
 	 * Sets opaque value used by the client to maintain state between the request and callback
 	 * 
-	 * @param string $scope
+	 * @param string $state
 	 */
 	public function setState($state) {
 		$this->state = $state;
@@ -58,7 +58,7 @@ class AuthorizationCodeRequest implements Request {
 	
 	/**
 	 * {@inheritDoc}
-	 * @see \OAuth2\Request::execute()
+	 * @see Request::execute()
 	 */
 	public function execute(RequestExecutor $executor) {
 		if(!$this->clientInformation || !$this->clientInformation->getApplicationID()) {

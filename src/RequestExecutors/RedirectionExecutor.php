@@ -9,7 +9,7 @@ class RedirectionExecutor implements RequestExecutor {
 	
 	/**
 	 * {@inheritDoc}
-	 * @see \OAuth2\RequestExecutor::execute()
+	 * @see RequestExecutor::execute()
 	 */
 	public function execute($url, $parameters) {
 		$this->redirectURL = $url."?".http_build_query($parameters);

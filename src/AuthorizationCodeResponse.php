@@ -10,6 +10,8 @@ class AuthorizationCodeResponse {
 
 	/**
 	 * Populates response based on parameter keys defined in RFC6749
+	 * 
+	 * @param string[string] $parameters Authorization code response parameters received
 	 */
 	public function __construct($parameters) {
 		$this->code = $parameters["code"];

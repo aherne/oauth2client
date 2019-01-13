@@ -12,6 +12,11 @@ class WrappedExecutor implements RequestExecutor {
 	protected $headers = array();
 	protected $userAgent;
 	
+	/**
+	 * Saves object received to be used in issuing requests to OAuth2 vendor
+	 * 
+	 * @param ResponseWrapper $responseWrapper
+	 */
 	public function __construct(ResponseWrapper $responseWrapper) {
 		$this->responseWrapper = $responseWrapper;
 	}
@@ -46,7 +51,7 @@ class WrappedExecutor implements RequestExecutor {
 	
 	/**
 	 * {@inheritDoc}
-	 * @see \OAuth2\RequestExecutor::execute()
+	 * @see RequestExecutor::execute()
 	 */
 	public function execute($endpointURL, $parameters) {
 		$ch = curl_init();

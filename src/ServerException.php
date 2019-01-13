@@ -67,7 +67,7 @@ class ServerException extends \Exception {
 	/**
 	 * Sets opaque value used by the client to maintain state between the request and callback received from server
 	 * 
-	 * @param string $scope
+	 * @param string $state
 	 */
 	public function setState($state) {
 		$this->state = $state;

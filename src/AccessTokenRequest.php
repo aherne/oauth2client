@@ -31,7 +31,7 @@ class AccessTokenRequest implements Request {
 	/**
 	 * (Mandatory) Sets client information.
 	 * 
-	 * @param string $clientInformation
+	 * @param ClientInformation $clientInformation
 	 */
 	public function setClientInformation(ClientInformation $clientInformation) {
 		$this->clientInformation = $clientInformation;
@@ -48,7 +48,7 @@ class AccessTokenRequest implements Request {
 
 	/**
 	 * {@inheritDoc}
-	 * @see \OAuth2\Request::execute()
+	 * @see Request::execute()
 	 */
 	public function execute(RequestExecutor $executor) {
 		if(!$this->clientInformation || !$this->clientInformation->getApplicationID()) {

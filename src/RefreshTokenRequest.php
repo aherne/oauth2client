@@ -38,7 +38,7 @@ class RefreshTokenRequest implements Request {
 
 	/**
 	 * {@inheritDoc}
-	 * @see \OAuth2\Request::execute()
+	 * @see Request::execute()
 	 */
 	public function execute(RequestExecutor $executor) {
 		if(!$this->refreshToken) throw new ClientException("Refresh token is required for refresh token requests!");

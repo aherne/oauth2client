@@ -13,6 +13,8 @@ class AccessTokenResponse {
 	
 	/**
 	 * Populates response based on parameter keys defined in RFC6749
+	 * 
+	 * @param string[string] $parameters Access token response parameters received
 	 */
 	public function __construct($parameters) {
 		$this->accessToken = $parameters["access_token"]; 

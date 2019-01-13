@@ -9,6 +9,13 @@ class ClientInformation {
 	private $appSecret;
 	private $siteURL;
 	
+	/**
+	 * Saves information about OAuth2 Client APP
+	 * 
+	 * @param string $clientID Unique id of client app on OAuth2 vendor 
+	 * @param string $clientSecret Secret key of client app on OAuth2 vendor 
+	 * @param string $siteURL Callback url on client app OAuth2 vendor must redirect authorization codes
+	 */
 	public function __construct($clientID, $clientSecret, $siteURL) {
 		$this->appID = $clientID;
 		$this->appSecret = $clientSecret;
