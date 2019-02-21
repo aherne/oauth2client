@@ -3,7 +3,7 @@
     "type": "library",
     "description": "Flexible OAuth2 client driver built on top of OAuth2 specifications, hiding complexity of OAuth2 vendors on the market.",
     "keywords": ["oauth2","client"],
-    "homepage": "https://github.com/aherne/oauth2client",
+    "homepage": "http://www.lucinda-framework.com/oauth2-client",
     "license": "MIT",
     "authors": [
         {
