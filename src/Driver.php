@@ -9,6 +9,7 @@ require_once("Request.php");
 require_once("AuthorizationCodeRequest.php");
 require_once("AuthorizationCodeResponse.php");
 require_once("AccessTokenRequest.php");
+require_once("RefreshTokenRequest.php");
 require_once("AccessTokenResponse.php");
 require_once("RequestExecutor.php");
 require_once("RequestExecutors/RedirectionExecutor.php");
@@ -74,6 +75,28 @@ abstract class Driver
         $atr = new AccessTokenRequest($this->serverInformation->getTokenEndpoint());
         $atr->setClientInformation($this->clientInformation);
         $atr->setCode($authorizationCode);
+        $atr->setRedirectURL($this->clientInformation->getSiteURL());
+        $atr->execute($we);
+        return new AccessTokenResponse($responseWrapper->getResponse());
+    }
+    
+    /**
+     * Regenerates access token based on access token already obtained and stored
+     *
+     * @param string $refreshToken Refresh token to use in regenerating
+     * @return AccessTokenResponse Access token response.
+     * @throws ClientException When client fails to provide mandatory parameters.
+     * @throws ServerException When server responds with an error.
+     */
+    public function refreshAccessToken($refreshToken)
+    {
+        $responseWrapper = $this->getResponseWrapper();
+        $we = new WrappedExecutor($responseWrapper);
+        $we->setHttpMethod(HttpMethod::POST);
+        $we->addHeader("Content-Type", "application/x-www-form-urlencoded");
+        $atr = new RefreshTokenRequest($this->serverInformation->getTokenEndpoint());
+        $atr->setClientInformation($this->clientInformation);
+        $atr->setRefreshToken($refreshToken);
         $atr->setRedirectURL($this->clientInformation->getSiteURL());
         $atr->execute($we);
         return new AccessTokenResponse($responseWrapper->getResponse());

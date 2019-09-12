@@ -2,16 +2,17 @@
 namespace OAuth2;
 
 /**
- * Encapsulates a refresh token request according to RFC6749
+ * Encapsulates an access token regeneration request based on refresh token according to RFC6749
  */
 class RefreshTokenRequest implements Request
 {
     protected $endpointURL;
+    protected $clientInformation;
+    protected $redirectURL;
     protected $refreshToken;
-    protected $scope;
     
     /**
-     * Location URL of refresh token endpoint @ Oauth2 Server
+     * (Mandatory) Sets URL of access token endpoint @ Oauth2 Server
      *
      * @param string $endpointURL
      */
@@ -19,9 +20,9 @@ class RefreshTokenRequest implements Request
     {
         $this->endpointURL = $endpointURL;
     }
-
+    
     /**
-     * Sets refresh token originally issued to the client.
+     * (Mandatory) Sets refresh token already obtained.
      *
      * @param string $refreshToken
      */
@@ -29,31 +30,48 @@ class RefreshTokenRequest implements Request
     {
         $this->refreshToken = $refreshToken;
     }
-
+    
     /**
-     * Sets scope of token issued by the authorization server.
+     * (Mandatory) Sets client information.
      *
-     * @param string $scope
+     * @param ClientInformation $clientInformation
      */
-    public function setScope($scope)
+    public function setClientInformation(ClientInformation $clientInformation)
     {
-        $this->scope = $scope;
+        $this->clientInformation = $clientInformation;
     }
-
+    
+    /**
+     * (Optional) Sets callback redirect URL to send access token to.
+     *
+     * @param string $redirectURL
+     */
+    public function setRedirectURL($redirectURL)
+    {
+        $this->redirectURL = $redirectURL;
+    }
+    
     /**
      * {@inheritDoc}
      * @see Request::execute()
      */
     public function execute(RequestExecutor $executor)
     {
+        if (!$this->clientInformation || !$this->clientInformation->getApplicationID()) {
+            throw new ClientException("Client ID is required for access token requests!");
+        }
         if (!$this->refreshToken) {
-            throw new ClientException("Refresh token is required for refresh token requests!");
+            throw new ClientException("Refresh token is required for access token regeneration!");
         }
         $parameters = array();
         $parameters["grant_type"] = "refresh_token";
-        $parameters["refreshToken"] = $this->refreshToken;
-        if ($this->scope) {
-            $parameters["scope"] = $this->scope;
+        $parameters["client_id"] = $this->clientInformation->getApplicationID();
+        $parameters["refresh_token"] = $this->refreshToken;
+        if ($this->clientInformation->getApplicationSecret()) {
+            $parameters["client_secret"] = $this->clientInformation->getApplicationSecret();
+        }
+        if ($this->redirectURL) {
+            $parameters["redirect_uri"] = $this->redirectURL;
         }
         $executor->execute($this->endpointURL, $parameters);
     }
