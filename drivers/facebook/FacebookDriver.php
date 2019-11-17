@@ -1,7 +1,7 @@
 <?php
 namespace OAuth2;
 
-require_once("FacebookResponseWrapper.php");
+require("FacebookResponseWrapper.php");
 
 /**
  * Implements Facebook OAuth2 driver on top of Driver architecture

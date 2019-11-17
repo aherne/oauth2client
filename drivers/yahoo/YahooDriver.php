@@ -1,7 +1,7 @@
 <?php
 namespace OAuth2;
 
-require_once("YahooResponseWrapper.php");
+require("YahooResponseWrapper.php");
 
 /**
  * Implements Yahoo OAuth2 driver on top of Driver architecture

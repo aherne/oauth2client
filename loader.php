@@ -1,3 +1,3 @@
 <?php
-require_once("src/Driver.php");
+require("src/Driver.php");
 

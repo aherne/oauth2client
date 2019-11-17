@@ -1,7 +1,7 @@
 <?php
 namespace OAuth2;
 
-require_once("InstagramResponseWrapper.php");
+require("InstagramResponseWrapper.php");
 
 /**
  * Implements Instagram OAuth2 driver on top of Driver architecture

@@ -1,7 +1,7 @@
 <?php
 namespace OAuth2;
 
-require_once("LinkedInResponseWrapper.php");
+require("LinkedInResponseWrapper.php");
 
 /**
  * Implements LinkedIn OAuth2 driver on top of Driver architecture

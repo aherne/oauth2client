@@ -1,20 +1,20 @@
 <?php
 namespace OAuth2;
 
-require_once("ClientInformation.php");
-require_once("ServerInformation.php");
-require_once("ClientException.php");
-require_once("ServerException.php");
-require_once("Request.php");
-require_once("AuthorizationCodeRequest.php");
-require_once("AuthorizationCodeResponse.php");
-require_once("AccessTokenRequest.php");
-require_once("RefreshTokenRequest.php");
-require_once("AccessTokenResponse.php");
-require_once("RequestExecutor.php");
-require_once("RequestExecutors/RedirectionExecutor.php");
-require_once("RequestExecutors/WrappedExecutor.php");
-require_once("ResponseWrapper.php");
+require("ClientInformation.php");
+require("ServerInformation.php");
+require("ClientException.php");
+require("ServerException.php");
+require("Request.php");
+require("AuthorizationCodeRequest.php");
+require("AuthorizationCodeResponse.php");
+require("AccessTokenRequest.php");
+require("RefreshTokenRequest.php");
+require("AccessTokenResponse.php");
+require("RequestExecutor.php");
+require("RequestExecutors/RedirectionExecutor.php");
+require("RequestExecutors/WrappedExecutor.php");
+require("ResponseWrapper.php");
 
 /**
  * Encapsulates operations one can perform on an OAuth2 provider. Acts like a single entry point that hides OAuth2 providers complexity. For each provider,

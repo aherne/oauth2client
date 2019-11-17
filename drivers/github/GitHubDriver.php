@@ -1,7 +1,7 @@
 <?php
 namespace OAuth2;
 
-require_once("GitHubResponseWrapper.php");
+require("GitHubResponseWrapper.php");
 
 /**
  * Implements GitHub OAuth2 driver on top of Driver architecture

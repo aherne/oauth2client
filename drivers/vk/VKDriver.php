@@ -1,7 +1,7 @@
 <?php
 namespace OAuth2;
 
-require_once("VKResponseWrapper.php");
+require("VKResponseWrapper.php");
 
 /**
  * Implements VK OAuth2 driver on top of Driver architecture

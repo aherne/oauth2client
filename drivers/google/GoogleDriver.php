@@ -1,7 +1,7 @@
 <?php
 namespace OAuth2;
 
-require_once("GoogleResponseWrapper.php");
+require("GoogleResponseWrapper.php");
 
 /**
  * Implements Google OAuth2 driver on top of Driver architecture
