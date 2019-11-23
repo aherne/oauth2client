@@ -1,27 +1,26 @@
 <?php
-class Scanner {
+class PHP7Converter {
     private $results = [];
     
-    public function __construct($folder, $namespace)
+    public function __construct($folder)
     {
-        $this->scan($folder, $namespace);
+        $this->scan($folder);
+        var_dump($this->results);
         echo "complete";
     }
     
-    private function scan($folder, $namespace) {
+    private function scan($folder) {
         $files = scandir($folder);
         foreach($files as $file){
             if(in_array($file, [".", ".."])) {
                 continue;
             } else if(is_dir($folder."/".$file)) {
                 // recurse
-                $this->scan($folder."/".$file, $namespace."\\".$file);
+                $this->scan($folder."/".$file);
             } else if(strpos($file, ".php")) {
                 // open
                 $filePath = $folder."/".$file;
-                
-                $this->results[$filePath]["namespace"] = $namespace;
-                
+                              
                 $returnType = "";
                 $parameterTypes = [];
                 $handle = fopen($filePath, "r");
@@ -44,16 +43,19 @@ class Scanner {
                     preg_match("/function\s+([^\(]+)\(([^\)]+)\)/", $line, $matches);
                     if($matches) {
                         $matches1 = [];
-                        preg_match_all("/\\$([a-zA-Z0-9\_]+)/", $matches[2], $matches1);
+                        $parameters = $matches[2];
+                        preg_match_all("/([a-zA-Z0-9\\\]+\s+)?\\$([a-zA-Z0-9\_]+)/", $matches[2], $matches1);
                         if($matches1[0]) {
-                            foreach($matches1[0] as $variable) {
+                            foreach($matches1[2] as $i=>$variable) {
+                                $variable = '$'.$variable;
                                 if(!isset($parameterTypes[$variable])) {
                                     die($filePath.": ".$matches[1]." misses ".$variable);
                                 }
-                                $this->results[$filePath]["methods"][$matches[0]]["parameters"][$variable] = $parameterTypes[$variable];
+                                $parameters = str_replace($matches1[0][$i], $parameterTypes[$variable]." \$".$parameterTypes[$variable], $parameters);
                             }
                         }
                         
+                        $this->results[$filePath]["methods"][$matches[0]]["parameters"] = $parameters;
                         $this->results[$filePath]["methods"][$matches[0]]["returns"] = $returnType;
                         
                         $returnType = "";
@@ -82,5 +84,4 @@ class Scanner {
     }
 }
 
-
-new Scanner("src", "Lucinda\\Oauth2");
+new PHP7Converter("src");
