@@ -1,5 +1,6 @@
 <?php
-namespace Lucinda\OAuth2;
+namespace Lucinda\OAuth2\AuthorizationCode;
+
 
 /**
  * Encapsulates a successful authorization code response according to RFC6749

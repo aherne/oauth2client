@@ -1,7 +1,7 @@
 <?php
 namespace Lucinda\OAuth2;
 
-require("HttpMethod.php");
+use Lucinda\OAuth2\Client\ClientException;
 
 /**
  * Implements an executor on top of cURL implementing OAuth2 request execution rules in accordance to RFC6749.

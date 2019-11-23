@@ -1,6 +1,7 @@
 <?php
 namespace Lucinda\OAuth2;
 
+
 /**
  * Defines request execution methods.
  */

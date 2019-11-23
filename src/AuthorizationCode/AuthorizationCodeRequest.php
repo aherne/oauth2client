@@ -1,5 +1,10 @@
 <?php
-namespace Lucinda\OAuth2;
+namespace Lucinda\OAuth2\AuthorizationCode;
+
+use Lucinda\OAuth2\Request;
+use Lucinda\OAuth2\Client\ClientInformation;
+use Lucinda\OAuth2\RequestExecutor;
+use Lucinda\OAuth2\Client\ClientException;
 
 /**
  * Encapsulates an authorization code request according to RFC6749

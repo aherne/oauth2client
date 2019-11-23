@@ -1,6 +1,7 @@
 <?php
 namespace Lucinda\OAuth2;
 
+
 /**
  * Implements an executor that redirects to payload url using GET parameters
  */

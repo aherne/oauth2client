@@ -1,5 +1,6 @@
 <?php
-namespace Lucinda\OAuth2;
+namespace Lucinda\OAuth2\AccessToken;
+
 
 /**
  * Encapsulates a successful access token response according to RFC6749

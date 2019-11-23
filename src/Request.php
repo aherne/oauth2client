@@ -1,6 +1,8 @@
 <?php
 namespace Lucinda\OAuth2;
 
+use Lucinda\OAuth2\Client\ClientException;
+
 /**
  * Encapsulates a request from OAuth2 client to provider
  */

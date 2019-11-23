@@ -106,32 +106,85 @@ class PHP7Converter
 
 class AutoloadConverter 
 {
+    private $classes = [];
     private $results = [];
+    private $regex;
     
     public function __construct($folder, $namespace)
     {
-        $this->scan($folder, $namespace);
+        $this->setClasses($folder, $namespace);
+        $this->setRegex();
+        $this->setDependencies($folder);
         $this->save();
         echo "COMPLETE!";
     }
     
-    private function scan($folder, $namespace) {
+    private function setRegex() 
+    {
+        $classNames = array_keys($this->classes);
+        usort($classNames, function($a, $b) { return strlen($b)-strlen($a);});
+        $this->regex = "/(\s|\()(".implode("|", $classNames).")/";
+    }
+    
+    private function setClasses($folder, $namespace) {
         $files = scandir($folder);
         foreach($files as $file){
             if(in_array($file, [".", ".."])) {
                 continue;
             } else if(is_dir($folder."/".$file)) {
                 // recurse
-                $this->scan($folder."/".$file, $namespace."\\".$file);
+                $this->setClasses($folder."/".$file, $namespace."\\".$file);
             } else if(strpos($file, ".php")) {
-                // open
-                $filePath = $folder."/".$file;
-                $contents = file_get_contents($filePath);
+                $className = str_replace(".php", "", $file);
+                $this->classes[$className]["folder"] = $folder;
+                $this->classes[$className]["namespace"] = $namespace;
+                $this->classes[$className]["dependencies"] = [];
+            }
+        }
+    }
+    
+    private function setDependencies($folder) {
+        $files = scandir($folder);
+        foreach($files as $file){
+            if(in_array($file, [".", ".."])) {
+                continue;
+            } else if(is_dir($folder."/".$file)) {
+                // recurse
+                $this->setDependencies($folder."/".$file);
+            } else if(strpos($file, ".php")) {
+                $className = str_replace(".php", "", $file);
+                $matches = [];
+                preg_match_all($this->regex, file_get_contents($folder."/".$file), $matches);
+                $dependencies = [];
+                if(!empty($matches[2])) {
+                    foreach($matches[2] as $dependency) {
+                        if($className==$dependency) continue;
+                        $dependencies[$dependency] = $dependency;
+                    }
+                }
+                $this->classes[$className]["dependencies"] = $dependencies;
             }
         }
     }
     
     private function save() {
+        foreach($this->classes as $className=>$info) {
+            $fileName = $info["folder"]."/".$className.".php";
+            $contents = preg_replace_callback("/namespace\s+([^;]+);/", function($matches) use($info) {
+                $result = "namespace ".$info["namespace"].";\r\n\r\n";
+                foreach($info["dependencies"] as $dependencyClassName) {
+                    if($this->classes[$dependencyClassName]["namespace"] != $info["namespace"]) {
+                        $result .= "use ".$this->classes[$dependencyClassName]["namespace"]."\\".$dependencyClassName.";\r\n";
+                    }
+                }
+                return $result;
+            }, file_get_contents($fileName));
+            $contents = preg_replace("/(?:require|include)(?:_once)?[( ]['\"](.*)\.php['\"]\)?;/", "", $contents);
+            $contents = preg_replace("/\\n{2,}/", "\n\n", $contents);
+            file_put_contents($fileName, $contents);
+        }
     }
 }
 // new PHP7Converter("drivers");
+new AutoloadConverter("src", "Lucinda\OAuth2");
+
