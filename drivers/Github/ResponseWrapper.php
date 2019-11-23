@@ -1,17 +1,19 @@
 <?php
-namespace Lucinda\OAuth2;
+namespace Lucinda\OAuth2\Vendor\GitHub;
+
+use \Lucinda\OAuth2\Server\ServerException;
 
 /**
  * Implements parsing of GitHub OAUTH2 API response
  */
-class GitHubResponseWrapper extends ResponseWrapper
+class ResponseWrapper extends \Lucinda\OAuth2\ResponseWrapper
 {
     /**
      * Parses response received from OAuth2 server.
      *
      * @param string $response
      */
-    public function wrap($response)
+    public function wrap(string $response): void
     {
         $result = json_decode($response, true);
         if (json_last_error() != JSON_ERROR_NONE) {

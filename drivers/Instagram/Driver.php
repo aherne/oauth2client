@@ -1,12 +1,19 @@
 <?php
-namespace Lucinda\OAuth2;
+namespace Lucinda\OAuth2\Vendor\Instagram;
 
-require("InstagramResponseWrapper.php");
+use \Lucinda\OAuth2\Server\ServerInformation;
+use \Lucinda\OAuth2\ResponseWrapper;
+use \Lucinda\OAuth2\Server\ServerException;
+use \Lucinda\OAuth2\Client\ClientException;
+use \Lucinda\OAuth2\AccessToken\AccessTokenRequest;
+use \Lucinda\OAuth2\AccessToken\AccessTokenResponse;
+use \Lucinda\OAuth2\WrappedExecutor;
+use \Lucinda\OAuth2\HttpMethod;
 
 /**
- * Implements Instagram OAuth2 driver on top of Driver architecture
+ * Implements Instagram OAuth2 driver on top of \Lucinda\OAuth2\Driver architecture
  */
-class InstagramDriver extends Driver
+class Driver extends \Lucinda\OAuth2\Driver
 {
     const AUTHORIZATION_ENDPOINT_URL = "https://api.instagram.com/oauth/authorize/";
     const TOKEN_ENDPOINT_URL = "https://api.instagram.com/oauth/access_token";
@@ -16,7 +23,7 @@ class InstagramDriver extends Driver
      *
      * @return ServerInformation
      */
-    protected function getServerInformation()
+    protected function getServerInformation(): ServerInformation
     {
         return new ServerInformation(self::AUTHORIZATION_ENDPOINT_URL, self::TOKEN_ENDPOINT_URL);
     }
@@ -26,16 +33,20 @@ class InstagramDriver extends Driver
      *
      * @return ResponseWrapper
      */
-    protected function getResponseWrapper()
+    protected function getResponseWrapper(): ResponseWrapper
     {
-        return new InstagramResponseWrapper();
+        return new \Lucinda\OAuth2\Vendor\Instagram\ResponseWrapper();
     }
-        
+    
     /**
-     * {@inheritDoc}
-     * @see Driver::getAccessToken()
+     * Gets access token necessary to retrieve resources with.
+     *
+     * @param string $authorizationCode Authorization code received from OAuth2 provider
+     * @return \Lucinda\OAuth2\AccessToken\AccessTokenResponse Access token response.
+     * @throws ClientException When client fails to provide mandatory parameters.
+     * @throws ServerException When server responds with an error.
      */
-    public function getAccessToken($authorizationCode)
+    public function getAccessToken(string $authorizationCode): AccessTokenResponse
     {
         $responseWrapper = $this->getResponseWrapper();
         $we = new WrappedExecutor($responseWrapper);
@@ -63,7 +74,7 @@ class InstagramDriver extends Driver
      * @throws ClientException When client fails to provide mandatory parameters.
      * @throws ServerException When server responds with an error.
      */
-    public function getResource($accessToken, $resourceURL, $fields=array())
+    public function getResource(string $accessToken, string $resourceURL, array $fields=array()): array
     {
         $responseWrapper = $this->getResponseWrapper();
         $we = new WrappedExecutor($responseWrapper);

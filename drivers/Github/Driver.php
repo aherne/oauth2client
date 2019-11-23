@@ -1,12 +1,17 @@
 <?php
-namespace Lucinda\OAuth2;
+namespace Lucinda\OAuth2\Vendor\GitHub;
 
-require("GitHubResponseWrapper.php");
+use \Lucinda\OAuth2\Server\ServerInformation;
+use \Lucinda\OAuth2\ResponseWrapper;
+use \Lucinda\OAuth2\Server\ServerException;
+use \Lucinda\OAuth2\Client\ClientException;
+use \Lucinda\OAuth2\WrappedExecutor;
+use \Lucinda\OAuth2\HttpMethod;
 
 /**
- * Implements GitHub OAuth2 driver on top of Driver architecture
+ * Implements GitHub OAuth2 driver on top of \Lucinda\OAuth2\Driver architecture
  */
-class GitHubDriver extends Driver
+class Driver extends \Lucinda\OAuth2\Driver
 {
     const AUTHORIZATION_ENDPOINT_URL = "https://github.com/login/oauth/authorize";
     const TOKEN_ENDPOINT_URL = "https://github.com/login/oauth/access_token";
@@ -18,7 +23,7 @@ class GitHubDriver extends Driver
      *
      * @return ServerInformation
      */
-    protected function getServerInformation()
+    protected function getServerInformation(): ServerInformation
     {
         return new ServerInformation(self::AUTHORIZATION_ENDPOINT_URL, self::TOKEN_ENDPOINT_URL);
     }
@@ -28,9 +33,9 @@ class GitHubDriver extends Driver
      *
      * @return ResponseWrapper
      */
-    protected function getResponseWrapper()
+    protected function getResponseWrapper(): ResponseWrapper
     {
-        return new GithubResponseWrapper();
+        return new \Lucinda\OAuth2\Vendor\GitHub\ResponseWrapper();
     }
     
     /**
@@ -38,7 +43,7 @@ class GitHubDriver extends Driver
      *
      * @param string $applicationName
      */
-    public function setApplicationName($applicationName)
+    public function setApplicationName(string $applicationName): void
     {
         $this->appName = $applicationName;
     }
@@ -53,7 +58,7 @@ class GitHubDriver extends Driver
      * @throws ClientException When client fails to provide mandatory parameters.
      * @throws ServerException When server responds with an error.
      */
-    public function getResource($accessToken, $resourceURL, $fields=array())
+    public function getResource(string $accessToken, string $resourceURL, array $fields=array()): array
     {
         if (!$this->appName) {
             throw new ClientException("Setting application name is mandatory to retrieve GitHub resources!");

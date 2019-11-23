@@ -1,12 +1,13 @@
 <?php
-namespace Lucinda\OAuth2;
+namespace Lucinda\OAuth2\Vendor\Yandex;
 
-require("YandexResponseWrapper.php");
+use \Lucinda\OAuth2\Server\ServerInformation;
+use \Lucinda\OAuth2\ResponseWrapper;
 
 /**
- * Implements Yandex OAuth2 driver on top of Driver architecture.
+ * Implements Yandex OAuth2 driver on top of \Lucinda\OAuth2\Driver architecture.
  */
-class YandexDriver extends Driver
+class Driver extends \Lucinda\OAuth2\Driver
 {
     const AUTHORIZATION_ENDPOINT_URL = "https://oauth.yandex.com/authorize";
     const TOKEN_ENDPOINT_URL = "https://oauth.yandex.com/token";
@@ -16,7 +17,7 @@ class YandexDriver extends Driver
      *
      * @return ServerInformation
      */
-    protected function getServerInformation()
+    protected function getServerInformation(): ServerInformation
     {
         return new ServerInformation(self::AUTHORIZATION_ENDPOINT_URL, self::TOKEN_ENDPOINT_URL);
     }
@@ -26,8 +27,8 @@ class YandexDriver extends Driver
      *
      * @return ResponseWrapper
      */
-    protected function getResponseWrapper()
+    protected function getResponseWrapper(): ResponseWrapper
     {
-        return new YandexResponseWrapper();
+        return new \Lucinda\OAuth2\Vendor\Yandex\ResponseWrapper();
     }
 }
