@@ -55,20 +55,22 @@ class WrappedExecutor implements RequestExecutor
     }
     
     /**
-     * {@inheritDoc}
-     * @see RequestExecutor::execute()
+     * Executes request
+     *
+     * @param string $url OAuth2 server endpoint url.
+     * @param array $parameters Associative array of parameters to send.
      */
-    public function execute($endpointURL, $parameters)
+    public function execute($url, $parameters)
     {
         $ch = curl_init();
         switch ($this->httpMethod) {
             case HttpMethod::POST:
-                curl_setopt($ch, CURLOPT_URL, $endpointURL);
+                curl_setopt($ch, CURLOPT_URL, $url);
                 curl_setopt($ch, CURLOPT_POST, 1);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($parameters));
                 break;
             case HttpMethod::GET:
-                curl_setopt($ch, CURLOPT_URL, $endpointURL."?".http_build_query($parameters));
+                curl_setopt($ch, CURLOPT_URL, $url."?".http_build_query($parameters));
                 break;
             case HttpMethod::PUT:
                 curl_setopt($ch, CURLOPT_PUT, true);

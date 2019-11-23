@@ -52,8 +52,10 @@ class RefreshTokenRequest implements Request
     }
     
     /**
-     * {@inheritDoc}
-     * @see Request::execute()
+     * Executes request.
+     *
+     * @param RequestExecutor $executor Performs request execution.
+     * @throws ClientException If insufficient parameters are supplied to issue a request.
      */
     public function execute(RequestExecutor $executor)
     {

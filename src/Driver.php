@@ -108,7 +108,7 @@ abstract class Driver
      * @param string $accessToken OAuth2 access token
      * @param string $resourceURL URL of remote resource`
      * @param string[] $fields Fields to retrieve from remote resource.
-     * @return mixed
+     * @return array
      * @throws ClientException When client fails to provide mandatory parameters.
      * @throws ServerException When server responds with an error.
      */

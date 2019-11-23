@@ -19,7 +19,7 @@ abstract class ResponseWrapper
     /**
      * Gets parsed response
      *
-     * @return mixed
+     * @return array
      */
     public function getResponse()
     {
