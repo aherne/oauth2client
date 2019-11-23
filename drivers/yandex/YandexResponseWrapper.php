@@ -7,8 +7,9 @@ namespace Lucinda\OAuth2;
 class YandexResponseWrapper extends ResponseWrapper
 {
     /**
-     * {@inheritDoc}
-     * @see ResponseWrapper::wrap()
+     * Parses response received from OAuth2 server.
+     *
+     * @param string $response
      */
     public function wrap($response)
     {

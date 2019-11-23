@@ -12,8 +12,9 @@ class GoogleDriver extends Driver
     const TOKEN_ENDPOINT_URL = "https://accounts.google.com/o/oauth2/token";
 
     /**
-     * {@inheritDoc}
-     * @see Driver::getServerInformation()
+     * Gets OAuth2 server information.
+     *
+     * @return ServerInformation
      */
     protected function getServerInformation()
     {
@@ -21,8 +22,9 @@ class GoogleDriver extends Driver
     }
     
     /**
-     * {@inheritDoc}
-     * @see Driver::getResponseWrapper()
+     * Gets OAuth2 server response parser.
+     *
+     * @return ResponseWrapper
      */
     protected function getResponseWrapper()
     {

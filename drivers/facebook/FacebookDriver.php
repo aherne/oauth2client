@@ -12,8 +12,9 @@ class FacebookDriver extends Driver
     const TOKEN_ENDPOINT_URL = "https://graph.facebook.com/v2.8/oauth/access_token";
     
     /**
-     * {@inheritDoc}
-     * @see Driver::getServerInformation()
+     * Gets OAuth2 server information.
+     *
+     * @return ServerInformation
      */
     protected function getServerInformation()
     {
@@ -21,8 +22,9 @@ class FacebookDriver extends Driver
     }
 
     /**
-     * {@inheritDoc}
-     * @see Driver::getResponseWrapper()
+     * Gets OAuth2 server response parser.
+     *
+     * @return ResponseWrapper
      */
     protected function getResponseWrapper()
     {

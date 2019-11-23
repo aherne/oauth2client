@@ -12,8 +12,9 @@ class InstagramDriver extends Driver
     const TOKEN_ENDPOINT_URL = "https://api.instagram.com/oauth/access_token";
     
     /**
-     * {@inheritDoc}
-     * @see Driver::getServerInformation()
+     * Gets OAuth2 server information.
+     *
+     * @return ServerInformation
      */
     protected function getServerInformation()
     {
@@ -21,8 +22,9 @@ class InstagramDriver extends Driver
     }
 
     /**
-     * {@inheritDoc}
-     * @see Driver::getResponseWrapper()
+     * Gets OAuth2 server response parser.
+     *
+     * @return ResponseWrapper
      */
     protected function getResponseWrapper()
     {
@@ -52,8 +54,14 @@ class InstagramDriver extends Driver
     }
         
     /**
-     * {@inheritDoc}
-     * @see Driver::getResource()
+     * Gets remote resource based on access token
+     *
+     * @param string $accessToken OAuth2 access token
+     * @param string $resourceURL URL of remote resource`
+     * @param string[] $fields Fields to retrieve from remote resource.
+     * @return array
+     * @throws ClientException When client fails to provide mandatory parameters.
+     * @throws ServerException When server responds with an error.
      */
     public function getResource($accessToken, $resourceURL, $fields=array())
     {

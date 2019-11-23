@@ -185,6 +185,7 @@ class AutoloadConverter
         }
     }
 }
-// new PHP7Converter("drivers");
-new AutoloadConverter("src", "Lucinda\OAuth2");
+
+new PHP7Converter("drivers");
+// new AutoloadConverter("drivers", "Lucinda\OAuth2\Vendor");
 

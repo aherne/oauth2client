@@ -11,7 +11,6 @@ abstract class ResponseWrapper
     
     /**
      * Parses response received from OAuth2 server.
-     * NOTE: this is Oauth2-client specific.
      *
      * @param string $response
      */

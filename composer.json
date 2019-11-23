@@ -5,6 +5,10 @@
     "keywords": ["oauth2","client"],
     "homepage": "http://www.lucinda-framework.com/oauth2-client",
     "license": "MIT",
+    "psr-4": {
+        "Lucinda\\OAuth2": "src/",
+        "Lucinda\\OAuth2\\Vendor": "drivers/"
+    },
     "authors": [
         {
             "name": "Lucian Popescu",
