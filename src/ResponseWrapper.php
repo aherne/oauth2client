@@ -1,5 +1,5 @@
 <?php
-namespace OAuth2;
+namespace Lucinda\OAuth2;
 
 /**
  * Defines response wrapping methods.

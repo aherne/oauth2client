@@ -1,5 +1,5 @@
 <?php
-namespace OAuth2;
+namespace Lucinda\OAuth2;
 
 /**
  * Implements parsing of Yahoo OAUTH2 API response

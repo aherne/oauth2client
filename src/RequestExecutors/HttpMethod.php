@@ -1,5 +1,5 @@
 <?php
-namespace OAuth2;
+namespace Lucinda\OAuth2;
 
 /**
  * Enum of http methods that may be used in an OAuth2 application.

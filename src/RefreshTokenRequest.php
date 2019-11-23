@@ -1,5 +1,5 @@
 <?php
-namespace OAuth2;
+namespace Lucinda\OAuth2;
 
 /**
  * Encapsulates an access token regeneration request based on refresh token according to RFC6749

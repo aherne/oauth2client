@@ -1,5 +1,5 @@
 <?php
-namespace OAuth2;
+namespace Lucinda\OAuth2;
 
 require("ClientInformation.php");
 require("ServerInformation.php");

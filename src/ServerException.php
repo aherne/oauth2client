@@ -1,5 +1,5 @@
 <?php
-namespace OAuth2;
+namespace Lucinda\OAuth2;
 
 /**
  * Encapsulates error response received from OAuth2 server according to RFC6749

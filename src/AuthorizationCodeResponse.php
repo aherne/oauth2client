@@ -1,5 +1,5 @@
 <?php
-namespace OAuth2;
+namespace Lucinda\OAuth2;
 
 /**
  * Encapsulates a successful authorization code response according to RFC6749
@@ -34,6 +34,8 @@ class AuthorizationCodeResponse
     
     /**
      * Gets opaque value used by the client to maintain state between the request and callback
+     *
+     * @return string
      */
     public function getState()
     {
