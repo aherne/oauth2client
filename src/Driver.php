@@ -30,7 +30,7 @@ abstract class Driver
      *
      * @param ClientInformation $clientInformation Encapsulates information about OAuth2 client application
      */
-    public function __construct(ClientInformation $clientInformation)
+    public function __construct(ClientInformation $clientInformation): void
     {
         $this->clientInformation = $clientInformation;
         $this->serverInformation = $this->getServerInformation();
@@ -44,7 +44,7 @@ abstract class Driver
      * @return string Full authorization code endpoint URL.
      * @throws ClientException When client fails to provide mandatory parameters.
      */
-    public function getAuthorizationCodeEndpoint($scopes, $state="")
+    public function getAuthorizationCodeEndpoint(array $scopes, string $state=""): string
     {
         $executor = new RedirectionExecutor();
         $acr = new AuthorizationCodeRequest($this->serverInformation->getAuthorizationEndpoint());
@@ -66,7 +66,7 @@ abstract class Driver
      * @throws ClientException When client fails to provide mandatory parameters.
      * @throws ServerException When server responds with an error.
      */
-    public function getAccessToken($authorizationCode)
+    public function getAccessToken(string $authorizationCode): AccessTokenResponse
     {
         $responseWrapper = $this->getResponseWrapper();
         $we = new WrappedExecutor($responseWrapper);
@@ -88,7 +88,7 @@ abstract class Driver
      * @throws ClientException When client fails to provide mandatory parameters.
      * @throws ServerException When server responds with an error.
      */
-    public function refreshAccessToken($refreshToken)
+    public function refreshAccessToken(string $refreshToken): AccessTokenResponse
     {
         $responseWrapper = $this->getResponseWrapper();
         $we = new WrappedExecutor($responseWrapper);
@@ -112,7 +112,7 @@ abstract class Driver
      * @throws ClientException When client fails to provide mandatory parameters.
      * @throws ServerException When server responds with an error.
      */
-    public function getResource($accessToken, $resourceURL, $fields=array())
+    public function getResource(string $accessToken, string $resourceURL, array $fields=array()): array
     {
         $responseWrapper = $this->getResponseWrapper();
         $we = new WrappedExecutor($responseWrapper);
@@ -128,12 +128,12 @@ abstract class Driver
      *
      * @return ServerInformation
      */
-    abstract protected function getServerInformation();
+    abstract protected function getServerInformation(): ServerInformation;
     
     /**
      * Gets OAuth2 server response parser.
      *
      * @return ResponseWrapper
      */
-    abstract protected function getResponseWrapper();
+    abstract protected function getResponseWrapper(): ResponseWrapper;
 }

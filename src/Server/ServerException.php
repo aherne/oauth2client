@@ -16,7 +16,7 @@ class ServerException extends \Exception
      *
      * @param string $errorCode
      */
-    public function setErrorCode($errorCode)
+    public function setErrorCode(string $errorCode): void
     {
         $this->errorCode = $errorCode;
     }
@@ -26,7 +26,7 @@ class ServerException extends \Exception
      *
      * @return string
      */
-    public function getErrorCode()
+    public function getErrorCode(): string
     {
         return $this->errorCode;
     }
@@ -36,7 +36,7 @@ class ServerException extends \Exception
      *
      * @param string $errorDescription
      */
-    public function setErrorDescription($errorDescription)
+    public function setErrorDescription(string $errorDescription): void
     {
         $this->errorDescription = $errorDescription;
     }
@@ -46,7 +46,7 @@ class ServerException extends \Exception
      *
      * @return string
      */
-    public function getErrorDescription()
+    public function getErrorDescription(): string
     {
         return $this->errorDescription;
     }
@@ -56,7 +56,7 @@ class ServerException extends \Exception
      *
      * @param string $errorURL
      */
-    public function setErrorURL($errorURL)
+    public function setErrorURL(string $errorURL): void
     {
         $this->errorURL = $errorURL;
     }
@@ -66,7 +66,7 @@ class ServerException extends \Exception
      *
      * @return string
      */
-    public function getErrorURL()
+    public function getErrorURL(): string
     {
         return $this->errorURL;
     }
@@ -76,7 +76,7 @@ class ServerException extends \Exception
      *
      * @param string $state
      */
-    public function setState($state)
+    public function setState(string $state): void
     {
         $this->state = $state;
     }
@@ -86,7 +86,7 @@ class ServerException extends \Exception
      *
      * @return string
      */
-    public function getState()
+    public function getState(): string
     {
         return $this->state;
     }

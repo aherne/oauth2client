@@ -17,7 +17,7 @@ class AccessTokenResponse
      *
      * @param string[string] $parameters Access token response parameters received
      */
-    public function __construct($parameters)
+    public function __construct(array $parameters): void
     {
         $this->accessToken = $parameters["access_token"];
         if (!empty($parameters["token_type"])) {
@@ -39,7 +39,7 @@ class AccessTokenResponse
      *
      * @return string
      */
-    public function getAccessToken()
+    public function getAccessToken(): string
     {
         return $this->accessToken;
     }
@@ -49,7 +49,7 @@ class AccessTokenResponse
      *
      * @return string
      */
-    public function getTokenType()
+    public function getTokenType(): string
     {
         return $this->tokenType;
     }
@@ -59,7 +59,7 @@ class AccessTokenResponse
      *
      * @return string
      */
-    public function getExpiresIn()
+    public function getExpiresIn(): string
     {
         return $this->expiresIn;
     }
@@ -69,7 +69,7 @@ class AccessTokenResponse
      *
      * @return string
      */
-    public function getRefreshToken()
+    public function getRefreshToken(): string
     {
         return $this->refreshToken;
     }
@@ -79,7 +79,7 @@ class AccessTokenResponse
      *
      * @return string
      */
-    public function getScope()
+    public function getScope(): string
     {
         return $this->scope;
     }

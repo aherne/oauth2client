@@ -14,7 +14,7 @@ class RedirectionExecutor implements RequestExecutor
      * @param string $url OAuth2 server endpoint url.
      * @param array $parameters Associative array of parameters to send.
      */
-    public function execute($url, $parameters)
+    public function execute(string $url, array $parameters): void
     {
         $this->redirectURL = $url."?".http_build_query($parameters);
     }
@@ -24,7 +24,7 @@ class RedirectionExecutor implements RequestExecutor
      *
      * @return string
      */
-    public function getRedirectURL()
+    public function getRedirectURL(): string
     {
         return $this->redirectURL;
     }

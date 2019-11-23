@@ -14,7 +14,7 @@ class ServerInformation
      * @param string $authorizationEndpoint URL to provider's authorization code service.
      * @param string $tokenEndpoint URL to provider's access token service.
      */
-    public function __construct($authorizationEndpoint, $tokenEndpoint)
+    public function __construct(string $authorizationEndpoint, string $tokenEndpoint): void
     {
         $this->authorizationEndpoint = $authorizationEndpoint;
         $this->tokenEndpoint = $tokenEndpoint;
@@ -25,7 +25,7 @@ class ServerInformation
      *
      * @return string
      */
-    public function getAuthorizationEndpoint()
+    public function getAuthorizationEndpoint(): string
     {
         return $this->authorizationEndpoint;
     }
@@ -35,7 +35,7 @@ class ServerInformation
      *
      * @return string
      */
-    public function getTokenEndpoint()
+    public function getTokenEndpoint(): string
     {
         return $this->tokenEndpoint;
     }

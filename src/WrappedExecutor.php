@@ -18,7 +18,7 @@ class WrappedExecutor implements RequestExecutor
      *
      * @param ResponseWrapper $responseWrapper
      */
-    public function __construct(ResponseWrapper $responseWrapper)
+    public function __construct(ResponseWrapper $responseWrapper): void
     {
         $this->responseWrapper = $responseWrapper;
     }
@@ -28,7 +28,7 @@ class WrappedExecutor implements RequestExecutor
      *
      * @param integer $httpMethod
      */
-    public function setHttpMethod($httpMethod = HttpMethod::POST)
+    public function setHttpMethod(int $httpMethod = HttpMethod::POST): void
     {
         $this->httpMethod = $httpMethod;
     }
@@ -38,7 +38,7 @@ class WrappedExecutor implements RequestExecutor
      *
      * @param string $userAgent
      */
-    public function setUserAgent($userAgent)
+    public function setUserAgent(string $userAgent): void
     {
         $this->userAgent = $userAgent;
     }
@@ -49,7 +49,7 @@ class WrappedExecutor implements RequestExecutor
      * @param string $name
      * @param string $value
     */
-    public function addHeader($name, $value)
+    public function addHeader(string $name, string $value): void
     {
         $this->headers[] = $name.": ".$value;
     }
@@ -60,7 +60,7 @@ class WrappedExecutor implements RequestExecutor
      * @param string $url OAuth2 server endpoint url.
      * @param array $parameters Associative array of parameters to send.
      */
-    public function execute($url, $parameters)
+    public function execute(string $url, array $parameters): void
     {
         $ch = curl_init();
         switch ($this->httpMethod) {

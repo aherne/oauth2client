@@ -17,7 +17,7 @@ class AuthorizationCodeRequest implements Request
      *
      * @param string $endpointURL
      */
-    public function __construct($endpointURL)
+    public function __construct(string $endpointURL): void
     {
         $this->endpointURL = $endpointURL;
     }
@@ -27,7 +27,7 @@ class AuthorizationCodeRequest implements Request
      *
      * @param ClientInformation $clientInformation
      */
-    public function setClientInformation(ClientInformation $clientInformation)
+    public function setClientInformation(ClientInformation $clientInformation): void
     {
         $this->clientInformation = $clientInformation;
     }
@@ -37,7 +37,7 @@ class AuthorizationCodeRequest implements Request
      *
      * @param string $redirectURL
      */
-    public function setRedirectURL($redirectURL)
+    public function setRedirectURL(string $redirectURL): void
     {
         $this->redirectURL = $redirectURL;
     }
@@ -47,7 +47,7 @@ class AuthorizationCodeRequest implements Request
      *
      * @param string $scope
      */
-    public function setScope($scope)
+    public function setScope(string $scope): void
     {
         $this->scope = $scope;
     }
@@ -57,7 +57,7 @@ class AuthorizationCodeRequest implements Request
      *
      * @param string $state
      */
-    public function setState($state)
+    public function setState(string $state): void
     {
         $this->state = $state;
     }
@@ -68,7 +68,7 @@ class AuthorizationCodeRequest implements Request
      * @param RequestExecutor $executor Performs request execution.
      * @throws ClientException If insufficient parameters are supplied to issue a request.
      */
-    public function execute(RequestExecutor $executor)
+    public function execute(RequestExecutor $executor): void
     {
         if (!$this->clientInformation || !$this->clientInformation->getApplicationID()) {
             throw new ClientException("Client ID is required for authorization code requests!");

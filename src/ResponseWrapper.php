@@ -14,14 +14,14 @@ abstract class ResponseWrapper
      *
      * @param string $response
      */
-    abstract public function wrap($response);
+    abstract public function wrap(string $response): void;
     
     /**
      * Gets parsed response
      *
      * @return array
      */
-    public function getResponse()
+    public function getResponse(): array
     {
         return $this->response;
     }
