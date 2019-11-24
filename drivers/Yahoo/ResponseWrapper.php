@@ -24,7 +24,7 @@ class ResponseWrapper extends \Lucinda\OAuth2\ResponseWrapper
             $exception->setErrorCode($result["error"]);
             $exception->setErrorDescription($result["error_description"]);
             throw $exception;
-        } else if(isset($result["error"]["description"])) {
+        } elseif (isset($result["error"]["description"])) {
             throw new ServerException($result["error"]["description"]);
         }
         $this->response = $result;

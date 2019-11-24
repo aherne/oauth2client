@@ -1,7 +1,6 @@
 <?php
 namespace Lucinda\OAuth2\Server;
 
-
 /**
  * Encapsulates information about OAuth2 provider endpoints.
  */

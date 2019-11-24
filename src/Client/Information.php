@@ -1,7 +1,6 @@
 <?php
 namespace Lucinda\OAuth2\Client;
 
-
 /**
  * Encapsulates information about OAuth2 client.
  */
