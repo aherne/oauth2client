@@ -5,6 +5,9 @@
     "keywords": ["oauth2","client"],
     "homepage": "http://www.lucinda-framework.com/oauth2-client",
     "license": "MIT",
+    "require": {
+        "php": "^7.1"
+    },
     "autoload": {
     	"psr-4": {
         	"Lucinda\\OAuth2\\": "src/",
