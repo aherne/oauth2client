@@ -1,7 +1,7 @@
 <?php
 namespace Lucinda\OAuth2\Vendor\Facebook;
 
-use \Lucinda\OAuth2\Server\ServerException;
+use \Lucinda\OAuth2\Server\Exception as ServerException;
 
 /**
  * Implements parsing of Facebook OAUTH2 API response

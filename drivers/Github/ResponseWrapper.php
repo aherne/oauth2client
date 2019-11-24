@@ -1,7 +1,7 @@
 <?php
 namespace Lucinda\OAuth2\Vendor\GitHub;
 
-use \Lucinda\OAuth2\Server\ServerException;
+use \Lucinda\OAuth2\Server\Exception as ServerException;
 
 /**
  * Implements parsing of GitHub OAUTH2 API response

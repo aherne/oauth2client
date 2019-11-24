@@ -1,14 +1,14 @@
 <?php
 namespace Lucinda\OAuth2;
 
-use Lucinda\OAuth2\Client\ClientInformation;
-use Lucinda\OAuth2\Client\ClientException;
-use Lucinda\OAuth2\AuthorizationCode\AuthorizationCodeRequest;
-use Lucinda\OAuth2\AccessToken\AccessTokenResponse;
-use Lucinda\OAuth2\Server\ServerException;
-use Lucinda\OAuth2\AccessToken\AccessTokenRequest;
-use Lucinda\OAuth2\RefreshToken\RefreshTokenRequest;
-use Lucinda\OAuth2\Server\ServerInformation;
+use Lucinda\OAuth2\Client\Information as ClientInformation;
+use Lucinda\OAuth2\Client\Exception as ClientException;
+use Lucinda\OAuth2\AuthorizationCode\Request as AuthorizationCodeRequest;
+use Lucinda\OAuth2\AccessToken\Request as AccessTokenRequest;
+use Lucinda\OAuth2\AccessToken\Response as AccessTokenResponse;
+use Lucinda\OAuth2\RefreshToken\Request as RefreshTokenRequest;
+use Lucinda\OAuth2\Server\Exception as ServerException;
+use Lucinda\OAuth2\Server\Information as ServerInformation;
 
 /**
  * Encapsulates operations one can perform on an OAuth2 provider. Acts like a single entry point that hides OAuth2 providers complexity. For each provider,

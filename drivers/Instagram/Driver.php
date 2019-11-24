@@ -1,12 +1,12 @@
 <?php
 namespace Lucinda\OAuth2\Vendor\Instagram;
 
-use \Lucinda\OAuth2\Server\ServerInformation;
+use \Lucinda\OAuth2\Server\Information as ServerInformation;
 use \Lucinda\OAuth2\ResponseWrapper;
-use \Lucinda\OAuth2\Server\ServerException;
-use \Lucinda\OAuth2\Client\ClientException;
-use \Lucinda\OAuth2\AccessToken\AccessTokenRequest;
-use \Lucinda\OAuth2\AccessToken\AccessTokenResponse;
+use \Lucinda\OAuth2\Server\Exception as ServerException;
+use \Lucinda\OAuth2\Client\Exception as ClientException;
+use \Lucinda\OAuth2\AccessToken\Request as AccessTokenRequest;
+use \Lucinda\OAuth2\AccessToken\Response as AccessTokenResponse;
 use \Lucinda\OAuth2\WrappedExecutor;
 use \Lucinda\OAuth2\HttpMethod;
 
@@ -42,7 +42,7 @@ class Driver extends \Lucinda\OAuth2\Driver
      * Gets access token necessary to retrieve resources with.
      *
      * @param string $authorizationCode Authorization code received from OAuth2 provider
-     * @return \Lucinda\OAuth2\AccessToken\AccessTokenResponse Access token response.
+     * @return AccessTokenResponse Access token response.
      * @throws ClientException When client fails to provide mandatory parameters.
      * @throws ServerException When server responds with an error.
      */

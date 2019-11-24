@@ -1,7 +1,7 @@
 <?php
 namespace Lucinda\OAuth2\Vendor\Yandex;
 
-use \Lucinda\OAuth2\Server\ServerInformation;
+use \Lucinda\OAuth2\Server\Information as ServerInformation;
 use \Lucinda\OAuth2\ResponseWrapper;
 
 /**

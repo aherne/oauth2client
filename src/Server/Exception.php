@@ -5,7 +5,7 @@ namespace Lucinda\OAuth2\Server;
 /**
  * Encapsulates error response received from OAuth2 server according to RFC6749
  */
-class ServerException extends \Exception
+class Exception extends \Exception
 {
     private $errorCode;
     private $errorDescription;

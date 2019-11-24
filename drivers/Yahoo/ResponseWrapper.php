@@ -1,7 +1,7 @@
 <?php
 namespace Lucinda\OAuth2\Vendor\Yahoo;
 
-use \Lucinda\OAuth2\Server\ServerException;
+use \Lucinda\OAuth2\Server\Exception as ServerException;
 
 /**
  * Implements parsing of Yahoo OAUTH2 API response

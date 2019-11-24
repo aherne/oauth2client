@@ -1,15 +1,14 @@
 <?php
 namespace Lucinda\OAuth2\RefreshToken;
 
-use Lucinda\OAuth2\Request;
-use Lucinda\OAuth2\Client\ClientInformation;
+use Lucinda\OAuth2\Client\Information as ClientInformation;
 use Lucinda\OAuth2\RequestExecutor;
-use Lucinda\OAuth2\Client\ClientException;
+use Lucinda\OAuth2\Client\Exception as ClientException;
 
 /**
  * Encapsulates an access token regeneration request based on refresh token according to RFC6749
  */
-class RefreshTokenRequest implements Request
+class Request implements \Lucinda\OAuth2\Request
 {
     protected $endpointURL;
     protected $clientInformation;

@@ -1,10 +1,10 @@
 <?php
 namespace Lucinda\OAuth2\Vendor\LinkedIn;
 
-use \Lucinda\OAuth2\Server\ServerInformation;
+use \Lucinda\OAuth2\Server\Information as ServerInformation;
 use \Lucinda\OAuth2\ResponseWrapper;
-use \Lucinda\OAuth2\Server\ServerException;
-use \Lucinda\OAuth2\Client\ClientException;
+use \Lucinda\OAuth2\Server\Exception as ServerException;
+use \Lucinda\OAuth2\Client\Exception as ClientException;
 use \Lucinda\OAuth2\WrappedExecutor;
 use \Lucinda\OAuth2\HttpMethod;
 

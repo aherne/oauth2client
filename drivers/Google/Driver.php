@@ -1,7 +1,7 @@
 <?php
 namespace Lucinda\OAuth2\Vendor\Google;
 
-use \Lucinda\OAuth2\Server\ServerInformation;
+use \Lucinda\OAuth2\Server\Information as ServerInformation;
 use \Lucinda\OAuth2\ResponseWrapper;
 
 /**
@@ -15,7 +15,7 @@ class Driver extends \Lucinda\OAuth2\Driver
     /**
      * Gets OAuth2 server information.
      *
-     * @return \Lucinda\OAuth2\Server\ServerInformation
+     * @return ServerInformation
      */
     protected function getServerInformation(): ServerInformation
     {

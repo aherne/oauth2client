@@ -1,39 +1,29 @@
 <?php
-namespace Lucinda\OAuth2\AccessToken;
+namespace Lucinda\OAuth2\AuthorizationCode;
 
-use Lucinda\OAuth2\Request;
-use Lucinda\OAuth2\Client\ClientInformation;
+use Lucinda\OAuth2\Client\Information as ClientInformation;
 use Lucinda\OAuth2\RequestExecutor;
-use Lucinda\OAuth2\Client\ClientException;
+use Lucinda\OAuth2\Client\Exception as ClientException;
 
 /**
- * Encapsulates an access token request according to RFC6749
+ * Encapsulates an authorization code request according to RFC6749
  */
-class AccessTokenRequest implements Request
+class Request implements \Lucinda\OAuth2\Request
 {
     protected $endpointURL;
     protected $clientInformation;
     protected $redirectURL;
-    protected $code;
+    protected $scope;
+    protected $state;
     
     /**
-     * (Mandatory) Sets URL of access token endpoint @ Oauth2 Server
+     * (Mandatory) Sets URL of authorization code endpoint @ Oauth2 Server
      *
      * @param string $endpointURL
      */
     public function __construct(string $endpointURL): void
     {
         $this->endpointURL = $endpointURL;
-    }
-    
-    /**
-     * (Mandatory) Sets authorization code
-     *
-     * @param string $code
-     */
-    public function setCode(string $code): void
-    {
-        $this->code = $code;
     }
     
     /**
@@ -47,7 +37,7 @@ class AccessTokenRequest implements Request
     }
     
     /**
-     * (Optional) Sets callback redirect URL to send access token to.
+     * Sets callback redirect URL to send code to.
      *
      * @param string $redirectURL
      */
@@ -55,7 +45,27 @@ class AccessTokenRequest implements Request
     {
         $this->redirectURL = $redirectURL;
     }
-
+    
+    /**
+     * Sets scope of access request.
+     *
+     * @param string $scope
+     */
+    public function setScope(string $scope): void
+    {
+        $this->scope = $scope;
+    }
+    
+    /**
+     * Sets opaque value used by the client to maintain state between the request and callback
+     *
+     * @param string $state
+     */
+    public function setState(string $state): void
+    {
+        $this->state = $state;
+    }
+    
     /**
      * Executes request.
      *
@@ -65,20 +75,19 @@ class AccessTokenRequest implements Request
     public function execute(RequestExecutor $executor): void
     {
         if (!$this->clientInformation || !$this->clientInformation->getApplicationID()) {
-            throw new ClientException("Client ID is required for access token requests!");
-        }
-        if (!$this->code) {
-            throw new ClientException("Authorization code is required for access token requests!");
+            throw new ClientException("Client ID is required for authorization code requests!");
         }
         $parameters = array();
-        $parameters["grant_type"] = "authorization_code";
+        $parameters["response_type"] = "code";
         $parameters["client_id"] = $this->clientInformation->getApplicationID();
-        $parameters["code"] = $this->code;
-        if ($this->clientInformation->getApplicationSecret()) {
-            $parameters["client_secret"] = $this->clientInformation->getApplicationSecret();
-        }
         if ($this->redirectURL) {
             $parameters["redirect_uri"] = $this->redirectURL;
+        }
+        if ($this->scope) {
+            $parameters["scope"] = $this->scope;
+        }
+        if ($this->state) {
+            $parameters["state"] = $this->state;
         }
         $executor->execute($this->endpointURL, $parameters);
     }
