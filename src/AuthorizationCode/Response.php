@@ -14,7 +14,7 @@ class Response
      *
      * @param string[string] $parameters Authorization code response parameters received
      */
-    public function __construct(array $parameters): void
+    public function __construct(array $parameters)
     {
         $this->code = $parameters["code"];
         if (!empty($parameters["state"])) {

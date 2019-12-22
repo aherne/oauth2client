@@ -18,7 +18,7 @@ class WrappedExecutor implements RequestExecutor
      *
      * @param ResponseWrapper $responseWrapper
      */
-    public function __construct(ResponseWrapper $responseWrapper): void
+    public function __construct(ResponseWrapper $responseWrapper)
     {
         $this->responseWrapper = $responseWrapper;
     }

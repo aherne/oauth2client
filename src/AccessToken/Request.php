@@ -20,7 +20,7 @@ class Request implements \Lucinda\OAuth2\Request
      *
      * @param string $endpointURL
      */
-    public function __construct(string $endpointURL): void
+    public function __construct(string $endpointURL)
     {
         $this->endpointURL = $endpointURL;
     }

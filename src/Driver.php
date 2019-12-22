@@ -24,7 +24,7 @@ abstract class Driver
      *
      * @param ClientInformation $clientInformation Encapsulates information about OAuth2 client application
      */
-    public function __construct(ClientInformation $clientInformation): void
+    public function __construct(ClientInformation $clientInformation)
     {
         $this->clientInformation = $clientInformation;
         $this->serverInformation = $this->getServerInformation();

@@ -17,7 +17,7 @@ class Response
      *
      * @param string[string] $parameters Access token response parameters received
      */
-    public function __construct(array $parameters): void
+    public function __construct(array $parameters)
     {
         $this->accessToken = $parameters["access_token"];
         if (!empty($parameters["token_type"])) {
