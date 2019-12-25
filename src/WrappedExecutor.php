@@ -62,41 +62,41 @@ class WrappedExecutor implements RequestExecutor
      */
     public function execute(string $url, array $parameters): void
     {
-        $ch = curl_init();
+        $ch = \curl_init();
         switch ($this->httpMethod) {
             case HttpMethod::POST:
-                curl_setopt($ch, CURLOPT_URL, $url);
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($parameters));
+                \curl_setopt($ch, CURLOPT_URL, $url);
+                \curl_setopt($ch, CURLOPT_POST, 1);
+                \curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($parameters));
                 break;
             case HttpMethod::GET:
-                curl_setopt($ch, CURLOPT_URL, $url."?".http_build_query($parameters));
+                \curl_setopt($ch, CURLOPT_URL, $url."?".http_build_query($parameters));
                 break;
             case HttpMethod::PUT:
-                curl_setopt($ch, CURLOPT_PUT, true);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($parameters));
+                \curl_setopt($ch, CURLOPT_PUT, true);
+                \curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($parameters));
                 break;
             case HttpMethod::DELETE:
-                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
-                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($parameters));
+                \curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+                \curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($parameters));
                 break;
             default:
                 throw new ClientException("Unrecognized http method!");
                 break;
         }
         if ($this->userAgent) {
-            curl_setopt($ch, CURLOPT_USERAGENT, $this->userAgent);
+            \curl_setopt($ch, CURLOPT_USERAGENT, $this->userAgent);
         }
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $this->headers);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        \curl_setopt($ch, CURLOPT_HTTPHEADER, $this->headers);
+        \curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         try {
-            $server_output = curl_exec($ch);
+            $server_output = \curl_exec($ch);
             if ($server_output===false) {
-                throw new ClientException(curl_error($ch));
+                throw new ClientException(\curl_error($ch));
             }
             $this->responseWrapper->wrap($server_output);
         } finally {
-            curl_close($ch);
+            \curl_close($ch);
         }
     }
 }

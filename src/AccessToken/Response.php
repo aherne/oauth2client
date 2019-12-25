@@ -20,9 +20,7 @@ class Response
     public function __construct(array $parameters)
     {
         $this->accessToken = $parameters["access_token"];
-        if (!empty($parameters["token_type"])) {
-            $this->tokenType = "Bearer";
-        }
+        $this->tokenType = (!empty($parameters["token_type"])?$parameters["token_type"]:"Bearer");
         if (!empty($parameters["expires_in"])) {
             $this->expiresIn = $parameters["expires_in"];
         }
@@ -57,9 +55,9 @@ class Response
     /**
      * Gets access token lifetime (in seconds) issued by the authorization server.
      *
-     * @return string
+     * @return int
      */
-    public function getExpiresIn(): string
+    public function getExpiresIn(): int
     {
         return $this->expiresIn;
     }

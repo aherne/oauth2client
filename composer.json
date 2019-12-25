@@ -6,7 +6,11 @@
     "homepage": "http://www.lucinda-framework.com/oauth2-client",
     "license": "MIT",
     "require": {
-        "php": "^7.1"
+        "php": "^7.1",
+        "ext-curl": "*"
+    },
+    "require-dev": {
+    	"lucinda/unit-testing": "^1.0"
     },
     "autoload": {
     	"psr-4": {
