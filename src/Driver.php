@@ -18,16 +18,19 @@ abstract class Driver
 {
     protected $clientInformation;
     protected $serverInformation;
+    protected $scopes = [];
 
     /**
      * Creates an object
      *
      * @param ClientInformation $clientInformation Encapsulates information about OAuth2 client application
+     * @param string[] $scopes Scopes of authorization code request.
      */
-    public function __construct(ClientInformation $clientInformation)
+    public function __construct(ClientInformation $clientInformation, array $scopes = [])
     {
         $this->clientInformation = $clientInformation;
         $this->serverInformation = $this->getServerInformation();
+        $this->scopes = $scopes;
     }
 
     /**
@@ -38,13 +41,13 @@ abstract class Driver
      * @return string Full authorization code endpoint URL.
      * @throws ClientException When client fails to provide mandatory parameters.
      */
-    public function getAuthorizationCodeEndpoint(array $scopes, string $state=""): string
+    public function getAuthorizationCodeEndpoint(string $state=""): string
     {
         $executor = new RedirectionExecutor();
         $acr = new AuthorizationCodeRequest($this->serverInformation->getAuthorizationEndpoint());
         $acr->setClientInformation($this->clientInformation);
         $acr->setRedirectURL($this->clientInformation->getSiteURL());
-        $acr->setScope(implode(" ", $scopes));
+        $acr->setScope(implode(" ", $this->scopes));
         if ($state) {
             $acr->setState($state);
         }
