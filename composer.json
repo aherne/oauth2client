@@ -14,8 +14,8 @@
     },
     "autoload": {
     	"psr-4": {
-        	"Lucinda\\OAuth2\\": "src/",
-        	"Lucinda\\OAuth2\\Vendor\\": "drivers/"
+        	"Lucinda\\OAuth2\\Vendor\\": "drivers/",
+        	"Lucinda\\OAuth2\\": "src/"
     	}
     },
     "authors": [
