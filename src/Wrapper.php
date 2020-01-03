@@ -77,17 +77,18 @@ class Wrapper
                 throw new Exception("Driver not supported: ".$driverName);
                 break;
         }
-        $this->results[] = $driver;
+        $this->results[$tagInfo->getCallbackUrl()] = $driver;
     }
     
     /**
-     * Gets Driver instances detected based on information in XML
+     * Gets Driver instances detected based on callback URL
      * 
-     * @return Driver[]
+     * @param string $callbackURL
+     * @return Driver|NULL
      */
-    public function getDrivers(): array
+    public function getDriver(string $callbackURL): ?Driver
     {
-        return $this->results;
+        return (isset($this->results[$callbackURL])?$this->results[$callbackURL]:null);
     }
 }
 
