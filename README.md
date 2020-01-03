@@ -133,7 +133,7 @@ Once an access token is saved you can use it in current or future requests to au
 ```php
 // loads $accessTokenResponse from storage
 if ($accessTokenResponse->getExpiresIn() && $accessTokenResponse->getExpiresIn()>time()) {
-	$accessTokenResponse = $driver->refreshAccessToken($accessTokenResponse->getRefreshToken());
+    $accessTokenResponse = $driver->refreshAccessToken($accessTokenResponse->getRefreshToken());
     // save $accessTokenResponse to storage
 }
 ```
