@@ -5,7 +5,7 @@ This API, came by the idea of building a shared driver based on [IETF specs](htt
 - **[registration](#registration)**: registering your site on oauth2 providers in order to be able to query them later on
 - **[configuration](#configuration)**: setting up an XML file where one or more loggers are set for each development environment
 - **[initialization](#initialization)**: creating a [Lucinda\OAuth2\Wrapper](https://github.com/aherne/oauth2client/blob/v3.0.0/src/Wrapper.php) instance based on above XML and current development environment then calling *getDriver()* method based on requested page
-- **[querying provider](#querying-provider)**: use shared driver [Lucinda\OAuth2\Driver](https://github.com/aherne/oauth2client/blob/v3.0.0/src/Driver.php) instances returned by method above to query respective provider
+- **[querying provider](#querying-provider)**: use shared driver [Lucinda\OAuth2\Driver](https://github.com/aherne/oauth2client/blob/v3.0.0/src/Driver.php) instance resulting from method above to query respective provider
 
 ## Installation
 
@@ -116,7 +116,7 @@ Once you obtain a driver, you able to query it automatically. First however you 
 ```php
 if (empty($_GET["code"])) {
     // redirects to vendor in order to get authorization code
-    $redirectURL = $driver->getAuthorizationCodeEndpoint(["public_profile","email"]);
+    $redirectURL = $driver->getAuthorizationCodeEndpoint();
     header("Location: ".$redirectURL);
     exit();
 } else {
@@ -128,10 +128,21 @@ if (empty($_GET["code"])) {
 }
 ```
 
-Once an access token is obtained you can use it to retrieve any resource on vendor whose scope was approved by client:
+Once an access token is saved you can use it in current or future requests to authenticate resources requests on vendor. Before using it, you need to make sure token has not expired:
 
 ```php
-$information = $driver->getResource($accessToken, RESOURCE_URI, ?RESOURCE_FIELDS);
+// loads $accessTokenResponse from storage
+if ($accessTokenResponse->getExpiresIn() && $accessTokenResponse->getExpiresIn()>time()) {
+	$accessTokenResponse = $driver->refreshAccessToken($accessTokenResponse->getRefreshToken());
+    // save $accessTokenResponse to storage
+}
+```
+
+Then to retrieve any resource on vendor whose scope was approved by client:
+
+```php
+$accessToken = $accessTokenResponse->getAccessToken();
+$information = $driver->getResource(accessToken, RESOURCE_URI, ?RESOURCE_FIELDS);
 ```
 
 ### Example

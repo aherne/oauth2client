@@ -22,7 +22,7 @@ class Response
         $this->accessToken = $parameters["access_token"];
         $this->tokenType = (!empty($parameters["token_type"])?$parameters["token_type"]:"Bearer");
         if (!empty($parameters["expires_in"])) {
-            $this->expiresIn = $parameters["expires_in"];
+            $this->expiresIn = time()+$parameters["expires_in"];
         }
         if (!empty($parameters["refresh_token"])) {
             $this->refreshToken = $parameters["refresh_token"];

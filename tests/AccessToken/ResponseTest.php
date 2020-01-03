@@ -33,7 +33,7 @@ class ResponseTest
 
     public function getExpiresIn()
     {
-        return new Result($this->response->getExpiresIn()==123);
+        return new Result($this->response->getExpiresIn()==time()+123);
     }
         
 
