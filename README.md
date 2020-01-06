@@ -9,7 +9,7 @@ This API, came by the idea of building a shared driver based on [IETF specs](htt
 
 ## Installation
 
-This library is fully PSR-4 compliant and only requires PHP7.1+ interpreter + cURL extension. For installation run:
+This library is fully PSR-4 compliant and only requires PHP7.1+ interpreter + SimpleXML & cURL extension. For installation run:
 
 ```console
 composer require lucinda/oauth2-client
