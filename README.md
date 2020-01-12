@@ -147,7 +147,7 @@ $userInformation = $driver->getResource($accessToken, "https://graph.facebook.co
 
 ## Installation
 
-This library is fully PSR-4 compliant and only requires PHP7.1+ interpreter + SimpleXML & cURL extension. For installation run:
+First choose a folder, associate it to a domain then write this command there using console:
 
 ```console
 composer require lucinda/oauth2-client
@@ -162,7 +162,7 @@ $object = new Lucinda\OAuth2\Wrapper(simplexml_load_file("configuration.xml"), "
 $driver = $object->getDriver($requestedPage);
 ```
 
-Then create a (sub)domain that points to folder in which index.php is located and make sure it is available in world-wide-web. All request that point to this (sub)domain must be rerouted to index.php:
+Then make sure domain is available to world-wide-web and all request that point to it are rerouted to index.php:
 
 ```
 RewriteEngine on
