@@ -152,16 +152,22 @@ This library is fully PSR-4 compliant and only requires PHP7.1+ interpreter + Si
 ```console
 composer require lucinda/oauth2-client
 ```
-Then proceed with **[configuration](#configuration)** step below and create a file (index.php) in project root with following code:
+
+Then create a *configuration.xml* file holding configuration settings (see [configuration](#configuration) above) and a *index.php* file (see [initialization](#initialization) in project root with following code:
 
 ```php
 require(__DIR__."/vendor/autoload.php");
 $requestedPage = (!empty($_SERVER["REQUEST_URI"])?substr($_SERVER["REQUEST_URI"], 1):"");
-$object = new Lucinda\OAuth2\Wrapper(simplexml_load_file(XML_FILE_NAME), DEVELOPMENT_ENVIRONMENT);
+$object = new Lucinda\OAuth2\Wrapper(simplexml_load_file("configuration.xml"), "local");
 $driver = $object->getDriver($requestedPage);
 ```
 
-Then make sure (sub)domain is available in world-wide-web and all request that point to it are rerouted to index.php.
+Then create a (sub)domain that points to folder in which index.php is located and make sure it is available in world-wide-web. All request that point to this (sub)domain must be rerouted to index.php:
+
+```
+RewriteEngine on
+RewriteRule ^(.*)$ index.php
+```
 
 ## Unit Tests
 
