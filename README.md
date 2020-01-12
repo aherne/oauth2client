@@ -11,7 +11,7 @@ API is fully PSR-4 compliant, only requiring PHP7.1+ interpreter and SimpleXML +
 
 - **[installation](#installation)**: describes how to install API on your computer, in light of steps above
 - **[unit tests](#unit-tests)**: API has 100% Unit Test coverage, using [UnitTest API](https://github.com/aherne/unit-testing) instead of PHPUnit for greater flexibility
-- **[example](https://github.com/aherne/oauth2client/blob/v3.0.0/tests/WrapperTest.php)**: shows a example of API functionality based on unit test for [Lucinda\OAuth2\Wrapper](https://github.com/aherne/oauth2client/blob/v3.0.0/src/Wrapper.php)
+- **[example](#example)**: shows a example of API functionality based on unit test for [Lucinda\OAuth2\Wrapper](https://github.com/aherne/oauth2client/blob/v3.0.0/src/Wrapper.php)
 
 ## Registration
 
@@ -132,7 +132,8 @@ Assuming driver is:
 <driver name="Facebook" client_id="YOUR_CLIENT_ID" client_secret="YOUR_CLIENT_SECRET" callback="login/facebook" scopes="public_profile,email"/>
 ```
 
-If value of $_SERVER["REQUEST_URI"] is "login/facebook", first a check is made if "code" querystring param is present:
+If value of $_SERVER["REQUEST_URI"] is "login/facebook", in line of [Querying Provider](#querying-provider) above, first a check is made if "code" querystring param is present:
+
 - NO: redirects to provider and asks client to approve access for public_profile and email visualization rights. If approved, vendor redirects to same page but with a "code" param
 - YES: asks provider to exchange short lived authorization code (value of "code" param) with a long lived access token
 
