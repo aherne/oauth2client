@@ -1,6 +1,6 @@
 <?php
 namespace Test\Lucinda\OAuth2\AccessToken;
-    
+
 use Lucinda;
 use Lucinda\UnitTest\Result;
 
@@ -47,6 +47,4 @@ class ResponseTest
     {
         return new Result($this->response->getScope()=="test4");
     }
-        
-
 }

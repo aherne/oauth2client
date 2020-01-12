@@ -1,6 +1,6 @@
 <?php
 namespace Test\Lucinda\OAuth2;
-    
+
 use Lucinda\OAuth2\WrappedExecutor;
 use Lucinda\OAuth2\Vendor\Facebook\ResponseWrapper;
 use Lucinda\OAuth2\HttpMethod;
@@ -46,6 +46,4 @@ class WrappedExecutorTest
             return new Result($e->getErrorDescription()=="An active access token must be used to query information about the current user.");
         }
     }
-        
-
 }

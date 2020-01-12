@@ -1,6 +1,6 @@
 <?php
 namespace Test\Lucinda\OAuth2\RefreshToken;
-    
+
 use Lucinda\OAuth2\RefreshToken\Request;
 use Lucinda\UnitTest\Result;
 use Lucinda\OAuth2\WrappedExecutor;
@@ -47,6 +47,4 @@ class RequestTest
             return new Result($e->getErrorDescription()=="Unsupported grant_type: 'refresh_token'. Supported types: authorization_code, client_credentials");
         }
     }
-        
-
 }

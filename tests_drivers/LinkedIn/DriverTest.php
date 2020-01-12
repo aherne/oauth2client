@@ -1,13 +1,12 @@
 <?php
 namespace Test\Lucinda\OAuth2\Vendor\LinkedIn;
-    
+
 use Lucinda\OAuth2\Vendor\LinkedIn\Driver;
 use Lucinda\OAuth2\Client\Information;
 use Lucinda\UnitTest\Result;
 
 class DriverTest
 {
-
     public function getResource()
     {
         try {
@@ -18,6 +17,4 @@ class DriverTest
             return new Result($e->getMessage()=="Invalid access token.");
         }
     }
-        
-
 }

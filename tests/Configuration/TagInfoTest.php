@@ -1,6 +1,6 @@
 <?php
 namespace Test\Lucinda\OAuth2\Configuration;
-    
+
 use Lucinda\OAuth2\Configuration\TagInfo;
 use Lucinda\UnitTest\Result;
 
@@ -48,6 +48,4 @@ class TagInfoTest
     {
         return new Result($this->info->getScopes()==["public_profile","email"]);
     }
-        
-
 }

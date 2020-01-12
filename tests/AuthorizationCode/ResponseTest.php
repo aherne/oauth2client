@@ -1,6 +1,6 @@
 <?php
 namespace Test\Lucinda\OAuth2\AuthorizationCode;
-    
+
 use Lucinda\OAuth2\AuthorizationCode\Response;
 use Lucinda\UnitTest\Result;
 
@@ -26,6 +26,4 @@ class ResponseTest
     {
         return new Result($this->response->getState()=="test2");
     }
-        
-
 }

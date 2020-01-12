@@ -1,13 +1,12 @@
 <?php
 namespace Test\Lucinda\OAuth2\Vendor\VK;
-    
+
 use Lucinda\OAuth2\Vendor\VK\Driver;
 use Lucinda\OAuth2\Client\Information;
 use Lucinda\UnitTest\Result;
 
 class DriverTest
 {
-
     public function getResource()
     {
         try {
@@ -18,6 +17,4 @@ class DriverTest
             return new Result($e->getMessage()=="User authorization failed: invalid access_token (4).");
         }
     }
-        
-
 }

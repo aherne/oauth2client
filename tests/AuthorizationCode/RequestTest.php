@@ -1,6 +1,6 @@
 <?php
 namespace Test\Lucinda\OAuth2\AuthorizationCode;
-    
+
 use Lucinda\OAuth2\AuthorizationCode\Request;
 use Lucinda\UnitTest\Result;
 use Lucinda\OAuth2\RedirectionExecutor;
@@ -49,6 +49,4 @@ class RequestTest
         $this->request->execute($executor);
         return new Result($executor->getRedirectURL()=="https://www.facebook.com/v2.8/dialog/oauth?response_type=code&client_id=client_id&redirect_uri=https%3A%2F%2Fdev.lucinda-framework.com%2Flogin%2Ffacebook&scope=test_scope&state=test_state");
     }
-        
-
 }

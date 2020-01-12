@@ -1,6 +1,6 @@
 <?php
 namespace Test\Lucinda\OAuth2;
-    
+
 use Lucinda\OAuth2\RedirectionExecutor;
 use Lucinda\UnitTest\Result;
 
@@ -24,6 +24,4 @@ class RedirectionExecutorTest
     {
         return new Result($this->executor->getRedirectURL()=="http://www.example.com?x=y");
     }
-        
-
 }

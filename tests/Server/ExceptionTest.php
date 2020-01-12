@@ -1,6 +1,6 @@
 <?php
 namespace Test\Lucinda\OAuth2\Server;
-    
+
 use Lucinda\UnitTest\Result;
 
 class ExceptionTest
@@ -63,6 +63,4 @@ class ExceptionTest
     {
         return new Result($this->exception->getState()=="test3");
     }
-        
-
 }

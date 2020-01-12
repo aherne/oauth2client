@@ -7,32 +7,11 @@ This API, came by the idea of building a shared driver based on [IETF specs](htt
 - **[initialization](#initialization)**: creating a [Lucinda\OAuth2\Wrapper](https://github.com/aherne/oauth2client/blob/v3.0.0/src/Wrapper.php) instance based on above XML and current development environment then calling *getDriver()* method based on requested page
 - **[querying provider](#querying-provider)**: use shared driver [Lucinda\OAuth2\Driver](https://github.com/aherne/oauth2client/blob/v3.0.0/src/Driver.php) instance resulting from method above to query respective provider
 
-## Installation
+API is fully PSR-4 compliant, only requiring PHP7.1+ interpreter and SimpleXML + cURL extensions. To quickly see how it works, check:
 
-This library is fully PSR-4 compliant and only requires PHP7.1+ interpreter + SimpleXML & cURL extension. For installation run:
-
-```console
-composer require lucinda/oauth2-client
-```
-Then proceed with **[configuration](#configuration)** step below and create a file (index.php) in project root with following code:
-
-```php
-require(__DIR__."/vendor/autoload.php");
-$requestedPage = (!empty($_SERVER["REQUEST_URI"])?substr($_SERVER["REQUEST_URI"], 1):"");
-$object = new Lucinda\OAuth2\Wrapper(simplexml_load_file(XML_FILE_NAME), DEVELOPMENT_ENVIRONMENT);
-$driver = $object->getDriver($requestedPage);
-```
-
-Then make sure (sub)domain is available in world-wide-web and all request that point to it are rerouted to index.php.
-
-### Unit Tests
-
-API has 100% unit test coverage, but uses [UnitTest API](https://github.com/aherne/unit-testing) instead of PHPUnit for greater flexibility. For tests and examples, check:
-
-- [test.php](https://github.com/aherne/oauth2client/blob/v3.0.0/test.php): runs unit tests in console
-- [unit-tests.xml](https://github.com/aherne/oauth2client/blob/v3.0.0/unit-tests.xml): sets up unit tests and mocks "loggers" tag
-- [tests](https://github.com/aherne/oauth2client/tree/v3.0.0/tests): unit tests for classes from [src](https://github.com/aherne/oauth2client/tree/v3.0.0/src) folder
-- [tests_drivers](https://github.com/aherne/oauth2client/tree/v3.0.0/tests_drivers): unit tests for classes from [drivers](https://github.com/aherne/oauth2client/tree/v3.0.0/drivers) folder
+- **[installation](#installation)**: describes how to install API on your computer, in light of steps above
+- **[unit tests](#unit-tests)**: API has 100% Unit Test coverage, using [UnitTest API](https://github.com/aherne/unit-testing) instead of PHPUnit for greater flexibility
+- **[example](https://github.com/aherne/oauth2client/blob/v3.0.0/tests/WrapperTest.php)**: shows a example of API functionality based on unit test for [Lucinda\OAuth2\Wrapper](https://github.com/aherne/oauth2client/blob/v3.0.0/src/Wrapper.php)
 
 ## Registration
 
@@ -87,17 +66,17 @@ Where:
 Example:
 
 ```xml
-  <oauth2>
+<oauth2>
     <live>
-      <driver name="Facebook" client_id="YOUR_CLIENT_ID" client_secret="YOUR_CLIENT_SECRET" callback="login/facebook" scopes="public_profile,email"/>
-      <driver name="Google" client_id="YOUR_CLIENT_ID" client_secret="YOUR_CLIENT_SECRET" callback="login/google" scopes="https://www.googleapis.com/auth/plus.login,https://www.googleapis.com/auth/plus.profile.emails.read"/>
+        <driver name="Facebook" client_id="YOUR_CLIENT_ID" client_secret="YOUR_CLIENT_SECRET" callback="login/facebook" scopes="public_profile,email"/>
+        <driver name="Google" client_id="YOUR_CLIENT_ID" client_secret="YOUR_CLIENT_SECRET" callback="login/google" scopes="https://www.googleapis.com/auth/plus.login,https://www.googleapis.com/auth/plus.profile.emails.read"/>
     </live>
-  </oauth2>
+</oauth2>
 ```
 
 ## Initialization
 
-Now that XML is configured, you can get driver that matches requested page by querying [Lucinda\OAuth2\Wrapper](https://github.com/aherne/oauth2client/blob/v3.0.0/src/Wrapper.php):
+Now that XML is configured, you can get driver whose login uri matches requested page by querying [Lucinda\OAuth2\Wrapper](https://github.com/aherne/oauth2client/blob/v3.0.0/src/Wrapper.php):
 
 ```php
 $requestedPage = (!empty($_SERVER["REQUEST_URI"])?substr($_SERVER["REQUEST_URI"], 1):"");
@@ -164,3 +143,30 @@ Now that access token is obtained, developers can use it to retrieve public_prof
 // load $accessToken from storage
 $userInformation = $driver->getResource($accessToken, "https://graph.facebook.com/v2.8/me", ["id","name","email"]);
 ```    
+
+## Installation
+
+This library is fully PSR-4 compliant and only requires PHP7.1+ interpreter + SimpleXML & cURL extension. For installation run:
+
+```console
+composer require lucinda/oauth2-client
+```
+Then proceed with **[configuration](#configuration)** step below and create a file (index.php) in project root with following code:
+
+```php
+require(__DIR__."/vendor/autoload.php");
+$requestedPage = (!empty($_SERVER["REQUEST_URI"])?substr($_SERVER["REQUEST_URI"], 1):"");
+$object = new Lucinda\OAuth2\Wrapper(simplexml_load_file(XML_FILE_NAME), DEVELOPMENT_ENVIRONMENT);
+$driver = $object->getDriver($requestedPage);
+```
+
+Then make sure (sub)domain is available in world-wide-web and all request that point to it are rerouted to index.php.
+
+## Unit Tests
+
+For tests and examples, check following files/folders in API sources:
+
+- [test.php](https://github.com/aherne/oauth2client/blob/v3.0.0/test.php): runs unit tests in console
+- [unit-tests.xml](https://github.com/aherne/oauth2client/blob/v3.0.0/unit-tests.xml): sets up unit tests and mocks "loggers" tag
+- [tests](https://github.com/aherne/oauth2client/tree/v3.0.0/tests): unit tests for classes from [src](https://github.com/aherne/oauth2client/tree/v3.0.0/src) folder
+- [tests_drivers](https://github.com/aherne/oauth2client/tree/v3.0.0/tests_drivers): unit tests for classes from [drivers](https://github.com/aherne/oauth2client/tree/v3.0.0/drivers) folder

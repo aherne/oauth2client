@@ -1,6 +1,6 @@
 <?php
 namespace Test\Lucinda\OAuth2\Vendor\GitHub;
-    
+
 use Lucinda\OAuth2\Vendor\GitHub\Driver;
 use Lucinda\OAuth2\Client\Information;
 use Lucinda\UnitTest\Result;
@@ -30,6 +30,4 @@ class DriverTest
             return new Result($e->getMessage()=="Bad credentials");
         }
     }
-        
-
 }

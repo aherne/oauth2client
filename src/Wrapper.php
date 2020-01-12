@@ -23,7 +23,7 @@ class Wrapper
     
     /**
      * Reads XML tag oauth2.{environment}, finds and saves drivers found.
-     * 
+     *
      * @param \SimpleXMLElement $xml
      * @param string $developmentEnvironment
      */
@@ -38,7 +38,7 @@ class Wrapper
     
     /**
      * Converts TagInfo data (originating from a driver tag) into a Driver instance
-     * 
+     *
      * @param TagInfo $tagInfo
      * @throws Exception
      */
@@ -82,7 +82,7 @@ class Wrapper
     
     /**
      * Gets Driver instances detected based on callback URL
-     * 
+     *
      * @param string $callbackURL
      * @return Driver|NULL
      */
@@ -91,4 +91,3 @@ class Wrapper
         return (isset($this->results[$callbackURL])?$this->results[$callbackURL]:null);
     }
 }
-

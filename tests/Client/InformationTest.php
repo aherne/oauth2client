@@ -1,6 +1,6 @@
 <?php
 namespace Test\Lucinda\OAuth2\Client;
-    
+
 use Lucinda\OAuth2\Client\Information;
 use Lucinda\UnitTest\Result;
 
@@ -29,6 +29,4 @@ class InformationTest
     {
         return new Result($this->information->getSiteURL()=="http://www.example.com");
     }
-        
-
 }

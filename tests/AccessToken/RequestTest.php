@@ -1,18 +1,17 @@
 <?php
 namespace Test\Lucinda\OAuth2\AccessToken;
-    
+
 use Lucinda\UnitTest\Result;
 use Lucinda\OAuth2\AccessToken\Request;
 use Lucinda\OAuth2\WrappedExecutor;
 use Lucinda\OAuth2\HttpMethod;
 
 class RequestTest
-{    
+{
     private $request;
     
     public function __construct()
     {
-        
         $this->request = new Request("https://graph.facebook.com/v2.8/oauth/access_token");
     }
     
@@ -32,7 +31,7 @@ class RequestTest
 
     public function setRedirectURL()
     {
-        $this->request->setRedirectURL("https://dev.lucinda-framework.com/login/facebook");        
+        $this->request->setRedirectURL("https://dev.lucinda-framework.com/login/facebook");
         return new Result(true);
     }
         
@@ -48,6 +47,4 @@ class RequestTest
             return new Result($e->getErrorDescription()=="Invalid verification code format.");
         }
     }
-        
-
 }

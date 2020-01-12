@@ -1,6 +1,6 @@
 <?php
 namespace Test\Lucinda\OAuth2\Server;
-    
+
 use Lucinda\OAuth2\Server\Information;
 use Lucinda\UnitTest\Result;
 
@@ -23,6 +23,4 @@ class InformationTest
     {
         return new Result($this->information->getTokenEndpoint()=="https://graph.facebook.com/v2.8/oauth/access_token");
     }
-        
-
 }

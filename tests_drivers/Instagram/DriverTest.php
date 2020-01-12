@@ -1,6 +1,6 @@
 <?php
 namespace Test\Lucinda\OAuth2\Vendor\Instagram;
-    
+
 use Lucinda\OAuth2\Vendor\Instagram\Driver;
 use Lucinda\OAuth2\Client\Information;
 use Lucinda\UnitTest\Result;
@@ -19,7 +19,7 @@ class DriverTest
         try {
             $this->driver->getAccessToken("asd");
             return new Result(false);
-        } catch(\Lucinda\OAuth2\Server\Exception $e) {
+        } catch (\Lucinda\OAuth2\Server\Exception $e) {
             return new Result($e->getMessage()=="Invalid Client Secret");
         }
     }
@@ -34,6 +34,4 @@ class DriverTest
             return new Result($e->getMessage()=="The access_token provided is invalid.");
         }
     }
-        
-
 }

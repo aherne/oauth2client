@@ -1,13 +1,12 @@
 <?php
 namespace Test\Lucinda\OAuth2\Vendor\Yahoo;
-    
+
 use Lucinda\OAuth2\Vendor\Yahoo\Driver;
 use Lucinda\OAuth2\Client\Information;
 use Lucinda\UnitTest\Result;
 
 class DriverTest
 {
-
     public function getResource()
     {
         try {
@@ -18,6 +17,4 @@ class DriverTest
             return new Result($e->getMessage()=='Please provide valid credentials. OAuth oauth_problem="OST_DECRYPTION_ERROR", realm="yahooapis.com"');
         }
     }
-        
-
 }

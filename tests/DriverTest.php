@@ -1,6 +1,6 @@
 <?php
 namespace Test\Lucinda\OAuth2;
-    
+
 use Lucinda\OAuth2\Vendor\Facebook\Driver;
 use Lucinda\UnitTest\Result;
 
@@ -48,6 +48,4 @@ class DriverTest
             return new Result($e->getMessage()=="Invalid OAuth access token.");
         }
     }
-        
-
 }

@@ -1,6 +1,6 @@
 <?php
 namespace Test\Lucinda\OAuth2;
-    
+
 use Lucinda\OAuth2\Vendor\Facebook\ResponseWrapper;
 use Lucinda\UnitTest\Result;
 
@@ -24,6 +24,4 @@ class ResponseWrapperTest
     {
         return new Result($this->wrapper->getResponse()==["asd"=>"fgh"]);
     }
-        
-
 }
