@@ -1,7 +1,7 @@
 {
     "name": "lucinda/oauth2-client",
     "type": "library",
-    "description": "Flexible OAuth2 client driver built on top of OAuth2 specifications, hiding complexity of OAuth2 vendors on the market.",
+    "description": "Light weight no dependencies API implementing OAuth2 client functionality for your site",
     "keywords": ["oauth2","client"],
     "homepage": "http://www.lucinda-framework.com/oauth2-client",
     "license": "MIT",

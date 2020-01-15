@@ -46,7 +46,7 @@ To configure this API you must have a XML with following tag:
 ```xml
 <oauth2>
 	<{ENVIRONMENT}>
-		<driver name="PROVIDER" client_id="CLIENT_ID" client_secret="CLIENT_SECRET" callback="REDIRECT_URI" scopes="SCOPES" {OPTIONS}/>
+		<driver name="..." client_id="..." client_secret="..." callback="..." scopes="..." {OPTIONS}/>
 		...
 	</{ENVIRONMENT}>
 	...
