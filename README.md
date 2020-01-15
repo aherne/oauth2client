@@ -1,5 +1,7 @@
 # OAuth2 Client API
 
+*Documentation below refers to latest API version, available in branch [v3.0.0](https://github.com/aherne/oauth2client/tree/v3.0.0)! For older version in master branch, please check [Lucinda Framework](https://www.lucinda-framework.com/oauth2-client).*
+
 This API, came by the idea of building a shared driver based on [IETF specs](https://tools.ietf.org/html/rfc6749) that abstracts communication with popular OAuth2 providers so you're no longer forced to work their bloated PHP clients. It has now a fully matured time-tested API able to hide almost entirely communication complexity with these providers by this series of steps:
 
 - **[registration](#registration)**: registering your site on oauth2 providers in order to be able to query them later on
