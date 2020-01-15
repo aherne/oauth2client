@@ -45,23 +45,26 @@ To configure this API you must have a XML with following tag:
 
 ```xml
 <oauth2>
-	<ENVIRONMENT>
-		<driver name="PROVIDER" client_id="CLIENT_ID" client_secret="CLIENT_SECRET" callback="REDIRECT_URI" scopes="SCOPES" OPTIONS/>
+	<{ENVIRONMENT}>
+		<driver name="PROVIDER" client_id="CLIENT_ID" client_secret="CLIENT_SECRET" callback="REDIRECT_URI" scopes="SCOPES" {OPTIONS}/>
 		...
-	</ENVIRONMENT>
+	</{ENVIRONMENT}>
 	...
 </oauth2>
 ```
 
 Where:
 
-- **PROVIDER**: (mandatory) name of OAuth2 provider. Can be: Facebook, GitHub, Google, LinkedIn, Instagram, VK, Yahoo, Yandex!
-- **CLIENT_ID**: (mandatory) public id that identifies your site on OAUTH2 vendor site (see: [registration](#registration))
-- **CLIENT_SECRET**: (mandatory) private key associated to your site on OAUTH2 vendor site, to use in authorization code - access token exchange (see: [registration](#registration))
-- **REDIRECT_URI**: (mandatory) relative uri (page) in your site where OAUTH2 vendor should redirect authorization code to (see: [registration](#registration)). **Must be unique!**
-- **SCOPES**: (optional) rights levels on client's vendor account your site require (see: [registration](#registration))
-- OPTIONS: extra attributes not part of specifications but required by certain providers:
-    - ```xml application_name="APP_NAME" ```: (optional) value is name of your site, required if GitHub and ignored by others (see: [registration](#registration))
+- **oauth2**: (mandatory) holds global oauth2 settings.
+    - {ENVIRONMENT}: name of development environment (to be replaced with "local", "dev", "live", etc)
+        - **driver**: stores information about a single oauth2 provider via attributes:
+            - *provider*: (mandatory) name of OAuth2 provider. Can be: Facebook, GitHub, Google, LinkedIn, Instagram, VK, Yahoo, Yandex!
+            - *client_id*: (mandatory) public id that identifies your site on OAUTH2 vendor site (see: [registration](#registration))
+            - *client_secret*: (mandatory) private key associated to your site on OAUTH2 vendor site, to use in authorization code - access token exchange (see: [registration](#registration))
+            - *callback*: (mandatory) relative uri (page) in your site where OAUTH2 vendor should redirect authorization code to (see: [registration](#registration)). **Must be unique!**
+            - *scopes*: (optional) rights levels on client's vendor account your site require (see: [registration](#registration))
+            - {OPTIONS}: a list of extra attributes not part of specifications but required by certain providers:
+                - *application*: (mandatory if *provider* = GitHub) name of your site (see: [registration](#registration))
 
 Example:
 
