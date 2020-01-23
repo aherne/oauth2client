@@ -35,11 +35,7 @@ class Parser
      */
     private function setDrivers()
     {
-        $xmlLocal = (array) $this->xml;
-        if (empty($xmlLocal["driver"])) {
-            return;
-        }
-        $list = (is_array($xmlLocal["driver"])?$xmlLocal["driver"]:[$xmlLocal["driver"]]);
+        $list = $this->xml->xpath("//driver");
         foreach ($list as $element) {
             $information = new TagInfo($element);
             $this->drivers[] = $information;
