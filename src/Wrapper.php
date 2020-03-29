@@ -84,10 +84,14 @@ class Wrapper
      * Gets Driver instances detected based on callback URL
      *
      * @param string $callbackURL
-     * @return Driver|NULL
+     * @return Driver|NULL|Driver[string]
      */
-    public function getDriver(string $callbackURL): ?Driver
+    public function getDriver(string $callbackURL = "")
     {
-        return (isset($this->results[$callbackURL])?$this->results[$callbackURL]:null);
+        if ($callbackURL) {
+            return (isset($this->results[$callbackURL])?$this->results[$callbackURL]:null);
+        } else {
+            return $this->results;
+        }
     }
 }
