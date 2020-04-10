@@ -44,7 +44,7 @@ class TagInfo
      *
      * @return string
      */
-    public function getDriverName()
+    public function getDriverName(): string
     {
         return $this->driverName;
     }
@@ -54,7 +54,7 @@ class TagInfo
      *
      * @return string
      */
-    public function getClientId()
+    public function getClientId(): string
     {
         return $this->clientId;
     }
@@ -64,7 +64,7 @@ class TagInfo
      *
      * @return string
      */
-    public function getClientSecret()
+    public function getClientSecret(): string
     {
         return $this->clientSecret;
     }
@@ -82,9 +82,9 @@ class TagInfo
     /**
      * Gets application name (requirement when GitHub is used)
      *
-     * @return string
+     * @return string|NULL
      */
-    public function getApplicationName()
+    public function getApplicationName(): ?string
     {
         return $this->applicationName;
     }
@@ -94,7 +94,7 @@ class TagInfo
      *
      * @return string[]
      */
-    public function getScopes()
+    public function getScopes(): array
     {
         return $this->scopes;
     }

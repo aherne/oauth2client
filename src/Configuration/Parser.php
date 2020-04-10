@@ -18,7 +18,7 @@ class Parser
      * @param string $developmentEnvironment
      * @throws ClientException If XML is improperly configured.
      */
-    public function __construct(\SimpleXMLElement $xml, $developmentEnvironment)
+    public function __construct(\SimpleXMLElement $xml, string $developmentEnvironment)
     {
         // set drivers
         $this->xml = $xml->oauth2->{$developmentEnvironment};
@@ -33,7 +33,7 @@ class Parser
      *
      * @throws ClientException If XML is improperly configured.
      */
-    private function setDrivers()
+    private function setDrivers(): void
     {
         $list = $this->xml->xpath("//driver");
         foreach ($list as $element) {
@@ -47,7 +47,7 @@ class Parser
      *
      * @return TagInfo[]
      */
-    public function getDrivers()
+    public function getDrivers(): array
     {
         return $this->drivers;
     }

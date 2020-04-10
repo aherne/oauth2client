@@ -14,7 +14,7 @@ class DriverTest
             $driver->getResource("asd", "https://social.yahooapis.com/v1/user/me/profile");
             return new Result(false);
         } catch (\Lucinda\OAuth2\Server\Exception $e) {
-            return new Result($e->getMessage()=='Please provide valid credentials. OAuth oauth_problem="OST_DECRYPTION_ERROR", realm="yahooapis.com"');
+            return new Result($e->getMessage()=='Not Authorized - Either YT cookies or a valid OAuth token must be passed for authorization');
         }
     }
 }
