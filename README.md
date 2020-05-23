@@ -10,7 +10,6 @@ Table of contents:
     - [Querying Provider](#querying-provider)
 - [Installation](#installation)
 - [Unit Tests](#unit-tests)
-- [Examples](#examples)
 
 ## About 
 
