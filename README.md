@@ -1,8 +1,24 @@
 # OAuth2 Client API
 
-*Documentation below refers to latest API version, available in branch [v3.0.0](https://github.com/aherne/oauth2client/tree/v3.0.0)! For older version in master branch, please check [Lucinda Framework](https://www.lucinda-framework.com/oauth2-client).*
+Table of contents:
 
-This API, came by the idea of building a shared driver based on [IETF specs](https://tools.ietf.org/html/rfc6749) that abstracts communication with popular OAuth2 providers so you're no longer forced to work their bloated PHP clients. It has now a fully matured time-tested API able to hide almost entirely communication complexity with these providers by this series of steps:
+- [About](#about)
+- [Registration](#registration)
+- [Configuration](#configuration)
+- [Execution](#execution)
+    - [Initialization](#initialization)
+    - [Querying Provider](#querying-provider)
+- [Installation](#installation)
+- [Unit Tests](#unit-tests)
+- [Examples](#examples)
+
+## About 
+
+This API, came by the idea of building a shared driver based on [IETF specs](https://tools.ietf.org/html/rfc6749) that abstracts communication with popular OAuth2 providers so you're no longer forced to work their bloated PHP clients. 
+
+![diagram](https://www.lucinda-framework.com/public/images/svg/oauth2-client-api.svg)
+
+It has now become a fully matured time-tested API able to hide almost entirely communication complexity with these providers by this series of steps:
 
 - **[registration](#registration)**: registering your site on oauth2 providers in order to be able to query them later on
 - **[configuration](#configuration)**: setting up an XML file where one or more loggers are set for each development environment
@@ -79,7 +95,9 @@ Example:
 </oauth2>
 ```
 
-## Initialization
+## Execution
+
+### Initialization
 
 Now that XML is configured, you can get driver whose login uri matches requested page by querying [Lucinda\OAuth2\Wrapper](https://github.com/aherne/oauth2client/blob/v3.0.0/src/Wrapper.php):
 
@@ -93,7 +111,7 @@ Driver returned is a [Lucinda\OAuth2Client\Driver](https://github.com/aherne/oau
 
 **NOTE**: because XML parsing is somewhat costly, it is recommended to save $object somewhere and reuse it throughout application lifecycle.
 
-## Querying Provider
+### Querying Provider
 
 Once you obtain a driver, you able to query it automatically. First however you need to obtain an access token from provider in controller that handles all **REDIRECT_URI** (since this logic is same across vendors):
 
