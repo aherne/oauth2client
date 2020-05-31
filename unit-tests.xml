@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE xml>
+<xml>
+  <unit_tests>
+    <unit_test>
+      <sources path="drivers" namespace="Lucinda\OAuth2\Vendor\"/>
+      <tests path="tests_drivers" namespace="Test\Lucinda\OAuth2\Vendor\"/>
+    </unit_test>
+    <unit_test>
+      <sources path="src" namespace="Lucinda\OAuth2\"/>
+      <tests path="tests" namespace="Test\Lucinda\OAuth2\"/>
+    </unit_test>
+  </unit_tests>
+  <oauth2>
+    <local>
+      <driver name="Facebook" client_id="YOUR_CLIENT_ID" client_secret="YOUR_CLIENT_SECRET" callback="login/facebook" scopes="public_profile,email"/>
+      <driver name="Google" client_id="YOUR_CLIENT_ID" client_secret="YOUR_CLIENT_SECRET" callback="login/google" scopes="https://www.googleapis.com/auth/plus.login,https://www.googleapis.com/auth/plus.profile.emails.read"/>
+      <driver name="GitHub" client_id="YOUR_CLIENT_ID" client_secret="YOUR_CLIENT_SECRET" application_name="YOUR_APPLICATION_NAME" callback="login/github" scopes="read:user,user:email"/>
+      <driver name="Instagram" client_id="YOUR_CLIENT_ID" client_secret="YOUR_CLIENT_SECRET" callback="login/instagram" scopes=""/>
+      <driver name="LinkedIn" client_id="YOUR_CLIENT_ID" client_secret="YOUR_CLIENT_SECRET" callback="login/linkedin" scopes="r_basicprofile,r_emailaddress"/>
+      <driver name="VK" client_id="YOUR_CLIENT_ID" client_secret="YOUR_CLIENT_SECRET" callback="login/vk" scopes=""/>
+      <driver name="Yandex" client_id="YOUR_CLIENT_ID" client_secret="YOUR_CLIENT_SECRET" callback="login/yandex" scopes=""/>
+      <driver name="Yahoo" client_id="YOUR_CLIENT_ID" client_secret="YOUR_CLIENT_SECRET" callback="login/yahoo" scopes="sdpp-w"/>
+    </local>
+  </oauth2>
+</xml>

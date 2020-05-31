@@ -1,5 +1,5 @@
 <?php
-namespace OAuth2;
+namespace Lucinda\OAuth2;
 
 /**
  * Defines response wrapping methods.
@@ -10,18 +10,17 @@ abstract class ResponseWrapper
     
     /**
      * Parses response received from OAuth2 server.
-     * NOTE: this is Oauth2-client specific.
      *
      * @param string $response
      */
-    abstract public function wrap($response);
+    abstract public function wrap(string $response): void;
     
     /**
      * Gets parsed response
      *
-     * @return mixed
+     * @return array
      */
-    public function getResponse()
+    public function getResponse(): array
     {
         return $this->response;
     }

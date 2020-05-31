@@ -1,20 +1,14 @@
 <?php
-namespace OAuth2;
+namespace Lucinda\OAuth2;
 
-require("ClientInformation.php");
-require("ServerInformation.php");
-require("ClientException.php");
-require("ServerException.php");
-require("Request.php");
-require("AuthorizationCodeRequest.php");
-require("AuthorizationCodeResponse.php");
-require("AccessTokenRequest.php");
-require("RefreshTokenRequest.php");
-require("AccessTokenResponse.php");
-require("RequestExecutor.php");
-require("RequestExecutors/RedirectionExecutor.php");
-require("RequestExecutors/WrappedExecutor.php");
-require("ResponseWrapper.php");
+use Lucinda\OAuth2\Client\Information as ClientInformation;
+use Lucinda\OAuth2\Client\Exception as ClientException;
+use Lucinda\OAuth2\AuthorizationCode\Request as AuthorizationCodeRequest;
+use Lucinda\OAuth2\AccessToken\Request as AccessTokenRequest;
+use Lucinda\OAuth2\AccessToken\Response as AccessTokenResponse;
+use Lucinda\OAuth2\RefreshToken\Request as RefreshTokenRequest;
+use Lucinda\OAuth2\Server\Exception as ServerException;
+use Lucinda\OAuth2\Server\Information as ServerInformation;
 
 /**
  * Encapsulates operations one can perform on an OAuth2 provider. Acts like a single entry point that hides OAuth2 providers complexity. For each provider,
@@ -24,16 +18,19 @@ abstract class Driver
 {
     protected $clientInformation;
     protected $serverInformation;
+    protected $scopes = [];
 
     /**
      * Creates an object
      *
      * @param ClientInformation $clientInformation Encapsulates information about OAuth2 client application
+     * @param string[] $scopes Scopes of authorization code request.
      */
-    public function __construct(ClientInformation $clientInformation)
+    public function __construct(ClientInformation $clientInformation, array $scopes = [])
     {
         $this->clientInformation = $clientInformation;
         $this->serverInformation = $this->getServerInformation();
+        $this->scopes = $scopes;
     }
 
     /**
@@ -44,13 +41,13 @@ abstract class Driver
      * @return string Full authorization code endpoint URL.
      * @throws ClientException When client fails to provide mandatory parameters.
      */
-    public function getAuthorizationCodeEndpoint($scopes, $state="")
+    public function getAuthorizationCodeEndpoint(string $state=""): string
     {
         $executor = new RedirectionExecutor();
         $acr = new AuthorizationCodeRequest($this->serverInformation->getAuthorizationEndpoint());
         $acr->setClientInformation($this->clientInformation);
         $acr->setRedirectURL($this->clientInformation->getSiteURL());
-        $acr->setScope(implode(" ", $scopes));
+        $acr->setScope(implode(" ", $this->scopes));
         if ($state) {
             $acr->setState($state);
         }
@@ -66,7 +63,7 @@ abstract class Driver
      * @throws ClientException When client fails to provide mandatory parameters.
      * @throws ServerException When server responds with an error.
      */
-    public function getAccessToken($authorizationCode)
+    public function getAccessToken(string $authorizationCode): AccessTokenResponse
     {
         $responseWrapper = $this->getResponseWrapper();
         $we = new WrappedExecutor($responseWrapper);
@@ -88,7 +85,7 @@ abstract class Driver
      * @throws ClientException When client fails to provide mandatory parameters.
      * @throws ServerException When server responds with an error.
      */
-    public function refreshAccessToken($refreshToken)
+    public function refreshAccessToken(string $refreshToken): AccessTokenResponse
     {
         $responseWrapper = $this->getResponseWrapper();
         $we = new WrappedExecutor($responseWrapper);
@@ -108,11 +105,11 @@ abstract class Driver
      * @param string $accessToken OAuth2 access token
      * @param string $resourceURL URL of remote resource`
      * @param string[] $fields Fields to retrieve from remote resource.
-     * @return mixed
+     * @return array
      * @throws ClientException When client fails to provide mandatory parameters.
      * @throws ServerException When server responds with an error.
      */
-    public function getResource($accessToken, $resourceURL, $fields=array())
+    public function getResource(string $accessToken, string $resourceURL, array $fields=array()): array
     {
         $responseWrapper = $this->getResponseWrapper();
         $we = new WrappedExecutor($responseWrapper);
@@ -128,12 +125,12 @@ abstract class Driver
      *
      * @return ServerInformation
      */
-    abstract protected function getServerInformation();
+    abstract protected function getServerInformation(): ServerInformation;
     
     /**
      * Gets OAuth2 server response parser.
      *
      * @return ResponseWrapper
      */
-    abstract protected function getResponseWrapper();
+    abstract protected function getResponseWrapper(): ResponseWrapper;
 }
