@@ -75,7 +75,7 @@ Where:
 - **oauth2**: (mandatory) holds global oauth2 settings.
     - {ENVIRONMENT}: name of development environment (to be replaced with "local", "dev", "live", etc)
         - **driver**: stores information about a single oauth2 provider via attributes:
-            - *provider*: (mandatory) name of OAuth2 provider. Can be: Facebook, GitHub, Google, LinkedIn, Instagram, VK, Yahoo, Yandex!
+            - *name*: (mandatory) name of OAuth2 provider. Can be: Facebook, GitHub, Google, LinkedIn, Instagram, VK, Yahoo, Yandex!
             - *client_id*: (mandatory) public id that identifies your site on OAUTH2 vendor site (see: [registration](#registration))
             - *client_secret*: (mandatory) private key associated to your site on OAUTH2 vendor site, to use in authorization code - access token exchange (see: [registration](#registration))
             - *callback*: (mandatory) relative uri (page) in your site where OAUTH2 vendor should redirect authorization code to (see: [registration](#registration)). **Must be unique!**
