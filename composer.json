@@ -1,8 +1,8 @@
 {
     "name": "lucinda/oauth2-client",
     "type": "library",
-    "description": "Light weight no dependencies API implementing OAuth2 client functionality for your site",
-    "keywords": ["oauth2","client"],
+    "description": "API abstracting communication with OAuth2 providers (eg: facebook) for PHP applications based on IETF standards",
+    "keywords": ["oauth2","client","providers"],
     "homepage": "http://www.lucinda-framework.com/oauth2-client",
     "license": "MIT",
     "require": {
