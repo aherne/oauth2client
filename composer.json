@@ -7,8 +7,8 @@
     "license": "MIT",
     "require": {
         "php": "^7.1",
-        "ext-curl": "*",
-        "ext-SimpleXML": "*"
+        "ext-SimpleXML": "*",
+        "lucinda/requester": "^1.0"
     },
     "require-dev": {
     	"lucinda/unit-testing": "^1.0"

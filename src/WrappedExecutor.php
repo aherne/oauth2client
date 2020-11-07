@@ -2,6 +2,7 @@
 namespace Lucinda\OAuth2;
 
 use Lucinda\OAuth2\Client\Exception as ClientException;
+use Lucinda\OAuth2\Server\Exception as ServerException;
 
 /**
  * Implements an executor on top of cURL implementing OAuth2 request execution rules in accordance to RFC6749.
@@ -26,9 +27,9 @@ class WrappedExecutor implements RequestExecutor
     /**
      * Sets request http method
      *
-     * @param integer $httpMethod
+     * @param string $httpMethod
      */
-    public function setHttpMethod(int $httpMethod = HttpMethod::POST): void
+    public function setHttpMethod(string $httpMethod = HttpMethod::POST): void
     {
         $this->httpMethod = $httpMethod;
     }
@@ -62,41 +63,25 @@ class WrappedExecutor implements RequestExecutor
      */
     public function execute(string $url, array $parameters): void
     {
-        $ch = \curl_init();
-        switch ($this->httpMethod) {
-            case HttpMethod::POST:
-                \curl_setopt($ch, CURLOPT_URL, $url);
-                \curl_setopt($ch, CURLOPT_POST, 1);
-                \curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($parameters));
-                break;
-            case HttpMethod::GET:
-                \curl_setopt($ch, CURLOPT_URL, $url."?".http_build_query($parameters));
-                break;
-            case HttpMethod::PUT:
-                \curl_setopt($ch, CURLOPT_PUT, true);
-                \curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($parameters));
-                break;
-            case HttpMethod::DELETE:
-                \curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
-                \curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($parameters));
-                break;
-            default:
-                throw new ClientException("Unrecognized http method!");
-                break;
-        }
-        if ($this->userAgent) {
-            \curl_setopt($ch, CURLOPT_USERAGENT, $this->userAgent);
-        }
-        \curl_setopt($ch, CURLOPT_HTTPHEADER, $this->headers);
-        \curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         try {
-            $server_output = \curl_exec($ch);
-            if ($server_output===false) {
-                throw new ClientException(\curl_error($ch));
+            $request = new \Lucinda\URL\Request();
+            $request->setMethod($this->httpMethod);
+            if ($this->httpMethod==HttpMethod::POST) {
+                $request->setParameters($parameters);
+                $request->setURL($url);
+            } else {
+                $request->setURL($url.($parameters?"?".http_build_query($parameters):""));
             }
-            $this->responseWrapper->wrap($server_output);
-        } finally {
-            \curl_close($ch);
+            $headers = $request->setHeaders($this->headers);
+            if ($this->userAgent) {
+                $headers->setUserAgent($this->userAgent);
+            }
+            $response = $request->execute();
+            $this->responseWrapper->wrap($response->getBody());
+        } catch (\Lucinda\URL\Request\Exception $e) {
+            throw new ClientException($e->getMessage());
+        } catch (\Lucinda\URL\Response\Exception $e) {
+            throw new ServerException($e->getMessage(), $e->getCode());
         }
     }
 }

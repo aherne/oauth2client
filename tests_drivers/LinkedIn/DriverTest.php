@@ -11,10 +11,10 @@ class DriverTest
     {
         try {
             $driver = new Driver(new Information("86360yoaicu3my", "secret", "https://dev.lucinda-framework.com/login/linkedin"));
-            $driver->getResource("asd", "https://api.linkedin.com/v1/people/~");
+            $driver->getResource("asd", "https://api.linkedin.com/v2/me");
             return new Result(false);
         } catch (\Lucinda\OAuth2\Server\Exception $e) {
-            return new Result($e->getMessage()=="Invalid access token.");
+            return new Result($e->getMessage()=="Empty oauth2 access token");
         }
     }
 }

@@ -24,7 +24,7 @@ It has now become a fully matured time-tested API able to hide almost entirely c
 - **[initialization](#initialization)**: creating a [Lucinda\OAuth2\Wrapper](https://github.com/aherne/oauth2client/blob/master/src/Wrapper.php) instance based on above XML and current development environment then calling *getDriver()* method based on requested page
 - **[querying provider](#querying-provider)**: use shared driver [Lucinda\OAuth2\Driver](https://github.com/aherne/oauth2client/blob/master/src/Driver.php) instance resulting from method above to query respective provider
 
-API is fully PSR-4 compliant, only requiring PHP7.1+ interpreter and SimpleXML + cURL extensions. To quickly see how it works, check:
+API is fully PSR-4 compliant, only requiring PHP7.1+ interpreter, [Lucinda URL Requester](https://github.com/aherne/requester) and SimpleXML extension. To quickly see how it works, check:
 
 - **[installation](#installation)**: describes how to install API on your computer, in light of steps above
 - **[unit tests](#unit-tests)**: API has 100% Unit Test coverage, using [UnitTest API](https://github.com/aherne/unit-testing) instead of PHPUnit for greater flexibility

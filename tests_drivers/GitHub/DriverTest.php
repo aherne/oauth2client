@@ -27,7 +27,7 @@ class DriverTest
             $this->driver->getResource("asd", "https://api.github.com/user");
             return new Result(false);
         } catch (\Lucinda\OAuth2\Server\Exception $e) {
-            return new Result($e->getMessage()=="Bad credentials");
+            return new Result($e->getMessage()=="Requires authentication");
         }
     }
 }
