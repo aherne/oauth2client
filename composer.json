@@ -16,7 +16,9 @@
     "autoload": {
     	"psr-4": {
         	"Lucinda\\OAuth2\\Vendor\\": "drivers/",
-        	"Lucinda\\OAuth2\\": "src/"
+        	"Lucinda\\OAuth2\\": "src/",
+                "Test\\Lucinda\\OAuth2\\Vendor\\": "tests_drivers/",
+                "Test\\Lucinda\\OAuth2\\": "tests/"
     	}
     },
     "authors": [
