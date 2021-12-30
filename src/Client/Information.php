@@ -6,9 +6,9 @@ namespace Lucinda\OAuth2\Client;
  */
 class Information
 {
-    private $appID;
-    private $appSecret;
-    private $siteURL;
+    private string $appID;
+    private string $appSecret;
+    private string $siteURL;
     
     /**
      * Saves information about OAuth2 Client APP

@@ -8,8 +8,8 @@ use Lucinda\OAuth2\Client\Exception as ClientException;
  */
 class Parser
 {
-    private $xml;
-    private $drivers = array();
+    private \SimpleXMLElement $xml;
+    private array $drivers = array();
     
     /**
      * Kick-starts detection process.

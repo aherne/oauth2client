@@ -6,7 +6,7 @@ namespace Lucinda\OAuth2;
  */
 class RedirectionExecutor implements RequestExecutor
 {
-    private $redirectURL;
+    private string $redirectURL;
     
     /**
      * Executes request

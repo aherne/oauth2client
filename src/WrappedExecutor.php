@@ -3,16 +3,18 @@ namespace Lucinda\OAuth2;
 
 use Lucinda\OAuth2\Client\Exception as ClientException;
 use Lucinda\OAuth2\Server\Exception as ServerException;
+use Lucinda\URL\FileNotFoundException;
+use Lucinda\URL\Request\Method;
 
 /**
  * Implements an executor on top of cURL implementing OAuth2 request execution rules in accordance to RFC6749.
  */
 class WrappedExecutor implements RequestExecutor
 {
-    protected $responseWrapper;
-    protected $httpMethod;
-    protected $headers = array();
-    protected $userAgent;
+    protected ResponseWrapper $responseWrapper;
+    protected Method $httpMethod;
+    protected array $headers = array();
+    protected string $userAgent = "";
     
     /**
      * Saves object received to be used in issuing requests to OAuth2 vendor
@@ -27,9 +29,9 @@ class WrappedExecutor implements RequestExecutor
     /**
      * Sets request http method
      *
-     * @param string $httpMethod
+     * @param Method $httpMethod
      */
-    public function setHttpMethod(string $httpMethod = HttpMethod::POST): void
+    public function setHttpMethod(Method $httpMethod = Method::POST): void
     {
         $this->httpMethod = $httpMethod;
     }
@@ -54,19 +56,22 @@ class WrappedExecutor implements RequestExecutor
     {
         $this->headers[] = $name.": ".$value;
     }
-    
+
     /**
      * Executes request
      *
      * @param string $url OAuth2 server endpoint url.
      * @param array $parameters Associative array of parameters to send.
+     * @throws ClientException
+     * @throws ServerException
+     * @throws FileNotFoundException
      */
     public function execute(string $url, array $parameters): void
     {
         try {
             $request = new \Lucinda\URL\Request();
             $request->setMethod($this->httpMethod);
-            if ($this->httpMethod==HttpMethod::POST) {
+            if ($this->httpMethod==Method::POST) {
                 $request->setParameters($parameters);
                 $request->setURL($url);
             } else {

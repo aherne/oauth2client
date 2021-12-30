@@ -6,7 +6,8 @@ use \Lucinda\OAuth2\ResponseWrapper;
 use \Lucinda\OAuth2\Server\Exception as ServerException;
 use \Lucinda\OAuth2\Client\Exception as ClientException;
 use \Lucinda\OAuth2\WrappedExecutor;
-use \Lucinda\OAuth2\HttpMethod;
+use Lucinda\URL\FileNotFoundException;
+use Lucinda\URL\Request\Method;
 
 /**
  * Implements GitHub OAuth2 driver on top of \Lucinda\OAuth2\Driver architecture
@@ -16,7 +17,7 @@ class Driver extends \Lucinda\OAuth2\Driver
     const AUTHORIZATION_ENDPOINT_URL = "https://github.com/login/oauth/authorize";
     const TOKEN_ENDPOINT_URL = "https://github.com/login/oauth/access_token";
     
-    private $appName;
+    private string $appName;
     
     /**
      * Gets OAuth2 server information.
@@ -56,7 +57,8 @@ class Driver extends \Lucinda\OAuth2\Driver
      * @param string[] $fields Fields to retrieve from remote resource.
      * @return array
      * @throws ClientException When client fails to provide mandatory parameters.
-     * @throws ServerException When server responds with an error.
+     * @throws ServerException
+     * @throws FileNotFoundException When server responds with an error.
      */
     public function getResource(string $accessToken, string $resourceURL, array $fields=array()): array
     {
@@ -65,7 +67,7 @@ class Driver extends \Lucinda\OAuth2\Driver
         }
         $responseWrapper = $this->getResponseWrapper();
         $we = new WrappedExecutor($responseWrapper);
-        $we->setHttpMethod(HttpMethod::GET);
+        $we->setHttpMethod(Method::GET);
         $we->addHeader("Authorization", "token ".$accessToken);
         $we->setUserAgent($this->appName);
         $parameters = (!empty($fields)?array("fields"=>implode(",", $fields)):array());

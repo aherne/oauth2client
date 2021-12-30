@@ -4,7 +4,7 @@ namespace Test\Lucinda\OAuth2\RefreshToken;
 use Lucinda\OAuth2\RefreshToken\Request;
 use Lucinda\UnitTest\Result;
 use Lucinda\OAuth2\WrappedExecutor;
-use Lucinda\OAuth2\HttpMethod;
+use Lucinda\URL\Request\Method;
 
 class RequestTest
 {
@@ -40,7 +40,7 @@ class RequestTest
     {
         try {
             $executor = new WrappedExecutor(new \Lucinda\OAuth2\Vendor\Facebook\ResponseWrapper());
-            $executor->setHttpMethod(HttpMethod::GET);
+            $executor->setHttpMethod(Method::GET);
             $this->request->execute($executor);
             return new Result(false);
         } catch (\Lucinda\OAuth2\Server\Exception $e) {

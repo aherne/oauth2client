@@ -9,6 +9,7 @@ use Lucinda\OAuth2\AccessToken\Response as AccessTokenResponse;
 use Lucinda\OAuth2\RefreshToken\Request as RefreshTokenRequest;
 use Lucinda\OAuth2\Server\Exception as ServerException;
 use Lucinda\OAuth2\Server\Information as ServerInformation;
+use Lucinda\URL\Request\Method;
 
 /**
  * Encapsulates operations one can perform on an OAuth2 provider. Acts like a single entry point that hides OAuth2 providers complexity. For each provider,
@@ -16,9 +17,9 @@ use Lucinda\OAuth2\Server\Information as ServerInformation;
  */
 abstract class Driver
 {
-    protected $clientInformation;
-    protected $serverInformation;
-    protected $scopes = [];
+    protected ClientInformation $clientInformation;
+    protected ServerInformation $serverInformation;
+    protected array $scopes = [];
 
     /**
      * Creates an object
@@ -61,13 +62,12 @@ abstract class Driver
      * @param string $authorizationCode Authorization code received from OAuth2 provider
      * @return AccessTokenResponse Access token response.
      * @throws ClientException When client fails to provide mandatory parameters.
-     * @throws ServerException When server responds with an error.
      */
     public function getAccessToken(string $authorizationCode): AccessTokenResponse
     {
         $responseWrapper = $this->getResponseWrapper();
         $we = new WrappedExecutor($responseWrapper);
-        $we->setHttpMethod(HttpMethod::POST);
+        $we->setHttpMethod(Method::POST);
         $we->addHeader("Content-Type", "application/x-www-form-urlencoded");
         $atr = new AccessTokenRequest($this->serverInformation->getTokenEndpoint());
         $atr->setClientInformation($this->clientInformation);
@@ -83,13 +83,12 @@ abstract class Driver
      * @param string $refreshToken Refresh token to use in regenerating
      * @return AccessTokenResponse Access token response.
      * @throws ClientException When client fails to provide mandatory parameters.
-     * @throws ServerException When server responds with an error.
      */
     public function refreshAccessToken(string $refreshToken): AccessTokenResponse
     {
         $responseWrapper = $this->getResponseWrapper();
         $we = new WrappedExecutor($responseWrapper);
-        $we->setHttpMethod(HttpMethod::POST);
+        $we->setHttpMethod(Method::POST);
         $we->addHeader("Content-Type", "application/x-www-form-urlencoded");
         $atr = new RefreshTokenRequest($this->serverInformation->getTokenEndpoint());
         $atr->setClientInformation($this->clientInformation);
@@ -113,7 +112,7 @@ abstract class Driver
     {
         $responseWrapper = $this->getResponseWrapper();
         $we = new WrappedExecutor($responseWrapper);
-        $we->setHttpMethod(HttpMethod::GET);
+        $we->setHttpMethod(Method::GET);
         $we->addHeader("Authorization", "Bearer ".$accessToken);
         $parameters = (!empty($fields)?array("fields"=>implode(",", $fields)):array());
         $we->execute($resourceURL, $parameters);

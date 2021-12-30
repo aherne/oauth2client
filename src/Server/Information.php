@@ -6,8 +6,8 @@ namespace Lucinda\OAuth2\Server;
  */
 class Information
 {
-    private $authorizationEndpoint;
-    private $tokenEndpoint;
+    private string $authorizationEndpoint;
+    private string $tokenEndpoint;
     
     /**
      * Creates an object

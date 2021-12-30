@@ -10,10 +10,10 @@ use Lucinda\OAuth2\Client\Exception as ClientException;
  */
 class Request implements \Lucinda\OAuth2\Request
 {
-    protected $endpointURL;
-    protected $clientInformation;
-    protected $redirectURL;
-    protected $code;
+    protected string $endpointURL;
+    protected ClientInformation $clientInformation;
+    protected string $redirectURL;
+    protected string $code;
     
     /**
      * (Mandatory) Sets URL of access token endpoint @ Oauth2 Server

@@ -3,9 +3,9 @@ namespace Test\Lucinda\OAuth2;
 
 use Lucinda\OAuth2\WrappedExecutor;
 use Lucinda\OAuth2\Vendor\Facebook\ResponseWrapper;
-use Lucinda\OAuth2\HttpMethod;
 use Lucinda\UnitTest\Result;
 use Lucinda\OAuth2\Server\Exception;
+use Lucinda\URL\Request\Method;
 
 class WrappedExecutorTest
 {
@@ -19,7 +19,7 @@ class WrappedExecutorTest
 
     public function setHttpMethod()
     {
-        $this->executor->setHttpMethod(HttpMethod::GET);
+        $this->executor->setHttpMethod(Method::GET);
         return new Result(true);
     }
         

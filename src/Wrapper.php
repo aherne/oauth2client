@@ -19,13 +19,14 @@ use Lucinda\OAuth2\Client\Exception;
  */
 class Wrapper
 {
-    private $results = [];
-    
+    private array $results = [];
+
     /**
      * Reads XML tag oauth2.{environment}, finds and saves drivers found.
      *
      * @param \SimpleXMLElement $xml
      * @param string $developmentEnvironment
+     * @throws Exception
      */
     public function __construct(\SimpleXMLElement $xml, string $developmentEnvironment)
     {
@@ -84,12 +85,12 @@ class Wrapper
      * Gets Driver instances detected based on callback URL
      *
      * @param string $callbackURL
-     * @return Driver|NULL|Driver[string]
+     * @return Driver|null|Driver[]
      */
-    public function getDriver(string $callbackURL = "")
+    public function getDriver(string $callbackURL = ""): Driver|null|array
     {
         if ($callbackURL) {
-            return (isset($this->results[$callbackURL])?$this->results[$callbackURL]:null);
+            return ($this->results[$callbackURL] ?? null);
         } else {
             return $this->results;
         }

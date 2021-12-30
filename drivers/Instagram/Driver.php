@@ -8,7 +8,8 @@ use \Lucinda\OAuth2\Client\Exception as ClientException;
 use \Lucinda\OAuth2\AccessToken\Request as AccessTokenRequest;
 use \Lucinda\OAuth2\AccessToken\Response as AccessTokenResponse;
 use \Lucinda\OAuth2\WrappedExecutor;
-use \Lucinda\OAuth2\HttpMethod;
+use Lucinda\URL\FileNotFoundException;
+use Lucinda\URL\Request\Method;
 
 /**
  * Implements Instagram OAuth2 driver on top of \Lucinda\OAuth2\Driver architecture
@@ -50,7 +51,7 @@ class Driver extends \Lucinda\OAuth2\Driver
     {
         $responseWrapper = $this->getResponseWrapper();
         $we = new WrappedExecutor($responseWrapper);
-        $we->setHttpMethod(HttpMethod::POST);
+        $we->setHttpMethod(Method::POST);
         $we->addHeader("Content-Type", "application/x-www-form-urlencoded");
         $atr = new AccessTokenRequest($this->serverInformation->getTokenEndpoint());
         $atr->setClientInformation($this->clientInformation);
@@ -73,12 +74,13 @@ class Driver extends \Lucinda\OAuth2\Driver
      * @return array
      * @throws ClientException When client fails to provide mandatory parameters.
      * @throws ServerException When server responds with an error.
+     * @throws FileNotFoundException
      */
     public function getResource(string $accessToken, string $resourceURL, array $fields=array()): array
     {
         $responseWrapper = $this->getResponseWrapper();
         $we = new WrappedExecutor($responseWrapper);
-        $we->setHttpMethod(HttpMethod::GET);
+        $we->setHttpMethod(Method::GET);
         $fields["client_id"] = $this->clientInformation->getApplicationID();
         $fields["access_token"] = $accessToken;
         $we->execute($resourceURL, $fields);

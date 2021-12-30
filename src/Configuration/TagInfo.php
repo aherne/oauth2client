@@ -8,12 +8,12 @@ use Lucinda\OAuth2\Client\Exception as ClientException;
  */
 class TagInfo
 {
-    private $driverName;
-    private $clientId;
-    private $clientSecret;
-    private $callbackUrl;
-    private $applicationName;
-    private $scopes = array();
+    private string $driverName;
+    private string $clientId;
+    private string $clientSecret;
+    private string $callbackUrl;
+    private string $applicationName = "";
+    private array $scopes = array();
     
     /**
      * Starts detection process

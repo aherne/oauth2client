@@ -6,7 +6,7 @@ namespace Lucinda\OAuth2;
  */
 abstract class ResponseWrapper
 {
-    protected $response;
+    protected array $response;
     
     /**
      * Parses response received from OAuth2 server.

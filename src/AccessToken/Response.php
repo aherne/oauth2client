@@ -6,11 +6,11 @@ namespace Lucinda\OAuth2\AccessToken;
  */
 class Response
 {
-    protected $accessToken;
-    protected $tokenType;
-    protected $expiresIn;
-    protected $refreshToken;
-    protected $scope;
+    protected string $accessToken;
+    protected string $tokenType;
+    protected int $expiresIn;
+    protected string $refreshToken;
+    protected string $scope;
     
     /**
      * Populates response based on parameter keys defined in RFC6749

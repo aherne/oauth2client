@@ -6,8 +6,8 @@ namespace Lucinda\OAuth2\AuthorizationCode;
  */
 class Response
 {
-    protected $code;
-    protected $state;
+    protected string $code;
+    protected string $state;
 
     /**
      * Populates response based on parameter keys defined in RFC6749
