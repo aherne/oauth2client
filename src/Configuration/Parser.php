@@ -35,7 +35,7 @@ class Parser
      */
     private function setDrivers(): void
     {
-        $list = $this->xml->xpath("//driver");
+        $list = $this->xml->xpath("driver");
         foreach ($list as $element) {
             $information = new TagInfo($element);
             $this->drivers[] = $information;
