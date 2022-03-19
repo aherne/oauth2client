@@ -6,10 +6,10 @@ namespace Lucinda\OAuth2\Server;
  */
 class Exception extends \Exception
 {
-    private $errorCode;
-    private $errorDescription;
-    private $errorURL;
-    private $state;
+    private ?string $errorCode = NULL;
+    private ?string $errorDescription = NULL;
+    private ?string $errorURL = NULL;
+    private ?string $state = NULL;
     
     /**
      * Sets error code received from server.
