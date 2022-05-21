@@ -1,4 +1,5 @@
 <?php
+
 namespace Test\Lucinda\OAuth2;
 
 use Lucinda\OAuth2\WrappedExecutor;
@@ -11,7 +12,7 @@ class WrappedExecutorTest
 {
     private $wrapper;
     private $executor;
-    
+
     public function __construct()
     {
         $this->executor = new WrappedExecutor(new ResponseWrapper());
@@ -22,21 +23,21 @@ class WrappedExecutorTest
         $this->executor->setHttpMethod(Method::GET);
         return new Result(true);
     }
-        
+
 
     public function setUserAgent()
     {
         $this->executor->setUserAgent("asd");
         return new Result(true);
     }
-        
+
 
     public function addHeader()
     {
         $this->executor->addHeader("fgh", "jkl");
         return new Result(true);
     }
-        
+
 
     public function execute()
     {

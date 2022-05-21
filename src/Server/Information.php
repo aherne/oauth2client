@@ -1,4 +1,5 @@
 <?php
+
 namespace Lucinda\OAuth2\Server;
 
 /**
@@ -8,7 +9,7 @@ class Information
 {
     private string $authorizationEndpoint;
     private string $tokenEndpoint;
-    
+
     /**
      * Creates an object
      * @param string $authorizationEndpoint URL to provider's authorization code service.
@@ -19,7 +20,7 @@ class Information
         $this->authorizationEndpoint = $authorizationEndpoint;
         $this->tokenEndpoint = $tokenEndpoint;
     }
-    
+
     /**
      * Gets authorization code endpoint URL
      *
@@ -29,7 +30,7 @@ class Information
     {
         return $this->authorizationEndpoint;
     }
-    
+
     /**
      * Get access token endpoint URL
      *

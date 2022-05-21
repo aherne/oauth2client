@@ -1,4 +1,5 @@
 <?php
+
 namespace Test\Lucinda\OAuth2\AccessToken;
 
 use Lucinda\UnitTest\Result;
@@ -9,32 +10,32 @@ use Lucinda\URL\Request\Method;
 class RequestTest
 {
     private $request;
-    
+
     public function __construct()
     {
         $this->request = new Request("https://graph.facebook.com/v2.8/oauth/access_token");
     }
-    
+
     public function setCode()
     {
         $this->request->setCode("OK");
         return new Result(true);
     }
-        
+
 
     public function setClientInformation()
     {
         $this->request->setClientInformation(new \Lucinda\OAuth2\Client\Information("1769901079940433", "client_secret", "https://dev.lucinda-framework.com/login/facebook"));
         return new Result(true);
     }
-        
+
 
     public function setRedirectURL()
     {
         $this->request->setRedirectURL("https://dev.lucinda-framework.com/login/facebook");
         return new Result(true);
     }
-        
+
 
     public function execute()
     {

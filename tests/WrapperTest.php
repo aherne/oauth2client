@@ -1,4 +1,5 @@
 <?php
+
 namespace Test\Lucinda\OAuth2;
 
 use Lucinda\OAuth2\Wrapper;

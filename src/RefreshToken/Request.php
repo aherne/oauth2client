@@ -1,4 +1,5 @@
 <?php
+
 namespace Lucinda\OAuth2\RefreshToken;
 
 use Lucinda\OAuth2\Client\Information as ClientInformation;
@@ -11,10 +12,10 @@ use Lucinda\OAuth2\Client\Exception as ClientException;
 class Request implements \Lucinda\OAuth2\Request
 {
     protected string $endpointURL;
-    protected ClientInformation $clientInformation;
-    protected string $redirectURL;
-    protected string $refreshToken;
-    
+    protected ?ClientInformation $clientInformation;
+    protected ?string $redirectURL;
+    protected ?string $refreshToken;
+
     /**
      * (Mandatory) Sets URL of access token endpoint @ Oauth2 Server
      *
@@ -24,7 +25,7 @@ class Request implements \Lucinda\OAuth2\Request
     {
         $this->endpointURL = $endpointURL;
     }
-    
+
     /**
      * (Mandatory) Sets refresh token already obtained.
      *
@@ -34,7 +35,7 @@ class Request implements \Lucinda\OAuth2\Request
     {
         $this->refreshToken = $refreshToken;
     }
-    
+
     /**
      * (Mandatory) Sets client information.
      *
@@ -44,7 +45,7 @@ class Request implements \Lucinda\OAuth2\Request
     {
         $this->clientInformation = $clientInformation;
     }
-    
+
     /**
      * (Optional) Sets callback redirect URL to send access token to.
      *
@@ -54,7 +55,7 @@ class Request implements \Lucinda\OAuth2\Request
     {
         $this->redirectURL = $redirectURL;
     }
-    
+
     /**
      * Executes request.
      *
@@ -69,7 +70,7 @@ class Request implements \Lucinda\OAuth2\Request
         if (!$this->refreshToken) {
             throw new ClientException("Refresh token is required for access token regeneration!");
         }
-        $parameters = array();
+        $parameters = [];
         $parameters["grant_type"] = "refresh_token";
         $parameters["client_id"] = $this->clientInformation->getApplicationID();
         $parameters["refresh_token"] = $this->refreshToken;

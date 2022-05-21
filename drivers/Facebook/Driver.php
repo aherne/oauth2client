@@ -1,17 +1,19 @@
 <?php
+
 namespace Lucinda\OAuth2\Vendor\Facebook;
 
-use \Lucinda\OAuth2\Server\Information as ServerInformation;
-use \Lucinda\OAuth2\ResponseWrapper;
+use Lucinda\OAuth2\Server\Information as ServerInformation;
+use Lucinda\OAuth2\ResponseWrapper;
+use Lucinda\OAuth2\Vendor\Facebook\ResponseWrapper as FacebookResponseWrapper;
 
 /**
  * Implements Facebook OAuth2 driver on top of \Lucinda\OAuth2\Driver architecture
  */
 class Driver extends \Lucinda\OAuth2\Driver
 {
-    const AUTHORIZATION_ENDPOINT_URL = "https://www.facebook.com/v2.8/dialog/oauth";
-    const TOKEN_ENDPOINT_URL = "https://graph.facebook.com/v2.8/oauth/access_token";
-    
+    public const AUTHORIZATION_ENDPOINT_URL = "https://www.facebook.com/v2.8/dialog/oauth";
+    public const TOKEN_ENDPOINT_URL = "https://graph.facebook.com/v2.8/oauth/access_token";
+
     /**
      * Gets OAuth2 server information.
      *
@@ -29,6 +31,6 @@ class Driver extends \Lucinda\OAuth2\Driver
      */
     protected function getResponseWrapper(): ResponseWrapper
     {
-        return new \Lucinda\OAuth2\Vendor\Facebook\ResponseWrapper();
+        return new FacebookResponseWrapper();
     }
 }

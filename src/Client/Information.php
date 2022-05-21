@@ -1,4 +1,5 @@
 <?php
+
 namespace Lucinda\OAuth2\Client;
 
 /**
@@ -9,7 +10,7 @@ class Information
     private string $appID;
     private string $appSecret;
     private string $siteURL;
-    
+
     /**
      * Saves information about OAuth2 Client APP
      *
@@ -23,7 +24,7 @@ class Information
         $this->appSecret = $clientSecret;
         $this->siteURL = $siteURL;
     }
-    
+
     /**
      * Gets unique client/application ID.
      *
@@ -43,7 +44,7 @@ class Information
     {
         return $this->appSecret;
     }
-    
+
     /**
      * Gets client default callback URL.
      *

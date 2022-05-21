@@ -1,7 +1,8 @@
 <?php
+
 namespace Lucinda\OAuth2\Vendor\Instagram;
 
-use \Lucinda\OAuth2\Server\Exception as ServerException;
+use Lucinda\OAuth2\Server\Exception as ServerException;
 
 /**
  * Implements parsing of Instagram OAUTH2 API response

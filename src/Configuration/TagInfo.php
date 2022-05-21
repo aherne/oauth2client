@@ -1,4 +1,5 @@
 <?php
+
 namespace Lucinda\OAuth2\Configuration;
 
 use Lucinda\OAuth2\Client\Exception as ClientException;
@@ -12,9 +13,12 @@ class TagInfo
     private string $clientId;
     private string $clientSecret;
     private string $callbackUrl;
-    private string $applicationName = "";
-    private array $scopes = array();
-    
+    private ?string $applicationName = null;
+    /**
+     * @var string[]
+     */
+    private array $scopes = [];
+
     /**
      * Starts detection process
      *
@@ -38,7 +42,7 @@ class TagInfo
         }
         $this->scopes = explode(",", (string) $element["scopes"]);
     }
-    
+
     /**
      * Gets name of vendor
      *
@@ -48,7 +52,7 @@ class TagInfo
     {
         return $this->driverName;
     }
-    
+
     /**
      * Gets client id to send to vendor in order to obtain an authorization code
      *
@@ -58,7 +62,7 @@ class TagInfo
     {
         return $this->clientId;
     }
-    
+
     /**
      * Gets client secret to use in converting authorization code to access token
      *
@@ -68,7 +72,7 @@ class TagInfo
     {
         return $this->clientSecret;
     }
-    
+
     /**
      * Gets relative url vendor will use to send authorization code
      *
@@ -78,7 +82,7 @@ class TagInfo
     {
         return $this->callbackUrl;
     }
-    
+
     /**
      * Gets application name (requirement when GitHub is used)
      *
@@ -88,7 +92,7 @@ class TagInfo
     {
         return $this->applicationName;
     }
-    
+
     /**
      * Gets scopes to send to vendor in order on authorization code requests
      *

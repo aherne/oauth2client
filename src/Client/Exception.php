@@ -1,4 +1,5 @@
 <?php
+
 namespace Lucinda\OAuth2\Client;
 
 /**

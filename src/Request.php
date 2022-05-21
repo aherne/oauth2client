@@ -1,4 +1,5 @@
 <?php
+
 namespace Lucinda\OAuth2;
 
 use Lucinda\OAuth2\Client\Exception as ClientException;

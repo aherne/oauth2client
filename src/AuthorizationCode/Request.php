@@ -1,4 +1,5 @@
 <?php
+
 namespace Lucinda\OAuth2\AuthorizationCode;
 
 use Lucinda\OAuth2\Client\Information as ClientInformation;
@@ -15,7 +16,7 @@ class Request implements \Lucinda\OAuth2\Request
     protected ?string $redirectURL = null;
     protected ?string $scope = null;
     protected ?string $state = null;
-    
+
     /**
      * (Mandatory) Sets URL of authorization code endpoint @ Oauth2 Server
      *
@@ -25,7 +26,7 @@ class Request implements \Lucinda\OAuth2\Request
     {
         $this->endpointURL = $endpointURL;
     }
-    
+
     /**
      * (Mandatory) Sets client information.
      *
@@ -35,7 +36,7 @@ class Request implements \Lucinda\OAuth2\Request
     {
         $this->clientInformation = $clientInformation;
     }
-    
+
     /**
      * Sets callback redirect URL to send code to.
      *
@@ -45,7 +46,7 @@ class Request implements \Lucinda\OAuth2\Request
     {
         $this->redirectURL = $redirectURL;
     }
-    
+
     /**
      * Sets scope of access request.
      *
@@ -55,7 +56,7 @@ class Request implements \Lucinda\OAuth2\Request
     {
         $this->scope = $scope;
     }
-    
+
     /**
      * Sets opaque value used by the client to maintain state between the request and callback
      *
@@ -65,7 +66,7 @@ class Request implements \Lucinda\OAuth2\Request
     {
         $this->state = $state;
     }
-    
+
     /**
      * Executes request.
      *
@@ -77,7 +78,7 @@ class Request implements \Lucinda\OAuth2\Request
         if (!$this->clientInformation || !$this->clientInformation->getApplicationID()) {
             throw new ClientException("Client ID is required for authorization code requests!");
         }
-        $parameters = array();
+        $parameters = [];
         $parameters["response_type"] = "code";
         $parameters["client_id"] = $this->clientInformation->getApplicationID();
         if ($this->redirectURL) {

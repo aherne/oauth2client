@@ -1,4 +1,5 @@
 <?php
+
 namespace Lucinda\OAuth2\AuthorizationCode;
 
 /**
@@ -12,7 +13,7 @@ class Response
     /**
      * Populates response based on parameter keys defined in RFC6749
      *
-     * @param string[string] $parameters Authorization code response parameters received
+     * @param array<string,string> $parameters Authorization code response parameters received
      */
     public function __construct(array $parameters)
     {
@@ -21,7 +22,7 @@ class Response
             $this->state = $parameters["state"];
         }
     }
-    
+
     /**
      * Gets authorization code.
      *
@@ -31,7 +32,7 @@ class Response
     {
         return $this->code;
     }
-    
+
     /**
      * Gets opaque value used by the client to maintain state between the request and callback
      *

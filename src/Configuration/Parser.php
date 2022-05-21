@@ -1,4 +1,5 @@
 <?php
+
 namespace Lucinda\OAuth2\Configuration;
 
 use Lucinda\OAuth2\Client\Exception as ClientException;
@@ -9,8 +10,11 @@ use Lucinda\OAuth2\Client\Exception as ClientException;
 class Parser
 {
     private \SimpleXMLElement $xml;
-    private array $drivers = array();
-    
+    /**
+     * @var TagInfo[]
+     */
+    private array $drivers = [];
+
     /**
      * Kick-starts detection process.
      *
@@ -22,12 +26,12 @@ class Parser
     {
         // set drivers
         $this->xml = $xml->oauth2->{$developmentEnvironment};
-        if (!$this->xml) {
+        if (empty($this->xml)) {
             throw new ClientException("Missing 'driver' subtag of '".$developmentEnvironment."', child of 'oauth2' tag");
         }
         $this->setDrivers();
     }
-    
+
     /**
      * Sets oauth2 drivers information based on XML
      *
@@ -41,7 +45,7 @@ class Parser
             $this->drivers[] = $information;
         }
     }
-    
+
     /**
      * Gets oauth2 drivers detected
      *

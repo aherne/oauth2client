@@ -1,4 +1,5 @@
 <?php
+
 namespace Lucinda\OAuth2;
 
 use Lucinda\OAuth2\Client\Information as ClientInformation;
@@ -9,16 +10,21 @@ use Lucinda\OAuth2\AccessToken\Response as AccessTokenResponse;
 use Lucinda\OAuth2\RefreshToken\Request as RefreshTokenRequest;
 use Lucinda\OAuth2\Server\Exception as ServerException;
 use Lucinda\OAuth2\Server\Information as ServerInformation;
+use Lucinda\URL\FileNotFoundException;
 use Lucinda\URL\Request\Method;
 
 /**
- * Encapsulates operations one can perform on an OAuth2 provider. Acts like a single entry point that hides OAuth2 providers complexity. For each provider,
- * you will have to implement a class that extends Driver and implements abstract protected functions.
+ * Encapsulates operations one can perform on an OAuth2 provider. Acts like a single entry point that hides OAuth2
+ * providers complexity. For each provider, you will have to implement a class that extends Driver and implements
+ * abstract protected functions.
  */
 abstract class Driver
 {
     protected ClientInformation $clientInformation;
     protected ServerInformation $serverInformation;
+    /**
+     * @var string[]
+     */
     protected array $scopes = [];
 
     /**
@@ -37,7 +43,6 @@ abstract class Driver
     /**
      * Gets authorization code endpoint URL.
      *
-     * @param string[] $scopes Scopes to use in access request.
      * @param string $state Any client state that needs to be passed on to the client request URI.
      * @return string Full authorization code endpoint URL.
      * @throws ClientException When client fails to provide mandatory parameters.
@@ -66,17 +71,17 @@ abstract class Driver
     public function getAccessToken(string $authorizationCode): AccessTokenResponse
     {
         $responseWrapper = $this->getResponseWrapper();
-        $we = new WrappedExecutor($responseWrapper);
-        $we->setHttpMethod(Method::POST);
-        $we->addHeader("Content-Type", "application/x-www-form-urlencoded");
+        $wrappedExecutor = new WrappedExecutor($responseWrapper);
+        $wrappedExecutor->setHttpMethod(Method::POST);
+        $wrappedExecutor->addHeader("Content-Type", "application/x-www-form-urlencoded");
         $atr = new AccessTokenRequest($this->serverInformation->getTokenEndpoint());
         $atr->setClientInformation($this->clientInformation);
         $atr->setCode($authorizationCode);
         $atr->setRedirectURL($this->clientInformation->getSiteURL());
-        $atr->execute($we);
+        $atr->execute($wrappedExecutor);
         return new AccessTokenResponse($responseWrapper->getResponse());
     }
-    
+
     /**
      * Regenerates access token based on access token already obtained and stored
      *
@@ -87,14 +92,14 @@ abstract class Driver
     public function refreshAccessToken(string $refreshToken): AccessTokenResponse
     {
         $responseWrapper = $this->getResponseWrapper();
-        $we = new WrappedExecutor($responseWrapper);
-        $we->setHttpMethod(Method::POST);
-        $we->addHeader("Content-Type", "application/x-www-form-urlencoded");
+        $wrappedExecutor = new WrappedExecutor($responseWrapper);
+        $wrappedExecutor->setHttpMethod(Method::POST);
+        $wrappedExecutor->addHeader("Content-Type", "application/x-www-form-urlencoded");
         $atr = new RefreshTokenRequest($this->serverInformation->getTokenEndpoint());
         $atr->setClientInformation($this->clientInformation);
         $atr->setRefreshToken($refreshToken);
         $atr->setRedirectURL($this->clientInformation->getSiteURL());
-        $atr->execute($we);
+        $atr->execute($wrappedExecutor);
         return new AccessTokenResponse($responseWrapper->getResponse());
     }
 
@@ -104,28 +109,28 @@ abstract class Driver
      * @param string $accessToken OAuth2 access token
      * @param string $resourceURL URL of remote resource`
      * @param string[] $fields Fields to retrieve from remote resource.
-     * @return array
+     * @return array<mixed>
      * @throws ClientException When client fails to provide mandatory parameters.
-     * @throws ServerException When server responds with an error.
+     * @throws ServerException|FileNotFoundException When server responds with an error.
      */
-    public function getResource(string $accessToken, string $resourceURL, array $fields=array()): array
+    public function getResource(string $accessToken, string $resourceURL, array $fields=[]): array
     {
         $responseWrapper = $this->getResponseWrapper();
-        $we = new WrappedExecutor($responseWrapper);
-        $we->setHttpMethod(Method::GET);
-        $we->addHeader("Authorization", "Bearer ".$accessToken);
-        $parameters = (!empty($fields)?array("fields"=>implode(",", $fields)):array());
-        $we->execute($resourceURL, $parameters);
+        $wrappedExecutor = new WrappedExecutor($responseWrapper);
+        $wrappedExecutor->setHttpMethod(Method::GET);
+        $wrappedExecutor->addHeader("Authorization", "Bearer ".$accessToken);
+        $parameters = (!empty($fields) ? array("fields"=>implode(",", $fields)) : []);
+        $wrappedExecutor->execute($resourceURL, $parameters);
         return $responseWrapper->getResponse();
     }
-    
+
     /**
      * Gets OAuth2 server information.
      *
      * @return ServerInformation
      */
     abstract protected function getServerInformation(): ServerInformation;
-    
+
     /**
      * Gets OAuth2 server response parser.
      *

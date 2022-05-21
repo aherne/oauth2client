@@ -1,4 +1,5 @@
 <?php
+
 namespace Lucinda\OAuth2\AccessToken;
 
 use Lucinda\OAuth2\Client\Information as ClientInformation;
@@ -11,10 +12,10 @@ use Lucinda\OAuth2\Client\Exception as ClientException;
 class Request implements \Lucinda\OAuth2\Request
 {
     protected string $endpointURL;
-    protected ClientInformation $clientInformation;
-    protected string $redirectURL;
-    protected string $code;
-    
+    protected ?ClientInformation $clientInformation;
+    protected ?string $redirectURL;
+    protected ?string $code;
+
     /**
      * (Mandatory) Sets URL of access token endpoint @ Oauth2 Server
      *
@@ -24,7 +25,7 @@ class Request implements \Lucinda\OAuth2\Request
     {
         $this->endpointURL = $endpointURL;
     }
-    
+
     /**
      * (Mandatory) Sets authorization code
      *
@@ -34,7 +35,7 @@ class Request implements \Lucinda\OAuth2\Request
     {
         $this->code = $code;
     }
-    
+
     /**
      * (Mandatory) Sets client information.
      *
@@ -44,7 +45,7 @@ class Request implements \Lucinda\OAuth2\Request
     {
         $this->clientInformation = $clientInformation;
     }
-    
+
     /**
      * (Optional) Sets callback redirect URL to send access token to.
      *
@@ -69,7 +70,7 @@ class Request implements \Lucinda\OAuth2\Request
         if (!$this->code) {
             throw new ClientException("Authorization code is required for access token requests!");
         }
-        $parameters = array();
+        $parameters = [];
         $parameters["grant_type"] = "authorization_code";
         $parameters["client_id"] = $this->clientInformation->getApplicationID();
         $parameters["code"] = $this->code;

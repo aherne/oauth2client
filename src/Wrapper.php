@@ -1,17 +1,10 @@
 <?php
+
 namespace Lucinda\OAuth2;
 
 use Lucinda\OAuth2\Configuration\Parser;
 use Lucinda\OAuth2\Configuration\TagInfo;
 use Lucinda\OAuth2\Client\Information;
-use Lucinda\OAuth2\Vendor\Facebook\Driver as FacebookDriver;
-use Lucinda\OAuth2\Vendor\Github\Driver as GitHubDriver;
-use Lucinda\OAuth2\Vendor\Google\Driver as GoogleDriver;
-use Lucinda\OAuth2\Vendor\Instagram\Driver as InstagramDriver;
-use Lucinda\OAuth2\Vendor\LinkedIn\Driver as LinkedInDriver;
-use Lucinda\OAuth2\Vendor\VK\Driver as VKDriver;
-use Lucinda\OAuth2\Vendor\Yahoo\Driver as YahooDriver;
-use Lucinda\OAuth2\Vendor\Yandex\Driver as YandexDriver;
 use Lucinda\OAuth2\Client\Exception;
 
 /**
@@ -19,6 +12,9 @@ use Lucinda\OAuth2\Client\Exception;
  */
 class Wrapper
 {
+    /**
+     * @var array<string,Driver>
+     */
     private array $results = [];
 
     /**
@@ -36,7 +32,7 @@ class Wrapper
             $this->setDriver($tag);
         }
     }
-    
+
     /**
      * Converts TagInfo data (originating from a driver tag) into a Driver instance
      *
@@ -45,47 +41,28 @@ class Wrapper
      */
     private function setDriver(TagInfo $tagInfo): void
     {
-        $clientInformation = new Information($tagInfo->getClientId(), $tagInfo->getClientSecret(), $tagInfo->getCallbackUrl());
+        $clientInformation = new Information(
+            $tagInfo->getClientId(),
+            $tagInfo->getClientSecret(),
+            $tagInfo->getCallbackUrl()
+        );
         $driverName = $tagInfo->getDriverName();
-        $driver = null;
-        switch ($driverName) {
-            case "Facebook":
-                $driver = new FacebookDriver($clientInformation, $tagInfo->getScopes());
-                break;
-            case "GitHub":
-                $driver = new GitHubDriver($clientInformation, $tagInfo->getScopes());
-                $driver->setApplicationName($tagInfo->getApplicationName());
-                break;
-            case "Google":
-                $driver = new GoogleDriver($clientInformation, $tagInfo->getScopes());
-                break;
-            case "Instagram":
-                $driver = new InstagramDriver($clientInformation, $tagInfo->getScopes());
-                break;
-            case "LinkedIn":
-                $driver = new LinkedInDriver($clientInformation, $tagInfo->getScopes());
-                break;
-            case "VK":
-                $driver = new VKDriver($clientInformation, $tagInfo->getScopes());
-                break;
-            case "Yahoo":
-                $driver = new YahooDriver($clientInformation, $tagInfo->getScopes());
-                break;
-            case "Yandex":
-                $driver = new YandexDriver($clientInformation, $tagInfo->getScopes());
-                break;
-            default:
-                throw new Exception("Driver not supported: ".$driverName);
-                break;
+        $driverClass = "\\Lucinda\\OAuth2\\Vendor\\".$driverName."\\Driver";
+        if (!class_exists($driverClass)) {
+            throw new Exception("Driver not supported: ".$driverName);
+        }
+        $driver = new $driverClass($clientInformation, $tagInfo->getScopes());
+        if ($driverName == "GitHub") {
+            $driver->setApplicationName($tagInfo->getApplicationName());
         }
         $this->results[$tagInfo->getCallbackUrl()] = $driver;
     }
-    
+
     /**
      * Gets Driver instances detected based on callback URL
      *
      * @param string $callbackURL
-     * @return Driver|null|Driver[]
+     * @return Driver|null|array<string,Driver>
      */
     public function getDriver(string $callbackURL = ""): Driver|null|array
     {

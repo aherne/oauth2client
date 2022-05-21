@@ -1,4 +1,5 @@
 <?php
+
 namespace Lucinda\OAuth2\Server;
 
 /**
@@ -6,11 +7,11 @@ namespace Lucinda\OAuth2\Server;
  */
 class Exception extends \Exception
 {
-    private ?string $errorCode = NULL;
-    private ?string $errorDescription = NULL;
-    private ?string $errorURL = NULL;
-    private ?string $state = NULL;
-    
+    private ?string $errorCode = null;
+    private ?string $errorDescription = null;
+    private ?string $errorURL = null;
+    private ?string $state = null;
+
     /**
      * Sets error code received from server.
      *
@@ -20,7 +21,7 @@ class Exception extends \Exception
     {
         $this->errorCode = $errorCode;
     }
-    
+
     /**
      * Gets error code received from server.
      *
@@ -50,7 +51,7 @@ class Exception extends \Exception
     {
         return $this->errorDescription;
     }
-    
+
     /**
      * Sets URI of web page with information about the error received from server
      *
@@ -70,7 +71,7 @@ class Exception extends \Exception
     {
         return $this->errorURL;
     }
-    
+
     /**
      * Sets opaque value used by the client to maintain state between the request and callback received from server
      *
@@ -80,7 +81,7 @@ class Exception extends \Exception
     {
         $this->state = $state;
     }
-    
+
     /**
      * Gets opaque value used by the client to maintain state between the request and callback received from server
      *

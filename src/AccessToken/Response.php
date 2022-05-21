@@ -1,4 +1,5 @@
 <?php
+
 namespace Lucinda\OAuth2\AccessToken;
 
 /**
@@ -11,16 +12,16 @@ class Response
     protected int $expiresIn;
     protected string $refreshToken;
     protected string $scope;
-    
+
     /**
      * Populates response based on parameter keys defined in RFC6749
      *
-     * @param string[string] $parameters Access token response parameters received
+     * @param array<string,string|int> $parameters Access token response parameters received
      */
     public function __construct(array $parameters)
     {
         $this->accessToken = $parameters["access_token"];
-        $this->tokenType = (!empty($parameters["token_type"])?$parameters["token_type"]:"Bearer");
+        $this->tokenType = (!empty($parameters["token_type"]) ? $parameters["token_type"] : "Bearer");
         if (!empty($parameters["expires_in"])) {
             $this->expiresIn = time()+$parameters["expires_in"];
         }
@@ -31,7 +32,7 @@ class Response
             $this->scope = $parameters["scope"];
         }
     }
-    
+
     /**
      * Gets access token issued by the authorization server.
      *
@@ -41,7 +42,7 @@ class Response
     {
         return $this->accessToken;
     }
-    
+
     /**
      * Gets token type received by the authorization server to use for protected resource request.
      *
@@ -51,7 +52,7 @@ class Response
     {
         return $this->tokenType;
     }
-    
+
     /**
      * Gets access token lifetime (in seconds) issued by the authorization server.
      *
@@ -61,7 +62,7 @@ class Response
     {
         return $this->expiresIn;
     }
-    
+
     /**
      * Gets refresh token used to obtain new access tokens using the same authorization grant
      *
@@ -71,7 +72,7 @@ class Response
     {
         return $this->refreshToken;
     }
-    
+
     /**
      * Gets scope of token issued by the authorization server.
      *

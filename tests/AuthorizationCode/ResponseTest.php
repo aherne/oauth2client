@@ -1,4 +1,5 @@
 <?php
+
 namespace Test\Lucinda\OAuth2\AuthorizationCode;
 
 use Lucinda\OAuth2\AuthorizationCode\Response;
@@ -7,7 +8,7 @@ use Lucinda\UnitTest\Result;
 class ResponseTest
 {
     private $response;
-    
+
     public function __construct()
     {
         $this->response = new Response([
@@ -20,7 +21,7 @@ class ResponseTest
     {
         return new Result($this->response->getCode()=="test1");
     }
-        
+
 
     public function getState()
     {
