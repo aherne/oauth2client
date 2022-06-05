@@ -56,7 +56,7 @@ class WrappedExecutor implements RequestExecutor
      *
      * @param string $name
      * @param string $value
-    */
+     */
     public function addHeader(string $name, string $value): void
     {
         $this->headers[$name] = $value;
@@ -65,8 +65,8 @@ class WrappedExecutor implements RequestExecutor
     /**
      * Executes request
      *
-     * @param string $url OAuth2 server endpoint url.
-     * @param array<string,mixed> $parameters Associative array of parameters to send.
+     * @param  string              $url        OAuth2 server endpoint url.
+     * @param  array<string,mixed> $parameters Associative array of parameters to send.
      * @throws ClientException
      * @throws ServerException
      * @throws FileNotFoundException

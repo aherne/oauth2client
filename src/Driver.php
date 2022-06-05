@@ -31,7 +31,7 @@ abstract class Driver
      * Creates an object
      *
      * @param ClientInformation $clientInformation Encapsulates information about OAuth2 client application
-     * @param string[] $scopes Scopes of authorization code request.
+     * @param string[]          $scopes            Scopes of authorization code request.
      */
     public function __construct(ClientInformation $clientInformation, array $scopes = [])
     {
@@ -43,7 +43,7 @@ abstract class Driver
     /**
      * Gets authorization code endpoint URL.
      *
-     * @param string $state Any client state that needs to be passed on to the client request URI.
+     * @param  string $state Any client state that needs to be passed on to the client request URI.
      * @return string Full authorization code endpoint URL.
      * @throws ClientException When client fails to provide mandatory parameters.
      */
@@ -64,7 +64,7 @@ abstract class Driver
     /**
      * Gets access token necessary to retrieve resources with.
      *
-     * @param string $authorizationCode Authorization code received from OAuth2 provider
+     * @param  string $authorizationCode Authorization code received from OAuth2 provider
      * @return AccessTokenResponse Access token response.
      * @throws ClientException When client fails to provide mandatory parameters.
      */
@@ -85,7 +85,7 @@ abstract class Driver
     /**
      * Regenerates access token based on access token already obtained and stored
      *
-     * @param string $refreshToken Refresh token to use in regenerating
+     * @param  string $refreshToken Refresh token to use in regenerating
      * @return AccessTokenResponse Access token response.
      * @throws ClientException When client fails to provide mandatory parameters.
      */
@@ -106,9 +106,9 @@ abstract class Driver
     /**
      * Gets remote resource based on access token
      *
-     * @param string $accessToken OAuth2 access token
-     * @param string $resourceURL URL of remote resource`
-     * @param string[] $fields Fields to retrieve from remote resource.
+     * @param  string   $accessToken OAuth2 access token
+     * @param  string   $resourceURL URL of remote resource`
+     * @param  string[] $fields      Fields to retrieve from remote resource.
      * @return array<mixed>
      * @throws ClientException When client fails to provide mandatory parameters.
      * @throws ServerException|FileNotFoundException When server responds with an error.

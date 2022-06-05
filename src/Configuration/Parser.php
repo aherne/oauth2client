@@ -18,8 +18,8 @@ class Parser
     /**
      * Kick-starts detection process.
      *
-     * @param \SimpleXMLElement $xml
-     * @param string $developmentEnvironment
+     * @param  \SimpleXMLElement $xml
+     * @param  string            $developmentEnvironment
      * @throws ClientException If XML is improperly configured.
      */
     public function __construct(\SimpleXMLElement $xml, string $developmentEnvironment)

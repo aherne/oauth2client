@@ -22,7 +22,7 @@ class TagInfo
     /**
      * Starts detection process
      *
-     * @param \SimpleXMLElement $element Pointer to tag content
+     * @param  \SimpleXMLElement $element Pointer to tag content
      * @throws ClientException If XML is improperly configured.
      */
     public function __construct(\SimpleXMLElement $element)

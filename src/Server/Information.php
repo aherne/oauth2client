@@ -12,8 +12,9 @@ class Information
 
     /**
      * Creates an object
+     *
      * @param string $authorizationEndpoint URL to provider's authorization code service.
-     * @param string $tokenEndpoint URL to provider's access token service.
+     * @param string $tokenEndpoint         URL to provider's access token service.
      */
     public function __construct(string $authorizationEndpoint, string $tokenEndpoint)
     {

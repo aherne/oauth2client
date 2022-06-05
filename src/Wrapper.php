@@ -20,8 +20,8 @@ class Wrapper
     /**
      * Reads XML tag oauth2.{environment}, finds and saves drivers found.
      *
-     * @param \SimpleXMLElement $xml
-     * @param string $developmentEnvironment
+     * @param  \SimpleXMLElement $xml
+     * @param  string            $developmentEnvironment
      * @throws Exception
      */
     public function __construct(\SimpleXMLElement $xml, string $developmentEnvironment)
@@ -36,7 +36,7 @@ class Wrapper
     /**
      * Converts TagInfo data (originating from a driver tag) into a Driver instance
      *
-     * @param TagInfo $tagInfo
+     * @param  TagInfo $tagInfo
      * @throws Exception
      */
     private function setDriver(TagInfo $tagInfo): void
@@ -61,7 +61,7 @@ class Wrapper
     /**
      * Gets Driver instances detected based on callback URL
      *
-     * @param string $callbackURL
+     * @param  string $callbackURL
      * @return Driver|null|array<string,Driver>
      */
     public function getDriver(string $callbackURL = ""): Driver|null|array

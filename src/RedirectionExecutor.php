@@ -12,7 +12,7 @@ class RedirectionExecutor implements RequestExecutor
     /**
      * Executes request
      *
-     * @param string $url OAuth2 server endpoint url.
+     * @param string               $url        OAuth2 server endpoint url.
      * @param array<string,string> $parameters Associative array of parameters to send.
      */
     public function execute(string $url, array $parameters): void
