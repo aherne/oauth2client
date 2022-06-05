@@ -54,9 +54,9 @@ class Driver extends \Lucinda\OAuth2\Driver
     /**
      * Gets remote resource based on access token
      *
-     * @param string $accessToken OAuth2 access token
-     * @param string $resourceURL URL of remote resource`
-     * @param string[] $fields Fields to retrieve from remote resource.
+     * @param  string   $accessToken OAuth2 access token
+     * @param  string   $resourceURL URL of remote resource`
+     * @param  string[] $fields      Fields to retrieve from remote resource.
      * @return array<mixed>
      * @throws ClientException When client fails to provide mandatory parameters.
      * @throws ServerException

@@ -1,4 +1,5 @@
 <?php
+
 namespace Test\Lucinda\OAuth2\Vendor\Yahoo;
 
 use Lucinda\OAuth2\Vendor\Yahoo\ResponseWrapper;

@@ -1,4 +1,5 @@
 <?php
+
 namespace Test\Lucinda\OAuth2\Vendor\Instagram;
 
 use Lucinda\OAuth2\Vendor\Instagram\ResponseWrapper;

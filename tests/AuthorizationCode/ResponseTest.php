@@ -11,10 +11,12 @@ class ResponseTest
 
     public function __construct()
     {
-        $this->response = new Response([
+        $this->response = new Response(
+            [
             "code"=>"test1",
             "state"=>"test2"
-        ]);
+            ]
+        );
     }
 
     public function getCode()

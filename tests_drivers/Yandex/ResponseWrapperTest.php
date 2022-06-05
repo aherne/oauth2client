@@ -1,4 +1,5 @@
 <?php
+
 namespace Test\Lucinda\OAuth2\Vendor\Yandex;
 
 use Lucinda\OAuth2\Vendor\Yandex\ResponseWrapper;

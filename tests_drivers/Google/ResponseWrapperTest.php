@@ -1,4 +1,5 @@
 <?php
+
 namespace Test\Lucinda\OAuth2\Vendor\Google;
 
 use Lucinda\OAuth2\Vendor\Google\ResponseWrapper;

@@ -1,4 +1,5 @@
 <?php
+
 namespace Test\Lucinda\OAuth2\Vendor\GitHub;
 
 use Lucinda\OAuth2\Vendor\GitHub\ResponseWrapper;

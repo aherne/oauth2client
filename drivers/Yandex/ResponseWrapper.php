@@ -12,7 +12,7 @@ class ResponseWrapper extends \Lucinda\OAuth2\ResponseWrapper
     /**
      * Parses response received from OAuth2 server.
      *
-     * @param string $response
+     * @param  string $response
      * @throws ServerException
      */
     public function wrap(string $response): void

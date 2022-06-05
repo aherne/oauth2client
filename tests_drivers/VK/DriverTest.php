@@ -1,4 +1,5 @@
 <?php
+
 namespace Test\Lucinda\OAuth2\Vendor\VK;
 
 use Lucinda\OAuth2\Vendor\VK\Driver;

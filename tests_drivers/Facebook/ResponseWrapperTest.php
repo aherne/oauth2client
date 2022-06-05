@@ -1,4 +1,5 @@
 <?php
+
 namespace Test\Lucinda\OAuth2\Vendor\Facebook;
 
 use Lucinda\OAuth2\Vendor\Facebook\ResponseWrapper;

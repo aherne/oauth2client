@@ -11,13 +11,15 @@ class ResponseTest
 
     public function __construct()
     {
-        $this->response = new Lucinda\OAuth2\AccessToken\Response([
+        $this->response = new Lucinda\OAuth2\AccessToken\Response(
+            [
             "access_token"=>"test1",
             "token_type"=>"test2",
             "expires_in"=>123,
             "refresh_token"=>"test3",
             "scope"=>"test4",
-        ]);
+            ]
+        );
     }
 
     public function getAccessToken()
