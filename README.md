@@ -31,11 +31,11 @@ The current package ships with these drivers:
 - `LinkedIn`
 - `Microsoft`
 
-Provider endpoints and default scopes are defined internally in [endpoints.json](https://github.com/aherne/oauth2client/blob/v5.0/endpoints.json), so XML only needs client-side registration details.
+Provider endpoints and default scopes are defined internally in [endpoints.json](endpoints.json), so XML only needs client-side registration details.
 
 ## XML Configuration
 
-The runtime entry point is [src/Wrapper.php](https://github.com/aherne/oauth2client/blob/v5.0/src/Wrapper.php). It parses the `<oauth2>` section, instantiates drivers, and indexes them by `callback`.
+The runtime entry point is [src/Wrapper.php](src/Wrapper.php). It parses the `<oauth2>` section, instantiates drivers, and indexes them by `callback`.
 
 Each `<driver>` tag must include:
 
@@ -104,7 +104,7 @@ $drivers = $wrapper->getDriver();
 
 ### `Lucinda\OAuth2\Driver`
 
-Each concrete vendor driver extends the shared [src/Driver.php](https://github.com/aherne/oauth2client/blob/v5.0/src/Driver.php) API and exposes the same login-oriented methods:
+Each concrete vendor driver extends the shared [src/Driver.php](src/Driver.php) API and exposes the same login-oriented methods:
 
 - `getAuthorizationCodeEndpoint(string $state = ""): string`
 - `getAccessToken(string $authorizationCode): Lucinda\OAuth2\AccessToken\Response`
@@ -228,10 +228,10 @@ The project uses `lucinda/unit-testing`.
 
 Useful files:
 
-- [test.php](https://github.com/aherne/oauth2client/blob/v5.0/test.php): test runner
-- [unit-tests.xml](https://github.com/aherne/oauth2client/blob/v5.0/unit-tests.xml): test suite configuration
-- [tests](https://github.com/aherne/oauth2client/blob/v5.0/tests): unit tests for `src/`
-- [tests_drivers](https://github.com/aherne/oauth2client/blob/v5.0/tests_drivers): unit tests for vendor drivers
+- [test.php](test.php): test runner
+- [unit-tests.xml](unit-tests.xml): test suite configuration
+- [tests](tests): unit tests for `src/`
+- [tests_drivers](tests_drivers): unit tests for vendor drivers
 
 Run the suite with:
 
