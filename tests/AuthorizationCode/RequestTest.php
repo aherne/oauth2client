@@ -1,53 +1,62 @@
 <?php
-
 namespace Test\Lucinda\OAuth2\AuthorizationCode;
 
 use Lucinda\OAuth2\AuthorizationCode\Request;
-use Lucinda\UnitTest\Result;
-use Lucinda\OAuth2\RedirectionExecutor;
+use Lucinda\OAuth2\Client\Information;
+use Lucinda\UnitTest\Validator\Arrays;
 use Lucinda\UnitTest\Validator\Strings;
+use Test\Lucinda\OAuth2\Support\Reflection;
+use Test\Lucinda\OAuth2\Support\TestRequestExecutor;
 
 class RequestTest
 {
-    private $request;
-
-    public function __construct()
-    {
-        $this->request = new Request("https://www.facebook.com/v2.8/dialog/oauth");
-    }
-
     public function setClientInformation()
     {
-        $this->request->setClientInformation(new \Lucinda\OAuth2\Client\Information("client_id", "client_secret", ""));
-        return new Result(true);
+        $request = new Request("https://example.com/authorize");
+        $request->setClientInformation(new Information("client-id", "client-secret", "https://app.example/callback"));
+        return (new Strings(Reflection::get($request, "clientInformation")->getApplicationID()))->assertEquals("client-id");
     }
-
 
     public function setRedirectURL()
     {
-        $this->request->setRedirectURL("https://dev.lucinda-framework.com/login/facebook");
-        return new Result(true);
+        $request = new Request("https://example.com/authorize");
+        $request->setRedirectURL("https://app.example/redirect");
+        return (new Strings(Reflection::get($request, "redirectURL")))->assertEquals("https://app.example/redirect");
     }
-
 
     public function setScope()
     {
-        $this->request->setScope("test_scope");
-        return new Result(true);
+        $request = new Request("https://example.com/authorize");
+        $request->setScope("openid profile email");
+        return (new Strings(Reflection::get($request, "scope")))->assertEquals("openid profile email");
     }
-
 
     public function setState()
     {
-        $this->request->setState("test_state");
-        return new Result(true);
+        $request = new Request("https://example.com/authorize");
+        $request->setState("csrf-token");
+        return (new Strings(Reflection::get($request, "state")))->assertEquals("csrf-token");
     }
-
 
     public function execute()
     {
-        $executor = new RedirectionExecutor();
-        $this->request->execute($executor);
-        return new Result($executor->getRedirectURL()=="https://www.facebook.com/v2.8/dialog/oauth?response_type=code&client_id=client_id&redirect_uri=https%3A%2F%2Fdev.lucinda-framework.com%2Flogin%2Ffacebook&scope=test_scope&state=test_state");
+        $request = new Request("https://example.com/authorize");
+        $request->setClientInformation(new Information("client-id", "client-secret", "https://app.example/callback"));
+        $request->setRedirectURL("https://app.example/redirect");
+        $request->setScope("openid profile email");
+        $request->setState("csrf-token");
+        $executor = new TestRequestExecutor();
+        $request->execute($executor);
+
+        return [
+            (new Strings($executor->getURL()))->assertEquals("https://example.com/authorize"),
+            (new Arrays($executor->getParameters()))->assertEquals([
+                "response_type" => "code",
+                "client_id" => "client-id",
+                "redirect_uri" => "https://app.example/redirect",
+                "scope" => "openid profile email",
+                "state" => "csrf-token"
+            ])
+        ];
     }
 }

@@ -2,43 +2,45 @@
 
 namespace Lucinda\OAuth2\Server;
 
-/**
- * Encapsulates information about OAuth2 provider endpoints.
- */
 class Information
 {
-    private string $authorizationEndpoint;
-    private string $tokenEndpoint;
-
-    /**
-     * Creates an object
-     *
-     * @param string $authorizationEndpoint URL to provider's authorization code service.
-     * @param string $tokenEndpoint         URL to provider's access token service.
-     */
-    public function __construct(string $authorizationEndpoint, string $tokenEndpoint)
+    private string $authorizationUrl;
+    private string $accessTokenUrl;
+    private array $scopes;
+    private string|array $resourceURL;
+    private array $resourceFields;
+    
+    public function __construct(array $info)
     {
-        $this->authorizationEndpoint = $authorizationEndpoint;
-        $this->tokenEndpoint = $tokenEndpoint;
+        $this->authorizationUrl = $info["authorization_url"];
+        $this->accessTokenUrl = $info["access_token_url"];
+        $this->scopes = $info["scopes"];
+        $this->resourceURL = $info["resource_url"];
+        $this->resourceFields = $info["resource_fields"]??[];
     }
 
-    /**
-     * Gets authorization code endpoint URL
-     *
-     * @return string
-     */
-    public function getAuthorizationEndpoint(): string
+    public function getAuthorizationUrl(): string
     {
-        return $this->authorizationEndpoint;
+        return $this->authorizationUrl;
     }
 
-    /**
-     * Get access token endpoint URL
-     *
-     * @return string
-     */
-    public function getTokenEndpoint(): string
+    public function getAccessTokenUrl(): string
     {
-        return $this->tokenEndpoint;
+        return $this->accessTokenUrl;
+    }
+
+    public function getScopes(): array
+    {
+        return $this->scopes;
+    }
+
+    public function getResourceURL(): string|array
+    {
+        return $this->resourceURL;
+    }
+
+    public function getResourceFields(): array
+    {
+        return $this->resourceFields;
     }
 }

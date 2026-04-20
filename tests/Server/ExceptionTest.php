@@ -1,67 +1,63 @@
 <?php
-
 namespace Test\Lucinda\OAuth2\Server;
 
-use Lucinda\UnitTest\Result;
+use Lucinda\UnitTest\Validator\Strings;
 
 class ExceptionTest
 {
-    private $exception;
-
-    public function __construct()
-    {
-        $this->exception = new \Lucinda\OAuth2\Server\Exception();
-    }
-
-
     public function setErrorCode()
     {
-        $this->exception->setErrorCode("test1");
-        return new Result(true);
+        $exception = new \Lucinda\OAuth2\Server\Exception();
+        $exception->setErrorCode("invalid_grant");
+        return (new Strings($exception->getErrorCode()))->assertEquals("invalid_grant");
     }
-
 
     public function getErrorCode()
     {
-        return new Result($this->exception->getErrorCode()=="test1");
+        $exception = new \Lucinda\OAuth2\Server\Exception();
+        $exception->setErrorCode("invalid_grant");
+        return (new Strings($exception->getErrorCode()))->assertEquals("invalid_grant");
     }
-
 
     public function setErrorDescription()
     {
-        $this->exception->setErrorDescription("test2");
-        return new Result(true);
+        $exception = new \Lucinda\OAuth2\Server\Exception();
+        $exception->setErrorDescription("Description");
+        return (new Strings($exception->getErrorDescription()))->assertEquals("Description");
     }
-
 
     public function getErrorDescription()
     {
-        return new Result($this->exception->getErrorDescription()=="test2");
+        $exception = new \Lucinda\OAuth2\Server\Exception();
+        $exception->setErrorDescription("Description");
+        return (new Strings($exception->getErrorDescription()))->assertEquals("Description");
     }
-
 
     public function setErrorURL()
     {
-        $this->exception->setErrorURL("http://www.example.com");
-        return new Result(true);
+        $exception = new \Lucinda\OAuth2\Server\Exception();
+        $exception->setErrorURL("https://example.com/error");
+        return (new Strings($exception->getErrorURL()))->assertEquals("https://example.com/error");
     }
-
 
     public function getErrorURL()
     {
-        return new Result($this->exception->getErrorURL()=="http://www.example.com");
+        $exception = new \Lucinda\OAuth2\Server\Exception();
+        $exception->setErrorURL("https://example.com/error");
+        return (new Strings($exception->getErrorURL()))->assertEquals("https://example.com/error");
     }
-
 
     public function setState()
     {
-        $this->exception->setState("test3");
-        return new Result(true);
+        $exception = new \Lucinda\OAuth2\Server\Exception();
+        $exception->setState("csrf-state");
+        return (new Strings($exception->getState()))->assertEquals("csrf-state");
     }
-
 
     public function getState()
     {
-        return new Result($this->exception->getState()=="test3");
+        $exception = new \Lucinda\OAuth2\Server\Exception();
+        $exception->setState("csrf-state");
+        return (new Strings($exception->getState()))->assertEquals("csrf-state");
     }
 }

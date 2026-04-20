@@ -12,15 +12,13 @@
     </unit_test>
   </unit_tests>
   <oauth2>
-    <local>
-      <driver name="Facebook" client_id="YOUR_CLIENT_ID" client_secret="YOUR_CLIENT_SECRET" callback="login/facebook" scopes="public_profile,email"/>
-      <driver name="Google" client_id="YOUR_CLIENT_ID" client_secret="YOUR_CLIENT_SECRET" callback="login/google" scopes="https://www.googleapis.com/auth/plus.login,https://www.googleapis.com/auth/plus.profile.emails.read"/>
-      <driver name="GitHub" client_id="YOUR_CLIENT_ID" client_secret="YOUR_CLIENT_SECRET" application_name="YOUR_APPLICATION_NAME" callback="login/github" scopes="read:user,user:email"/>
-      <driver name="Instagram" client_id="YOUR_CLIENT_ID" client_secret="YOUR_CLIENT_SECRET" callback="login/instagram" scopes=""/>
-      <driver name="LinkedIn" client_id="YOUR_CLIENT_ID" client_secret="YOUR_CLIENT_SECRET" callback="login/linkedin" scopes="r_basicprofile,r_emailaddress"/>
-      <driver name="VK" client_id="YOUR_CLIENT_ID" client_secret="YOUR_CLIENT_SECRET" callback="login/vk" scopes=""/>
-      <driver name="Yandex" client_id="YOUR_CLIENT_ID" client_secret="YOUR_CLIENT_SECRET" callback="login/yandex" scopes=""/>
-      <driver name="Yahoo" client_id="YOUR_CLIENT_ID" client_secret="YOUR_CLIENT_SECRET" callback="login/yahoo" scopes="sdpp-w"/>
-    </local>
+      <driver name="Facebook" client_id="YOUR_CLIENT_ID" client_secret="YOUR_CLIENT_SECRET" callback="login/facebook"/>
+      <driver name="Google" client_id="YOUR_CLIENT_ID" client_secret="YOUR_CLIENT_SECRET" callback="login/google"/>
+      <driver name="GitHub" client_id="YOUR_CLIENT_ID" client_secret="YOUR_CLIENT_SECRET" application_name="YOUR_APPLICATION_NAME" callback="login/github"/>
+      <driver name="Instagram" client_id="YOUR_CLIENT_ID" client_secret="YOUR_CLIENT_SECRET" callback="login/instagram"/>
+      <driver name="LinkedIn" client_id="YOUR_CLIENT_ID" client_secret="YOUR_CLIENT_SECRET" callback="login/linkedin"/>
+      <driver name="VK" client_id="YOUR_CLIENT_ID" client_secret="YOUR_CLIENT_SECRET" callback="login/vk"/>
+      <driver name="Yandex" client_id="YOUR_CLIENT_ID" client_secret="YOUR_CLIENT_SECRET" callback="login/yandex"/>
+      <driver name="Yahoo" client_id="YOUR_CLIENT_ID" client_secret="YOUR_CLIENT_SECRET" callback="login/yahoo"/>
   </oauth2>
 </xml>

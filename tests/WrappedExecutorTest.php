@@ -1,50 +1,48 @@
 <?php
-
 namespace Test\Lucinda\OAuth2;
 
 use Lucinda\OAuth2\WrappedExecutor;
-use Lucinda\OAuth2\Vendor\Facebook\ResponseWrapper;
-use Lucinda\UnitTest\Result;
-use Lucinda\OAuth2\Server\Exception;
+use Lucinda\UnitTest\Validator\Arrays;
+use Lucinda\UnitTest\Validator\Objects;
+use Lucinda\UnitTest\Validator\Strings;
 use Lucinda\URL\Request\Method;
+use Test\Lucinda\OAuth2\Support\Fixtures;
+use Test\Lucinda\OAuth2\Support\JsonResponseWrapper;
+use Test\Lucinda\OAuth2\Support\Reflection;
 
 class WrappedExecutorTest
 {
-    private $wrapper;
-    private $executor;
-
-    public function __construct()
-    {
-        $this->executor = new WrappedExecutor(new ResponseWrapper());
-    }
-
     public function setHttpMethod()
     {
-        $this->executor->setHttpMethod(Method::GET);
-        return new Result(true);
+        $executor = new WrappedExecutor(new JsonResponseWrapper());
+        $executor->setHttpMethod(Method::GET);
+        return (new Strings(Reflection::get($executor, "httpMethod")->value))->assertEquals("GET");
     }
-
 
     public function setUserAgent()
     {
-        $this->executor->setUserAgent("asd");
-        return new Result(true);
+        $executor = new WrappedExecutor(new JsonResponseWrapper());
+        $executor->setUserAgent("OAuth2 Test Agent");
+        return (new Strings(Reflection::get($executor, "userAgent")))->assertEquals("OAuth2 Test Agent");
     }
-
 
     public function addHeader()
     {
-        $this->executor->addHeader("fgh", "jkl");
-        return new Result(true);
+        $executor = new WrappedExecutor(new JsonResponseWrapper());
+        $executor->addHeader("X-Test", "value");
+        return (new Arrays(Reflection::get($executor, "headers")))->assertEquals(["X-Test" => "value"]);
     }
-
 
     public function execute()
     {
-        try {
-            $this->executor->execute("https://graph.facebook.com/v2.8/me", []);
-        } catch (Exception $e) {
-            return new Result($e->getErrorDescription()=="An active access token must be used to query information about the current user.");
-        }
+        $responseWrapper = new JsonResponseWrapper();
+        $executor = new WrappedExecutor($responseWrapper);
+        $executor->setHttpMethod(Method::GET);
+        $executor->execute(Fixtures::url("wrapped-executor.json"), []);
+
+        return [
+            (new Objects(Reflection::get($executor, "responseWrapper")))->assertInstanceOf(JsonResponseWrapper::class),
+            (new Arrays($responseWrapper->getResponse()))->assertEquals(["status" => "ok", "user" => "tester"])
+        ];
     }
 }

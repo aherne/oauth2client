@@ -1,201 +1,240 @@
 # OAuth2 Client API
 
-Table of contents:
+Lightweight OAuth2 login integration for PHP applications.
 
-- [About](#about)
-- [Registration](#registration)
-- [Configuration](#configuration)
-- [Execution](#execution)
-    - [Initialization](#initialization)
-    - [Querying Provider](#querying-provider)
-- [Installation](#installation)
-- [Unit Tests](#unit-tests)
+This package is now intentionally focused on authentication entry points rather than generic OAuth2 resource access. In practice, you configure one or more vendor drivers in XML, build a `Lucinda\OAuth2\Wrapper`, then use the resolved `Lucinda\OAuth2\Driver` to:
 
-## About 
-
-This API, came by the idea of building a shared driver based on [IETF specs](https://tools.ietf.org/html/rfc6749) that abstracts communication with popular OAuth2 providers so you're no longer forced to work their bloated PHP clients. 
-
-![diagram](https://www.lucinda-framework.com/oauth2-client-api.svg)
-
-It has now become a fully matured time-tested API able to hide almost entirely communication complexity with these providers by this series of steps:
-
-- **[registration](#registration)**: registering your site on oauth2 providers in order to be able to query them later on
-- **[configuration](#configuration)**: setting up an XML file where one or more loggers are set for each development environment
-- **[initialization](#initialization)**: creating a [Lucinda\OAuth2\Wrapper](https://github.com/aherne/oauth2client/blob/master/src/Wrapper.php) instance based on above XML and current development environment then calling *getDriver()* method based on requested page
-- **[querying provider](#querying-provider)**: use shared driver [Lucinda\OAuth2\Driver](https://github.com/aherne/oauth2client/blob/master/src/Driver.php) instance resulting from method above to query respective provider
-
-API is fully PSR-4 compliant, only requiring PHP 8.1+ interpreter, [Lucinda URL Requester](https://github.com/aherne/requester) and SimpleXML extension. To quickly see how it works, check:
-
-- **[installation](#installation)**: describes how to install API on your computer, in light of steps above
-- **[unit tests](#unit-tests)**: API has 100% Unit Test coverage, using [UnitTest API](https://github.com/aherne/unit-testing) instead of PHPUnit for greater flexibility
-- **[example](#example)**: shows a example of API functionality based on unit test for [Lucinda\OAuth2\Wrapper](https://github.com/aherne/oauth2client/blob/master/src/Wrapper.php)
-
-## Registration
-
-OAuth2 requires your site (the client) to be available on world-wide-web in order to communicate with provider (the server). To do so your site must be registered on provider's site, same way as a user would! Registration endpoints for supported providers are:
-
-- Facebook: [https://developers.facebook.com/](https://developers.facebook.com/)
-- Google: [https://console.developers.google.com](https://console.developers.google.com)
-- Instagram: [https://www.instagram.com/developer/clients/register/](https://www.instagram.com/developer/clients/register/)
-- LinkedIn: [https://www.linkedin.com/developer/apps/new](https://www.linkedin.com/developer/apps/new)
-- GitHub: [https://github.com/settings/applications/new](https://github.com/settings/applications/new)
-- VK: [https://vk.com/editapp?act=create](https://vk.com/editapp?act=create)
-- Yahoo: [https://developer.yahoo.com/apps/create/](https://developer.yahoo.com/apps/create/)
-- Yandex: [https://oauth.yandex.com/client/new](https://oauth.yandex.com/client/new)
-
-Once you land there you will be asked on registration to fill a form in which you will need to supply:
-
-- **redirect_uri**: (always) complete link to your site where OAUTH2 vendor should redirect authorization code to
-- **scopes**: (sometimes) rights specific to vendor your site require on each site client's account
-- **application_name**: (only by GitHub) unique name that identifies your site against others
-
-Once registered, your site will get:
-
-- **client_id**: public id that identifies your site on OAUTH2 vendor site
-- **client_secret**: private key associated to your site on OAUTH2 vendor site, to use in authorization code - access token exchange
-
-To learn more how each of them work, check [specialized article](https://www.lucinda-framework.com/blog/php-oauth2-integration-explained)
-
-## Configuration
-
-To configure this API you must have a XML with following tag:
-
-```xml
-<oauth2>
-	<{ENVIRONMENT}>
-		<driver name="..." client_id="..." client_secret="..." callback="..." scopes="..." {OPTIONS}/>
-		...
-	</{ENVIRONMENT}>
-	...
-</oauth2>
-```
-
-Where:
-
-- **oauth2**: (mandatory) holds global oauth2 settings.
-    - {ENVIRONMENT}: name of development environment (to be replaced with "local", "dev", "live", etc)
-        - **driver**: stores information about a single oauth2 provider via attributes:
-            - *name*: (mandatory) name of OAuth2 provider. Can be: Facebook, GitHub, Google, LinkedIn, Instagram, VK, Yahoo, Yandex!
-            - *client_id*: (mandatory) public id that identifies your site on OAUTH2 vendor site (see: [registration](#registration))
-            - *client_secret*: (mandatory) private key associated to your site on OAUTH2 vendor site, to use in authorization code - access token exchange (see: [registration](#registration))
-            - *callback*: (mandatory) relative uri (page) in your site where OAUTH2 vendor should redirect authorization code to (see: [registration](#registration)). **Must be unique!**
-            - *scopes*: (optional) rights levels on client's vendor account your site require (see: [registration](#registration))
-            - {OPTIONS}: a list of extra attributes not part of specifications but required by certain providers:
-                - *application*: (mandatory if *provider* = GitHub) name of your site (see: [registration](#registration))
-
-Example:
-
-```xml
-<oauth2>
-    <live>
-        <driver name="Facebook" client_id="YOUR_CLIENT_ID" client_secret="YOUR_CLIENT_SECRET" callback="login/facebook" scopes="public_profile,email"/>
-        <driver name="Google" client_id="YOUR_CLIENT_ID" client_secret="YOUR_CLIENT_SECRET" callback="login/google" scopes="https://www.googleapis.com/auth/plus.login,https://www.googleapis.com/auth/plus.profile.emails.read"/>
-    </live>
-</oauth2>
-```
-
-## Execution
-
-### Initialization
-
-Now that XML is configured, you can get driver whose login uri matches requested page by querying [Lucinda\OAuth2\Wrapper](https://github.com/aherne/oauth2client/blob/master/src/Wrapper.php):
-
-```php
-$requestedPage = (!empty($_SERVER["REQUEST_URI"])?substr($_SERVER["REQUEST_URI"], 1):"");
-$object = new Lucinda\OAuth2\Wrapper(simplexml_load_file(XML_FILE_NAME), DEVELOPMENT_ENVIRONMENT);
-$driver = $object->getDriver($requestedPage);
-```
-
-Driver returned is a [Lucinda\OAuth2Client\Driver](https://github.com/aherne/oauth2client/blob/master/src/Driver.php) instance, each corresponding to a "driver" tag whose callback matches requested page, each hiding complexity of vendor underneath through a common interface centered on oauth2 client operations. If no driver is found matching requested page, NULL is returned!
-
-**NOTE**: because XML parsing is somewhat costly, it is recommended to save $object somewhere and reuse it throughout application lifecycle.
-
-### Querying Provider
-
-Once you obtain a driver, you able to query it automatically. First however you need to obtain an access token from provider in controller that handles all **REDIRECT_URI** (since this logic is same across vendors):
-
-```php
-if (empty($_GET["code"])) {
-    // redirects to vendor in order to get authorization code
-    $redirectURL = $driver->getAuthorizationCodeEndpoint();
-    header("Location: ".$redirectURL);
-    exit();
-} else {
-    // exchanges authorization code with an access token
-    $accessTokenResponse = $driver->getAccessToken($_GET["code"]);
-    
-    // save $accessTokenResponse to storage
-    // save $driver to storage
-}
-```
-
-Once an access token is saved you can use it in current or future requests to authenticate resources requests on vendor. Before using it, you need to make sure token has not expired:
-
-```php
-// loads $accessTokenResponse from storage
-if ($accessTokenResponse->getExpiresIn() && $accessTokenResponse->getExpiresIn()>time()) {
-    $accessTokenResponse = $driver->refreshAccessToken($accessTokenResponse->getRefreshToken());
-    // save $accessTokenResponse to storage
-}
-```
-
-Then to retrieve any resource on vendor whose scope was approved by client:
-
-```php
-$accessToken = $accessTokenResponse->getAccessToken();
-$information = $driver->getResource(accessToken, RESOURCE_URI, ?RESOURCE_FIELDS);
-```
-
-### Example
-
-Assuming driver is:
-
-```xml
-<driver name="Facebook" client_id="YOUR_CLIENT_ID" client_secret="YOUR_CLIENT_SECRET" callback="login/facebook" scopes="public_profile,email"/>
-```
-
-If value of $_SERVER["REQUEST_URI"] is "login/facebook", in line of [Querying Provider](#querying-provider) above, first a check is made if "code" querystring param is present:
-
-- NO: redirects to provider and asks client to approve access for public_profile and email visualization rights. If approved, vendor redirects to same page but with a "code" param
-- YES: asks provider to exchange short lived authorization code (value of "code" param) with a long lived access token
-
-Now that access token is obtained, developers can use it to retrieve public_profile and email information about client from vendor site:
-
-```php
-// load $driver from storage
-// load $accessToken from storage
-$userInformation = $driver->getResource($accessToken, "https://graph.facebook.com/v2.8/me", ["id","name","email"]);
-```    
+- generate the authorization URL
+- exchange the authorization code for an access token
+- optionally refresh the access token
+- normalize vendor user data into a shared `Lucinda\OAuth2\UserInfo` object
 
 ## Installation
-
-First choose a folder, associate it to a domain then write this command there using console:
 
 ```console
 composer require lucinda/oauth2-client
 ```
 
-Then create a *configuration.xml* file holding configuration settings (see [configuration](#configuration) above) and a *index.php* file (see [initialization](#initialization) in project root with following code:
+Requirements:
+
+- PHP 8.1+
+- `ext-SimpleXML`
+- `lucinda/requester`
+
+## Supported Drivers
+
+The current package ships with these drivers:
+
+- `Facebook`
+- `GitHub`
+- `Google`
+- `LinkedIn`
+- `Microsoft`
+
+Provider endpoints and default scopes are defined internally in [endpoints.json](/Users/luciangabrielpopescu/framework/oauth2/endpoints.json), so XML only needs client-side registration details.
+
+## XML Configuration
+
+The runtime entry point is [src/Wrapper.php](/Users/luciangabrielpopescu/framework/oauth2/src/Wrapper.php). It parses the `<oauth2>` section, instantiates drivers, and indexes them by `callback`.
+
+Each `<driver>` tag must include:
+
+- `name`: one of the supported drivers above
+- `client_id`: OAuth client/application id issued by the vendor
+- `client_secret`: OAuth client/application secret issued by the vendor
+- `callback`: relative callback/login route used to resolve the driver later
+
+GitHub requires one extra attribute:
+
+- `application_name`: mandatory for `GitHub`
+
+Example:
+
+```xml
+<xml>
+  <oauth2>
+    <driver
+      name="Facebook"
+      client_id="YOUR_FACEBOOK_CLIENT_ID"
+      client_secret="YOUR_FACEBOOK_CLIENT_SECRET"
+      callback="login/facebook"
+    />
+    <driver
+      name="Google"
+      client_id="YOUR_GOOGLE_CLIENT_ID"
+      client_secret="YOUR_GOOGLE_CLIENT_SECRET"
+      callback="login/google"
+    />
+    <driver
+      name="GitHub"
+      client_id="YOUR_GITHUB_CLIENT_ID"
+      client_secret="YOUR_GITHUB_CLIENT_SECRET"
+      application_name="Your Application Name"
+      callback="login/github"
+    />
+  </oauth2>
+</xml>
+```
+
+Notes:
+
+- `callback` must be unique per driver because `Wrapper` stores drivers by callback path.
+- The XML consumed by `Wrapper` must contain `<oauth2>` directly. The current parser does not look up environment-specific child nodes.
+
+## Entry Points
+
+These are the only concepts most applications need to care about.
+
+### `Lucinda\OAuth2\Wrapper`
+
+Builds all configured drivers and exposes them by callback:
 
 ```php
-require(__DIR__."/vendor/autoload.php");
-$requestedPage = (!empty($_SERVER["REQUEST_URI"])?substr($_SERVER["REQUEST_URI"], 1):"");
-$object = new Lucinda\OAuth2\Wrapper(simplexml_load_file("configuration.xml"), "local");
-$driver = $object->getDriver($requestedPage);
+use Lucinda\OAuth2\Wrapper;
+
+$wrapper = new Wrapper(simplexml_load_file("configuration.xml"));
+$driver = $wrapper->getDriver("login/google");
 ```
 
-Then make sure domain is available to world-wide-web and all request that point to it are rerouted to index.php:
+You can also retrieve all configured drivers:
 
+```php
+$drivers = $wrapper->getDriver();
 ```
-RewriteEngine on
-RewriteRule ^(.*)$ index.php
+
+### `Lucinda\OAuth2\Driver`
+
+Each concrete vendor driver extends the shared [src/Driver.php](/Users/luciangabrielpopescu/framework/oauth2/src/Driver.php) API and exposes the same login-oriented methods:
+
+- `getAuthorizationCodeEndpoint(string $state = ""): string`
+- `getAccessToken(string $authorizationCode): Lucinda\OAuth2\AccessToken\Response`
+- `refreshAccessToken(string $refreshToken): Lucinda\OAuth2\AccessToken\Response`
+- `getUserInfo(string $accessToken): Lucinda\OAuth2\UserInfo`
+
+## Login Flow
+
+### 1. Resolve driver by callback route
+
+```php
+use Lucinda\OAuth2\Wrapper;
+
+$requestedPage = ltrim(parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH) ?? "", "/");
+$wrapper = new Wrapper(simplexml_load_file("configuration.xml"));
+$driver = $wrapper->getDriver($requestedPage);
 ```
 
-## Unit Tests
+If no driver matches the requested callback, `getDriver()` returns `null`.
 
-For tests and examples, check following files/folders in API sources:
+### 2. Redirect user to provider
 
-- [test.php](https://github.com/aherne/oauth2client/blob/master/test.php): runs unit tests in console
-- [unit-tests.xml](https://github.com/aherne/oauth2client/blob/master/unit-tests.xml): sets up unit tests and mocks "loggers" tag
-- [tests](https://github.com/aherne/oauth2client/tree/v3.0.0/tests): unit tests for classes from [src](https://github.com/aherne/oauth2client/tree/v3.0.0/src) folder
-- [tests_drivers](https://github.com/aherne/oauth2client/tree/v3.0.0/tests_drivers): unit tests for classes from [drivers](https://github.com/aherne/oauth2client/tree/v3.0.0/drivers) folder
+```php
+if (empty($_GET["code"])) {
+    $authorizationUrl = $driver->getAuthorizationCodeEndpoint();
+    header("Location: ".$authorizationUrl);
+    exit;
+}
+```
+
+If you need CSRF/state handling:
+
+```php
+$authorizationUrl = $driver->getAuthorizationCodeEndpoint($state);
+```
+
+### 3. Exchange code for token
+
+```php
+$tokenResponse = $driver->getAccessToken($_GET["code"]);
+
+$accessToken = $tokenResponse->getAccessToken();
+$refreshToken = $tokenResponse->getRefreshToken();
+$expiresAt = $tokenResponse->getExpiresIn();
+```
+
+`AccessToken\Response` exposes:
+
+- `getAccessToken()`
+- `getTokenType()`
+- `getExpiresIn()`
+- `getRefreshToken()`
+- `getScope()`
+
+### 4. Refresh token when needed
+
+```php
+if ($tokenResponse->getRefreshToken() && $tokenResponse->getExpiresIn() <= time()) {
+    $tokenResponse = $driver->refreshAccessToken($tokenResponse->getRefreshToken());
+}
+```
+
+### 5. Load normalized user data
+
+```php
+$userInfo = $driver->getUserInfo($tokenResponse->getAccessToken());
+
+$id = $userInfo->getId();
+$name = $userInfo->getName();
+$email = $userInfo->getEmail();
+```
+
+`getUserInfo()` is the key post-login convenience API in the new design: vendor-specific user endpoints are queried internally, then mapped to the shared `Lucinda\OAuth2\UserInfo` value object.
+
+## Error Handling
+
+Configuration and request validation errors surface as:
+
+- `Lucinda\OAuth2\Client\Exception`
+
+OAuth server-side failures surface as:
+
+- `Lucinda\OAuth2\Server\Exception`
+
+Examples of configuration failures enforced by the current code:
+
+- missing `<driver>` tags
+- missing `name`, `client_id`, `client_secret`, or `callback`
+- missing `application_name` for GitHub
+- configured driver class not implemented
+- configured driver not present in `endpoints.json`
+
+## Practical Example
+
+```php
+use Lucinda\OAuth2\Wrapper;
+
+$requestedPage = ltrim(parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH) ?? "", "/");
+$wrapper = new Wrapper(simplexml_load_file("configuration.xml"));
+$driver = $wrapper->getDriver($requestedPage);
+
+if (!$driver) {
+    http_response_code(404);
+    exit("OAuth2 driver not found");
+}
+
+if (empty($_GET["code"])) {
+    header("Location: ".$driver->getAuthorizationCodeEndpoint());
+    exit;
+}
+
+$tokenResponse = $driver->getAccessToken($_GET["code"]);
+$userInfo = $driver->getUserInfo($tokenResponse->getAccessToken());
+
+echo $userInfo->getName();
+```
+
+## Tests
+
+The project uses `lucinda/unit-testing`.
+
+Useful files:
+
+- [test.php](/Users/luciangabrielpopescu/framework/oauth2/test.php): test runner
+- [unit-tests.xml](/Users/luciangabrielpopescu/framework/oauth2/unit-tests.xml): test suite configuration
+- [tests](/Users/luciangabrielpopescu/framework/oauth2/tests): unit tests for `src/`
+- [tests_drivers](/Users/luciangabrielpopescu/framework/oauth2/tests_drivers): unit tests for vendor drivers
+
+Run the suite with:
+
+```console
+php test.php
+```

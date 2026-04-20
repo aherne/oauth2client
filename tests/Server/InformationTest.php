@@ -1,27 +1,50 @@
 <?php
-
 namespace Test\Lucinda\OAuth2\Server;
 
 use Lucinda\OAuth2\Server\Information;
-use Lucinda\UnitTest\Result;
+use Lucinda\UnitTest\Validator\Arrays;
+use Lucinda\UnitTest\Validator\Strings;
 
 class InformationTest
 {
-    private $information;
-
-    public function __construct()
+    public function getAuthorizationUrl()
     {
-        $this->information = new Information("https://www.facebook.com/v2.8/dialog/oauth", "https://graph.facebook.com/v2.8/oauth/access_token");
+        $information = new Information($this->getInfo());
+        return (new Strings($information->getAuthorizationUrl()))->assertEquals("https://example.com/authorize");
     }
 
-    public function getAuthorizationEndpoint()
+    public function getAccessTokenUrl()
     {
-        return new Result($this->information->getAuthorizationEndpoint()=="https://www.facebook.com/v2.8/dialog/oauth");
+        $information = new Information($this->getInfo());
+        return (new Strings($information->getAccessTokenUrl()))->assertEquals("https://example.com/token");
     }
 
-
-    public function getTokenEndpoint()
+    public function getScopes()
     {
-        return new Result($this->information->getTokenEndpoint()=="https://graph.facebook.com/v2.8/oauth/access_token");
+        $information = new Information($this->getInfo());
+        return (new Arrays($information->getScopes()))->assertEquals(["openid", "email"]);
+    }
+
+    public function getResourceURL()
+    {
+        $information = new Information($this->getInfo());
+        return (new Strings($information->getResourceURL()))->assertEquals("https://example.com/userinfo");
+    }
+
+    public function getResourceFields()
+    {
+        $information = new Information($this->getInfo());
+        return (new Arrays($information->getResourceFields()))->assertEquals(["id", "name", "email"]);
+    }
+
+    private function getInfo(): array
+    {
+        return [
+            "authorization_url" => "https://example.com/authorize",
+            "access_token_url" => "https://example.com/token",
+            "scopes" => ["openid", "email"],
+            "resource_url" => "https://example.com/userinfo",
+            "resource_fields" => ["id", "name", "email"]
+        ];
     }
 }

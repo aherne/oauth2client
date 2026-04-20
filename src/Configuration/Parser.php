@@ -19,16 +19,12 @@ class Parser
      * Kick-starts detection process.
      *
      * @param  \SimpleXMLElement $xml
-     * @param  string            $developmentEnvironment
      * @throws ClientException If XML is improperly configured.
      */
-    public function __construct(\SimpleXMLElement $xml, string $developmentEnvironment)
+    public function __construct(\SimpleXMLElement $xml)
     {
         // set drivers
-        $this->xml = $xml->oauth2->{$developmentEnvironment};
-        if (empty($this->xml)) {
-            throw new ClientException("Missing 'driver' subtag of '".$developmentEnvironment."', child of 'oauth2' tag");
-        }
+        $this->xml = $xml->oauth2;
         $this->setDrivers();
     }
 
@@ -40,6 +36,9 @@ class Parser
     private function setDrivers(): void
     {
         $list = $this->xml->xpath("driver");
+        if (empty($list)) {
+            throw new ClientException("No driver tag was found!");
+        }
         foreach ($list as $element) {
             $information = new TagInfo($element);
             $this->drivers[] = $information;

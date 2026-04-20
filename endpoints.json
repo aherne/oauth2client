@@ -1,0 +1,33 @@
+{
+    "Facebook": {
+        "authorization_url":"https://www.facebook.com/v25.0/dialog/oauth",
+        "access_token_url":"https://graph.facebook.com/v25.0/oauth/access_token",
+        "scopes":["public_profile", "email"],
+        "resource_url": "https://graph.facebook.com/v25.0/me",
+        "resource_fields": ["id","name","email"]
+    },
+    "GitHub": {
+        "authorization_url":"https://github.com/login/oauth/authorize",
+        "access_token_url":"https://github.com/login/oauth/access_token",
+        "scopes":["read:user", "user:email"],
+        "resource_url": ["https://api.github.com/user", "https://api.github.com/user/emails"]
+    },
+    "Google": {
+        "authorization_url": "https://accounts.google.com/o/oauth2/v2/auth",
+        "access_token_url": "https://oauth2.googleapis.com/token",
+        "scopes": ["openid", "profile", "email"],
+        "resource_url": "https://openidconnect.googleapis.com/v1/userinfo"
+    },
+    "LinkedIn": {
+        "authorization_url": "https://www.linkedin.com/oauth/v2/authorization",
+        "access_token_url": "https://www.linkedin.com/oauth/v2/accessToken",
+        "scopes": ["openid", "profile", "email"],
+        "resource_url": "https://api.linkedin.com/v2/userinfo"
+    },
+    "Microsoft": {
+        "authorization_url":"https://login.microsoftonline.com/common/oauth2/v2.0/authorize",
+        "access_token_url":"https://login.microsoftonline.com/common/oauth2/v2.0/token",
+        "scopes":["openid", "profile", "email", "User.Read"],
+        "resource_url": "https://graph.microsoft.com/v1.0/me"
+    }
+}

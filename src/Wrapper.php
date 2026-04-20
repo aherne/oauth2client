@@ -4,7 +4,8 @@ namespace Lucinda\OAuth2;
 
 use Lucinda\OAuth2\Configuration\Parser;
 use Lucinda\OAuth2\Configuration\TagInfo;
-use Lucinda\OAuth2\Client\Information;
+use Lucinda\OAuth2\Client\Information as ClientInformation;
+use Lucinda\OAuth2\Server\Information as ServerInformation;
 use Lucinda\OAuth2\Client\Exception;
 
 /**
@@ -21,27 +22,29 @@ class Wrapper
      * Reads XML tag oauth2.{environment}, finds and saves drivers found.
      *
      * @param  \SimpleXMLElement $xml
-     * @param  string            $developmentEnvironment
      * @throws Exception
      */
-    public function __construct(\SimpleXMLElement $xml, string $developmentEnvironment)
+    public function __construct(\SimpleXMLElement $xml)
     {
-        $parser = new Parser($xml, $developmentEnvironment);
+        $remoteEndpoints = new RemoteEndpoints();
+
+        $parser = new Parser($xml);
         $tags = $parser->getDrivers();
         foreach ($tags as $tag) {
-            $this->setDriver($tag);
+            $this->setDriver($tag, $remoteEndpoints);
         }
     }
 
     /**
      * Converts TagInfo data (originating from a driver tag) into a Driver instance
      *
-     * @param  TagInfo $tagInfo
+     * @param TagInfo $tagInfo
+     * @param RemoteEndpoints $remoteEndpoints
      * @throws Exception
      */
-    private function setDriver(TagInfo $tagInfo): void
+    private function setDriver(TagInfo $tagInfo, RemoteEndpoints $remoteEndpoints): void
     {
-        $clientInformation = new Information(
+        $clientInformation = new ClientInformation(
             $tagInfo->getClientId(),
             $tagInfo->getClientSecret(),
             $tagInfo->getCallbackUrl()
@@ -49,9 +52,12 @@ class Wrapper
         $driverName = $tagInfo->getDriverName();
         $driverClass = "\\Lucinda\\OAuth2\\Vendor\\".$driverName."\\Driver";
         if (!class_exists($driverClass)) {
-            throw new Exception("Driver not supported: ".$driverName);
+            throw new Exception("Driver not implemented: ".$driverName);
         }
-        $driver = new $driverClass($clientInformation, $tagInfo->getScopes());
+        if (!$remoteEndpoints->has($driverName)) {
+            throw new Exception("Driver not configured: ".$driverName);
+        }
+        $driver = new $driverClass($clientInformation, $remoteEndpoints->get($driverName));
         if ($driverName == "GitHub") {
             $driver->setApplicationName($tagInfo->getApplicationName());
         }

@@ -14,10 +14,6 @@ class TagInfo
     private string $clientSecret;
     private string $callbackUrl;
     private ?string $applicationName = null;
-    /**
-     * @var string[]
-     */
-    private array $scopes = [];
 
     /**
      * Starts detection process
@@ -40,7 +36,6 @@ class TagInfo
                 throw new ClientException("Attribute 'application_name' is mandatory for GitHub 'driver' @ 'oauth2' tag!");
             }
         }
-        $this->scopes = explode(",", (string) $element["scopes"]);
     }
 
     /**
@@ -91,15 +86,5 @@ class TagInfo
     public function getApplicationName(): ?string
     {
         return $this->applicationName;
-    }
-
-    /**
-     * Gets scopes to send to vendor in order on authorization code requests
-     *
-     * @return string[]
-     */
-    public function getScopes(): array
-    {
-        return $this->scopes;
     }
 }

@@ -4,14 +4,13 @@ namespace Lucinda\OAuth2;
 
 use Lucinda\OAuth2\Client\Information as ClientInformation;
 use Lucinda\OAuth2\Client\Exception as ClientException;
-use Lucinda\OAuth2\AuthorizationCode\Request as AuthorizationCodeRequest;
-use Lucinda\OAuth2\AccessToken\Request as AccessTokenRequest;
 use Lucinda\OAuth2\AccessToken\Response as AccessTokenResponse;
-use Lucinda\OAuth2\RefreshToken\Request as RefreshTokenRequest;
-use Lucinda\OAuth2\Server\Exception as ServerException;
+use Lucinda\OAuth2\DriverRequest\AccessTokenRequestWrapper;
+use Lucinda\OAuth2\DriverRequest\AuthorizationCodeRequestWrapper;
+use Lucinda\OAuth2\DriverRequest\RefreshTokenRequestWrapper;
 use Lucinda\OAuth2\Server\Information as ServerInformation;
-use Lucinda\URL\FileNotFoundException;
-use Lucinda\URL\Request\Method;
+use Lucinda\OAuth2\UserInfo\Requester as UserInfoRequester;
+use Lucinda\OAuth2\UserInfo\Extractor as UserInfoExtractor;
 
 /**
  * Encapsulates operations one can perform on an OAuth2 provider. Acts like a single entry point that hides OAuth2
@@ -22,22 +21,19 @@ abstract class Driver
 {
     protected ClientInformation $clientInformation;
     protected ServerInformation $serverInformation;
-    /**
-     * @var string[]
-     */
-    protected array $scopes = [];
+    protected ResponseWrapper $responseWrapper;
 
     /**
      * Creates an object
      *
      * @param ClientInformation $clientInformation Encapsulates information about OAuth2 client application
-     * @param string[]          $scopes            Scopes of authorization code request.
+     * @param ServerInformation $serverInformation Encapsulates information about OAuth2 driver endpoints
      */
-    public function __construct(ClientInformation $clientInformation, array $scopes = [])
+    public function __construct(ClientInformation $clientInformation, ServerInformation $serverInformation)
     {
         $this->clientInformation = $clientInformation;
-        $this->serverInformation = $this->getServerInformation();
-        $this->scopes = $scopes;
+        $this->serverInformation = $serverInformation;
+        $this->responseWrapper = $this->getResponseWrapper();
     }
 
     /**
@@ -49,16 +45,8 @@ abstract class Driver
      */
     public function getAuthorizationCodeEndpoint(string $state=""): string
     {
-        $executor = new RedirectionExecutor();
-        $acr = new AuthorizationCodeRequest($this->serverInformation->getAuthorizationEndpoint());
-        $acr->setClientInformation($this->clientInformation);
-        $acr->setRedirectURL($this->clientInformation->getSiteURL());
-        $acr->setScope(implode(" ", $this->scopes));
-        if ($state) {
-            $acr->setState($state);
-        }
-        $acr->execute($executor);
-        return $executor->getRedirectURL();
+        $object = new AuthorizationCodeRequestWrapper($this->clientInformation, $this->serverInformation, $state);
+        return $object->getResponse();
     }
 
     /**
@@ -70,16 +58,8 @@ abstract class Driver
      */
     public function getAccessToken(string $authorizationCode): AccessTokenResponse
     {
-        $responseWrapper = $this->getResponseWrapper();
-        $wrappedExecutor = new WrappedExecutor($responseWrapper);
-        $wrappedExecutor->setHttpMethod(Method::POST);
-        $wrappedExecutor->addHeader("Content-Type", "application/x-www-form-urlencoded");
-        $atr = new AccessTokenRequest($this->serverInformation->getTokenEndpoint());
-        $atr->setClientInformation($this->clientInformation);
-        $atr->setCode($authorizationCode);
-        $atr->setRedirectURL($this->clientInformation->getSiteURL());
-        $atr->execute($wrappedExecutor);
-        return new AccessTokenResponse($responseWrapper->getResponse());
+        $object = new AccessTokenRequestWrapper($this->clientInformation, $this->serverInformation, $this->responseWrapper, $authorizationCode);
+        return $object->getResponse();
     }
 
     /**
@@ -91,50 +71,21 @@ abstract class Driver
      */
     public function refreshAccessToken(string $refreshToken): AccessTokenResponse
     {
-        $responseWrapper = $this->getResponseWrapper();
-        $wrappedExecutor = new WrappedExecutor($responseWrapper);
-        $wrappedExecutor->setHttpMethod(Method::POST);
-        $wrappedExecutor->addHeader("Content-Type", "application/x-www-form-urlencoded");
-        $atr = new RefreshTokenRequest($this->serverInformation->getTokenEndpoint());
-        $atr->setClientInformation($this->clientInformation);
-        $atr->setRefreshToken($refreshToken);
-        $atr->setRedirectURL($this->clientInformation->getSiteURL());
-        $atr->execute($wrappedExecutor);
-        return new AccessTokenResponse($responseWrapper->getResponse());
+        $object = new RefreshTokenRequestWrapper($this->clientInformation, $this->serverInformation, $this->responseWrapper, $refreshToken);
+        return $object->getResponse();
     }
 
-    /**
-     * Gets remote resource based on access token
-     *
-     * @param  string   $accessToken OAuth2 access token
-     * @param  string   $resourceURL URL of remote resource`
-     * @param  string[] $fields      Fields to retrieve from remote resource.
-     * @return array<mixed>
-     * @throws ClientException When client fails to provide mandatory parameters.
-     * @throws ServerException|FileNotFoundException When server responds with an error.
-     */
-    public function getResource(string $accessToken, string $resourceURL, array $fields=[]): array
+    public function getUserInfo(string $accessToken): UserInfo
     {
-        $responseWrapper = $this->getResponseWrapper();
-        $wrappedExecutor = new WrappedExecutor($responseWrapper);
-        $wrappedExecutor->setHttpMethod(Method::GET);
-        $wrappedExecutor->addHeader("Authorization", "Bearer ".$accessToken);
-        $parameters = (!empty($fields) ? array("fields"=>implode(",", $fields)) : []);
-        $wrappedExecutor->execute($resourceURL, $parameters);
-        return $responseWrapper->getResponse();
+        $requester = $this->getUserInfoRequester();
+        $data = $requester->request($this->serverInformation, $this->responseWrapper, $accessToken);
+        $extractor = $this->getUserInfoExtractor();
+        return $extractor->convert($data);
     }
 
-    /**
-     * Gets OAuth2 server information.
-     *
-     * @return ServerInformation
-     */
-    abstract protected function getServerInformation(): ServerInformation;
-
-    /**
-     * Gets OAuth2 server response parser.
-     *
-     * @return ResponseWrapper
-     */
     abstract protected function getResponseWrapper(): ResponseWrapper;
+
+    abstract protected function getUserInfoRequester(): UserInfoRequester;
+
+    abstract protected function getUserInfoExtractor(): UserInfoExtractor;
 }

@@ -1,52 +1,45 @@
 <?php
-
 namespace Test\Lucinda\OAuth2\Configuration;
 
 use Lucinda\OAuth2\Configuration\TagInfo;
-use Lucinda\UnitTest\Result;
+use Lucinda\UnitTest\Validator\Booleans;
+use Lucinda\UnitTest\Validator\Strings;
+use Test\Lucinda\OAuth2\Support\Fixtures;
 
 class TagInfoTest
 {
-    private $info;
-
-    public function __construct()
-    {
-        $xml = simplexml_load_file("unit-tests.xml");
-        $this->info = new TagInfo($xml->oauth2->local->driver);
-    }
-
     public function getDriverName()
     {
-        return new Result($this->info->getDriverName()=="Facebook");
+        $info = new TagInfo(Fixtures::xml()->oauth2->driver[0]);
+        return (new Strings($info->getDriverName()))->assertEquals("Facebook");
     }
-
 
     public function getClientId()
     {
-        return new Result($this->info->getClientId()=="YOUR_CLIENT_ID");
+        $info = new TagInfo(Fixtures::xml()->oauth2->driver[0]);
+        return (new Strings($info->getClientId()))->assertEquals("FACEBOOK_CLIENT_ID");
     }
-
 
     public function getClientSecret()
     {
-        return new Result($this->info->getClientSecret()=="YOUR_CLIENT_SECRET");
+        $info = new TagInfo(Fixtures::xml()->oauth2->driver[0]);
+        return (new Strings($info->getClientSecret()))->assertEquals("FACEBOOK_CLIENT_SECRET");
     }
-
 
     public function getCallbackUrl()
     {
-        return new Result($this->info->getCallbackUrl()=="login/facebook");
+        $info = new TagInfo(Fixtures::xml()->oauth2->driver[0]);
+        return (new Strings($info->getCallbackUrl()))->assertEquals("login/facebook");
     }
-
 
     public function getApplicationName()
     {
-        return new Result($this->info->getApplicationName()=="");
-    }
-
-
-    public function getScopes()
-    {
-        return new Result($this->info->getScopes()==["public_profile","email"]);
+        $xml = Fixtures::xml();
+        $facebook = new TagInfo($xml->oauth2->driver[0]);
+        $github = new TagInfo($xml->oauth2->driver[2]);
+        return [
+            (new Booleans($facebook->getApplicationName() === null))->assertTrue(),
+            (new Strings($github->getApplicationName()))->assertEquals("OAuth2 Test App")
+        ];
     }
 }

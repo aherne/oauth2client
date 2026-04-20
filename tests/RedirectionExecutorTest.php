@@ -1,28 +1,22 @@
 <?php
-
 namespace Test\Lucinda\OAuth2;
 
 use Lucinda\OAuth2\RedirectionExecutor;
-use Lucinda\UnitTest\Result;
+use Lucinda\UnitTest\Validator\Strings;
 
 class RedirectionExecutorTest
 {
-    private $executor;
-
-    public function __construct()
-    {
-        $this->executor = new RedirectionExecutor();
-    }
-
     public function execute()
     {
-        $this->executor->execute("http://www.example.com", ["x"=>"y"]);
-        return new Result(true);
+        $executor = new RedirectionExecutor();
+        $executor->execute("https://example.com/authorize", ["client_id" => "abc", "scope" => "openid"]);
+        return (new Strings($executor->getRedirectURL()))->assertContains("client_id=abc");
     }
-
 
     public function getRedirectURL()
     {
-        return new Result($this->executor->getRedirectURL()=="http://www.example.com?x=y");
+        $executor = new RedirectionExecutor();
+        $executor->execute("https://example.com/authorize", ["client_id" => "abc"]);
+        return (new Strings($executor->getRedirectURL()))->assertEquals("https://example.com/authorize?client_id=abc");
     }
 }

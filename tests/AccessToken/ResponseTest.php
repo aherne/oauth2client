@@ -1,53 +1,54 @@
 <?php
-
 namespace Test\Lucinda\OAuth2\AccessToken;
 
-use Lucinda;
-use Lucinda\UnitTest\Result;
+use Lucinda\OAuth2\AccessToken\Response;
+use Lucinda\UnitTest\Validator\Integers;
+use Lucinda\UnitTest\Validator\Strings;
 
 class ResponseTest
 {
-    private $response;
-
-    public function __construct()
-    {
-        $this->response = new Lucinda\OAuth2\AccessToken\Response(
-            [
-            "access_token"=>"test1",
-            "token_type"=>"test2",
-            "expires_in"=>123,
-            "refresh_token"=>"test3",
-            "scope"=>"test4",
-            ]
-        );
-    }
-
     public function getAccessToken()
     {
-        return new Result($this->response->getAccessToken()=="test1");
+        $response = new Response($this->getPayload());
+        return (new Strings($response->getAccessToken()))->assertEquals("access-token");
     }
-
 
     public function getTokenType()
     {
-        return new Result($this->response->getTokenType()=="test2");
+        $response = new Response($this->getPayload());
+        return (new Strings($response->getTokenType()))->assertEquals("Bearer");
     }
-
 
     public function getExpiresIn()
     {
-        return new Result($this->response->getExpiresIn()==time()+123);
+        $start = time();
+        $response = new Response($this->getPayload());
+        return [
+            (new Integers($response->getExpiresIn()))->assertGreaterEquals($start + 120),
+            (new Integers($response->getExpiresIn()))->assertSmallerEquals($start + 122)
+        ];
     }
-
 
     public function getRefreshToken()
     {
-        return new Result($this->response->getRefreshToken()=="test3");
+        $response = new Response($this->getPayload());
+        return (new Strings($response->getRefreshToken()))->assertEquals("refresh-token");
     }
-
 
     public function getScope()
     {
-        return new Result($this->response->getScope()=="test4");
+        $response = new Response($this->getPayload());
+        return (new Strings($response->getScope()))->assertEquals("openid email");
+    }
+
+    private function getPayload(): array
+    {
+        return [
+            "access_token" => "access-token",
+            "token_type" => "Bearer",
+            "expires_in" => 120,
+            "refresh_token" => "refresh-token",
+            "scope" => "openid email"
+        ];
     }
 }

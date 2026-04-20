@@ -1,34 +1,26 @@
 <?php
-
 namespace Test\Lucinda\OAuth2\Vendor\GitHub;
 
-use Lucinda\OAuth2\Vendor\GitHub\Driver;
 use Lucinda\OAuth2\Client\Information;
-use Lucinda\UnitTest\Result;
+use Lucinda\OAuth2\Server\Information as ServerInformation;
+use Lucinda\OAuth2\Vendor\GitHub\Driver;
+use Lucinda\UnitTest\Validator\Strings;
+use Test\Lucinda\OAuth2\Support\Reflection;
 
 class DriverTest
 {
-    private $driver;
-
-    public function __construct()
-    {
-        $this->driver = new Driver(new Information("e20344cdaa2f62ad844c", "secret", "https://dev.lucinda-framework.com/login/github"));
-    }
-
     public function setApplicationName()
     {
-        $this->driver->setApplicationName("asd");
-        return new Result(true);
-    }
-
-
-    public function getResource()
-    {
-        try {
-            $this->driver->getResource("asd", "https://api.github.com/user");
-            return new Result(false);
-        } catch (\Lucinda\OAuth2\Server\Exception $e) {
-            return new Result($e->getMessage()=="Bad credentials");
-        }
+        $driver = new Driver(
+            new Information("client-id", "client-secret", "https://app.example/callback"),
+            new ServerInformation([
+                "authorization_url" => "https://github.com/login/oauth/authorize",
+                "access_token_url" => "https://github.com/login/oauth/access_token",
+                "scopes" => ["read:user", "user:email"],
+                "resource_url" => ["https://api.github.com/user", "https://api.github.com/user/emails"]
+            ])
+        );
+        $driver->setApplicationName("OAuth2 Test App");
+        return (new Strings(Reflection::get($driver, "applicationName")))->assertEquals("OAuth2 Test App");
     }
 }
