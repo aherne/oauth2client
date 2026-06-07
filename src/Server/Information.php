@@ -2,7 +2,7 @@
 
 namespace Lucinda\OAuth2\Server;
 
-class Information
+final class Information
 {
     private string $authorizationUrl;
     private string $accessTokenUrl;

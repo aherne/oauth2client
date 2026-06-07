@@ -5,7 +5,7 @@ namespace Lucinda\OAuth2\Client;
 /**
  * Encapsulates information about OAuth2 client.
  */
-class Information
+final class Information
 {
     private string $appID;
     private string $appSecret;

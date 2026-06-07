@@ -8,7 +8,7 @@ use Lucinda\OAuth2\WrappedExecutor;
 use Lucinda\URL\Request\Method;
 use Lucinda\OAuth2\UserInfo\Requester as RequesterInterface;
 
-class Requester implements RequesterInterface
+final class Requester implements RequesterInterface
 {
     public function request(ServerInformation $serverInformation, ResponseWrapper $responseWrapper, string $accessToken): array
     {

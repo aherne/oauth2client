@@ -11,7 +11,7 @@ use Lucinda\URL\Request\Method;
 /**
  * Implements an executor on top of cURL implementing OAuth2 request execution rules in accordance to RFC6749.
  */
-class WrappedExecutor implements RequestExecutor
+final class WrappedExecutor implements RequestExecutor
 {
     protected ResponseWrapper $responseWrapper;
     protected Method $httpMethod;

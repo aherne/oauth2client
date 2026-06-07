@@ -7,7 +7,7 @@ use Lucinda\OAuth2\Server\Information as ServerInformation;
 use Lucinda\OAuth2\AuthorizationCode\Request as AuthorizationCodeRequest;
 use Lucinda\OAuth2\RedirectionExecutor;
 
-class AuthorizationCodeRequestWrapper
+final class AuthorizationCodeRequestWrapper
 {
     private string $redirectURL;
 

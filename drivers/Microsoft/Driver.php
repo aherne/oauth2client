@@ -12,7 +12,7 @@ use Lucinda\OAuth2\UserInfo\Extractor as UserInfoExtractor;
 /**
  * Implements Facebook OAuth2 driver on top of \Lucinda\OAuth2\Driver architecture
  */
-class Driver extends \Lucinda\OAuth2\Driver
+final class Driver extends \Lucinda\OAuth2\Driver
 {
     protected function getResponseWrapper(): ResponseWrapper
     {

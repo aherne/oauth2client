@@ -5,7 +5,7 @@ namespace Lucinda\OAuth2\AuthorizationCode;
 /**
  * Encapsulates a successful authorization code response according to RFC6749
  */
-class Response
+final class Response
 {
     protected string $code;
     protected string $state;

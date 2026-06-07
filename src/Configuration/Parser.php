@@ -7,7 +7,7 @@ use Lucinda\OAuth2\Client\Exception as ClientException;
 /**
  * Detects oauth2 information based on contents of <oauth2> XML tag
  */
-class Parser
+final class Parser
 {
     private \SimpleXMLElement $xml;
     /**

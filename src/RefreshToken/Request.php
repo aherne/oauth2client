@@ -9,7 +9,7 @@ use Lucinda\OAuth2\Client\Exception as ClientException;
 /**
  * Encapsulates an access token regeneration request based on refresh token according to RFC6749
  */
-class Request implements \Lucinda\OAuth2\Request
+final class Request implements \Lucinda\OAuth2\Request
 {
     protected string $endpointURL;
     protected ?ClientInformation $clientInformation;

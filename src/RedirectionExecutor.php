@@ -5,7 +5,7 @@ namespace Lucinda\OAuth2;
 /**
  * Implements an executor that redirects to payload url using GET parameters
  */
-class RedirectionExecutor implements RequestExecutor
+final class RedirectionExecutor implements RequestExecutor
 {
     private string $redirectURL;
 

@@ -5,7 +5,7 @@ namespace Lucinda\OAuth2;
 use Lucinda\OAuth2\Client\Exception as ClientException;
 use Lucinda\OAuth2\Server\Information as ServerInformation;
 
-class RemoteEndpoints
+final class RemoteEndpoints
 {
     private array $endpoints;
 

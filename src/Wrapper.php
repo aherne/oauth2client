@@ -11,7 +11,7 @@ use Lucinda\OAuth2\Client\Exception;
 /**
  * Locates and instances oauth2 drivers based on XML content
  */
-class Wrapper
+final class Wrapper
 {
     /**
      * @var array<string,Driver>

@@ -5,7 +5,7 @@ namespace Lucinda\OAuth2\AccessToken;
 /**
  * Encapsulates a successful access token response according to RFC6749
  */
-class Response
+final class Response
 {
     protected string $accessToken;
     protected string $tokenType;

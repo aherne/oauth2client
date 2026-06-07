@@ -10,7 +10,7 @@ use Lucinda\OAuth2\Server\Information as ServerInformation;
 use Lucinda\OAuth2\WrappedExecutor;
 use Lucinda\URL\Request\Method;
 
-class RefreshTokenRequestWrapper
+final class RefreshTokenRequestWrapper
 {
     private AccessTokenResponse $accessTokenResponse;
 

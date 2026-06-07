@@ -7,7 +7,7 @@ use Lucinda\OAuth2\Server\Exception as ServerException;
 /**
  * Implements parsing of Google OAUTH2 API response
  */
-class ResponseWrapper extends \Lucinda\OAuth2\ResponseWrapper
+final class ResponseWrapper extends \Lucinda\OAuth2\ResponseWrapper
 {
     /**
      * Parses response received from OAuth2 server.

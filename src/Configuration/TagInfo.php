@@ -7,7 +7,7 @@ use Lucinda\OAuth2\Client\Exception as ClientException;
 /**
  * Encapsulates information about oauth2 provider detected from a &lt;driver&gt; tag
  */
-class TagInfo
+final class TagInfo
 {
     private string $driverName;
     private string $clientId;
